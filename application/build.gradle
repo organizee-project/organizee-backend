@@ -1,0 +1,13 @@
+apply plugin: 'application'
+
+mainClassName = "com.organizee.Main"
+applicationName= "application"
+
+dependencies {
+    implementation project(':web')
+    implementation project(':domain')
+    implementation project(':adapter-db')
+    implementation project(':boundary-db')
+    implementation project(':usecases')
+
+}

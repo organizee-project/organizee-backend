@@ -1,0 +1,73 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:1.7.0"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.7.0"
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id("org.springframework.boot") version "2.7.0"
+}
+
+bootJar {
+    enabled = false
+}
+
+
+def repositoriesList = {
+    mavenLocal()
+}
+
+
+allprojects {
+    sourceSets {
+        main.java.srcDirs += "src\\main\\kotlin"
+        test.java.srcDirs += "src\\test\\kotlin"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+subprojects {
+    group 'com.organizee'
+    version '1.0-SNAPSHOT'
+
+    apply plugin: "kotlin"
+    apply plugin: "kotlin-allopen"
+
+    allOpen {
+        annotation("org.springframework.stereotype.Component")
+        annotation("org.springframework.stereotype.Service")
+        annotation("org.springframework.stereotype.Repository")
+        annotation("org.springframework.stereotype.Configuration")
+        annotation("org.springframework.stereotype.ComponentScan")
+    }
+
+    dependencies {
+
+        implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.+"
+
+
+        //Kotlin
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.0'
+        implementation 'org.jetbrains.kotlin:kotlin-reflect:1.7.0'
+
+        //Spring
+        implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.0'
+        implementation 'org.springframework.boot:spring-boot-actuator:2.7.0'
+        implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.0'
+        implementation 'org.springframework.boot:spring-boot-starter-web:2.7.0'
+        implementation 'org.springframework.boot:spring-boot-starter:2.7.0'
+
+        //Documentation
+        implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    }
+}

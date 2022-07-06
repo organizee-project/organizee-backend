@@ -1,0 +1,8 @@
+rootProject.name = 'organizee-backend'
+include 'web'
+include 'domain'
+include 'adapter-db'
+include 'boundary-db'
+include 'application'
+include 'usecases'
+
