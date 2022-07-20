@@ -1,13 +1,13 @@
 package com.organizee.api.controllers
 
 import com.organizee.Guide
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class CreateGuideResponse(
     val title: String,
     val subtitle: String,
     val content: String,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDate
 ) {
     companion object {
         fun fromEntity(entity: Guide) = CreateGuideResponse(
