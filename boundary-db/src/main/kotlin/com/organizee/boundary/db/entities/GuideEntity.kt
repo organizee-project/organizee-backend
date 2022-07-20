@@ -14,6 +14,8 @@ data class GuideEntity(
     val id: UUID,
     @Column(nullable = false)
     val title: String,
+    @Column(nullable = false)
+    val slug: String,
     @Column
     val subtitle: String,
     @Column
@@ -26,6 +28,7 @@ data class GuideEntity(
             GuideEntity(
                 id = UUID.randomUUID(),
                 title = guide.title,
+                slug = guide.slug,
                 subtitle = guide.subtitle,
                 content = guide.content,
                 createdAt = guide.createdAt
@@ -33,5 +36,11 @@ data class GuideEntity(
     }
 
     fun toEntity() =
-        Guide(title = title, subtitle = subtitle, content = content, createdAt = createdAt)
+        Guide(
+            title = title,
+            subtitle = subtitle,
+            content = content,
+            slug = slug,
+            createdAt = createdAt
+        )
 }

@@ -10,4 +10,7 @@ import org.springframework.stereotype.Service
 class GuideServiceImpl(private val repository: GuideRepository) : GuideService {
     override fun create(newGuide: Guide) =
         repository.save(GuideEntity.from(newGuide)).toEntity()
+
+    override fun getGuide(slug: String): Guide =
+        repository.findFirstBySlug(slug).toEntity()
 }

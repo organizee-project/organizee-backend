@@ -3,6 +3,7 @@ include 'web'
 include 'domain'
 include 'adapter-db'
 include 'boundary-db'
+include 'boundary-shared'
 include 'application'
 include 'usecases'
 

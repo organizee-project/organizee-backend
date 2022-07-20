@@ -1,4 +1,4 @@
-package com.organizee.api.controllers
+package com.organizee.api.controllers.guide.json
 
 import com.organizee.guide.commands.NewGuideCommand
 
