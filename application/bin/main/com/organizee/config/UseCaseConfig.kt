@@ -1,13 +1,12 @@
 package com.organizee.config
 
-import com.organizee.boundary.db.services.GuideService
 import com.organizee.guide.CreateGuideUseCase
 import com.organizee.guide.impl.CreateGuideUsecaseImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class UseCaseConfig(val guideService: GuideService) {
+class UseCaseConfig {
     @Bean
-    fun createNewGuideUsecase(): CreateGuideUseCase = CreateGuideUsecaseImpl(guideService)
+    fun createNewGuideUsecase(): CreateGuideUseCase = CreateGuideUsecaseImpl()
 }

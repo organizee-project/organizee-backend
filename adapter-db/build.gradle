@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(":boundary-db")
+    implementation project(":domain")
+}
