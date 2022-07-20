@@ -4,4 +4,5 @@ import com.organizee.Guide
 
 interface GuideService {
     fun create(guide: Guide): Guide
+    fun getGuide(slug: String): Guide
 }

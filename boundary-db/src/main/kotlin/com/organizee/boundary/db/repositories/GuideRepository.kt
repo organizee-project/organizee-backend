@@ -7,5 +7,5 @@ import java.util.*
 
 @Repository
 interface GuideRepository : JpaRepository<GuideEntity, UUID> {
-
+    fun findFirstBySlug(slug: String): GuideEntity
 }
