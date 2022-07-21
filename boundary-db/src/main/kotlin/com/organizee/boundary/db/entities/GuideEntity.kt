@@ -1,15 +1,13 @@
 package com.organizee.boundary.db.entities
 
 import com.organizee.guide.Category
+import com.organizee.guide.Comment
 import com.organizee.guide.Guide
 import com.organizee.guide.GuideType
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.ManyToMany
+import javax.persistence.*
 
 @Entity
 data class GuideEntity(
@@ -29,6 +27,10 @@ data class GuideEntity(
     @Column
     @ManyToMany
     val categories: List<CategoryEntity> = emptyList(),
+
+    @Column
+    @OneToMany(mappedBy = "guide")
+    val comments: List<CommentEntity> = emptyList(),
 
     @Column
     val createdAt: LocalDateTime
@@ -54,6 +56,7 @@ data class GuideEntity(
             content = content,
             slug = slug,
             type = GuideType.valueOf(type),
+            comments = comments.map { Comment(message = it.message, createdAt = it.createdAt) },
             categories = categories.map { Category(title = it.title, slug = it.slug) },
             createdAt = createdAt
         )

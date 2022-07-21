@@ -10,6 +10,7 @@ data class GuideResponse(
     val content: String,
     val type: String,
     val categories: List<CategoryResponse> = emptyList(),
+    val comments: List<CommentResponse> = emptyList(),
     val createdAt: LocalDateTime
 ) {
     companion object {
@@ -21,6 +22,9 @@ data class GuideResponse(
             type = entity.type.name,
             categories = entity.categories.map {
                 CategoryResponse(title = it.title, slug = it.slug)
+            },
+            comments = entity.comments.map {
+                CommentResponse.fromEntity(it)
             },
             createdAt = entity.createdAt
         )
