@@ -12,6 +12,6 @@ class CreateGuideUsecaseImpl(private val guideService: GuideService) : CreateGui
             subtitle = input.subtitle,
             content = input.content,
             isPrivate = input.isPrivate
-        )
+        ), input.categories
     )
 }

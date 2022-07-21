@@ -1,5 +1,6 @@
 package com.organizee.boundary.db.entities
 
+import com.organizee.guide.Category
 import com.organizee.guide.Guide
 import com.organizee.guide.GuideType
 import java.io.Serializable
@@ -8,6 +9,7 @@ import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.ManyToMany
 
 @Entity
 data class GuideEntity(
@@ -23,11 +25,16 @@ data class GuideEntity(
     val content: String,
     @Column
     val type: String,
+
+    @Column
+    @ManyToMany
+    val categories: List<CategoryEntity> = emptyList(),
+
     @Column
     val createdAt: LocalDateTime
 ) : Serializable {
     companion object {
-        fun from(guide: Guide): GuideEntity =
+        fun from(guide: Guide, categories: List<CategoryEntity>): GuideEntity =
             GuideEntity(
                 id = UUID.randomUUID(),
                 title = guide.title,
@@ -35,6 +42,7 @@ data class GuideEntity(
                 subtitle = guide.subtitle,
                 content = guide.content,
                 type = guide.type.name,
+                categories = categories,
                 createdAt = guide.createdAt
             )
     }
@@ -46,6 +54,7 @@ data class GuideEntity(
             content = content,
             slug = slug,
             type = GuideType.valueOf(type),
+            categories = categories.map { Category(title = it.title, slug = it.slug) },
             createdAt = createdAt
         )
 }
