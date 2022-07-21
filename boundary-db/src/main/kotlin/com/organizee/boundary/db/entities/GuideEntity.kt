@@ -1,6 +1,7 @@
 package com.organizee.boundary.db.entities
 
-import com.organizee.Guide
+import com.organizee.guide.Guide
+import com.organizee.guide.GuideType
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.*
@@ -21,6 +22,8 @@ data class GuideEntity(
     @Column
     val content: String,
     @Column
+    val type: String,
+    @Column
     val createdAt: LocalDateTime
 ) : Serializable {
     companion object {
@@ -31,6 +34,7 @@ data class GuideEntity(
                 slug = guide.slug,
                 subtitle = guide.subtitle,
                 content = guide.content,
+                type = guide.type.name,
                 createdAt = guide.createdAt
             )
     }
@@ -41,6 +45,7 @@ data class GuideEntity(
             subtitle = subtitle,
             content = content,
             slug = slug,
+            type = GuideType.valueOf(type),
             createdAt = createdAt
         )
 }

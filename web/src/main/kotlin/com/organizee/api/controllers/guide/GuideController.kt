@@ -1,7 +1,6 @@
 package com.organizee.api.controllers.guide
 
 import com.organizee.api.controllers.guide.json.CreateGuidePayload
-import com.organizee.api.controllers.guide.json.CreateGuideResponse
 import com.organizee.api.controllers.guide.json.GuideResponse
 import com.organizee.guide.CreateGuideUseCase
 import com.organizee.guide.GetGuideUseCase
@@ -16,8 +15,8 @@ class GuideController(
     private val getGuideUseCase: GetGuideUseCase
 ) {
     @PostMapping
-    fun create(@RequestBody input: CreateGuidePayload): CreateGuideResponse =
-        CreateGuideResponse.fromEntity(createGuideUseCase.execute(input.toUseCaseInput()))
+    fun create(@RequestBody input: CreateGuidePayload): GuideResponse =
+        GuideResponse.fromEntity(createGuideUseCase.execute(input.toUseCaseInput()))
 
     @GetMapping("{slug}")
     fun getBySlug(@PathVariable("slug") slug: String) =
