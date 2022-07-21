@@ -9,6 +9,7 @@ data class Guide(
     val subtitle: String,
     val content: String,
     val type: GuideType,
+    val categories: List<Category> = emptyList(),
     val createdAt: LocalDateTime
 ) {
     companion object {
