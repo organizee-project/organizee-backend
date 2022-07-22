@@ -5,7 +5,7 @@ import com.organizee.guide.Comment
 import com.organizee.guide.CreateCommentUseCase
 import com.organizee.guide.commands.NewCommentCommand
 
-class CreateCommentUseCase(private val commentService: CommentService) : CreateCommentUseCase {
+class CreateCommentUseCaseImpl(private val commentService: CommentService) : CreateCommentUseCase {
     override fun execute(input: NewCommentCommand) =
         commentService.create(Comment.create(message = input.message), input.slug)
 }
