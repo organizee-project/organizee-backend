@@ -4,9 +4,9 @@ import com.organizee.api.controllers.guide.json.CommentResponse
 import com.organizee.api.controllers.guide.json.CreateCommentPayload
 import com.organizee.api.controllers.guide.json.CreateGuidePayload
 import com.organizee.api.controllers.guide.json.GuideResponse
+import com.organizee.guide.CreateCommentUseCase
 import com.organizee.guide.CreateGuideUseCase
 import com.organizee.guide.GetGuideUseCase
-import com.organizee.guide.impl.CreateCommentUseCase
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
