@@ -2,13 +2,10 @@ package com.organizee.boundary.db.entities
 
 import com.organizee.guide.Category
 import java.io.Serializable
-import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
+@Table(name = "tb_category")
 data class CategoryEntity(
     @Id
     @GeneratedValue
@@ -16,9 +13,7 @@ data class CategoryEntity(
     @Column(nullable = false)
     val title: String,
     @Column(nullable = false)
-    val slug: String,
-    @Column
-    val createdAt: LocalDateTime
+    val slug: String
 ) : Serializable {
     fun toEntity() =
         Category(

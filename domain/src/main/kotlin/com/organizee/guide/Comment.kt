@@ -4,12 +4,11 @@ import java.time.LocalDateTime
 
 data class Comment(
     val message: String,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime? = null
 ) {
     companion object {
         fun create(message: String) = Comment(
             message = message,
-            createdAt = LocalDateTime.now()
         )
     }
 }

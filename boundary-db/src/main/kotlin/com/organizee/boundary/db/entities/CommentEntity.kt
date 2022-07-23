@@ -7,16 +7,17 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
+@Table(name = "tb_comment")
 data class CommentEntity(
     @Id
     @GeneratedValue
     val id: UUID,
     @Column(nullable = false)
     val message: String,
-    @Column
-    val createdAt: LocalDateTime,
     @ManyToOne
-    val guide: GuideEntity
+    val guide: GuideEntity,
+    @Column
+    val createdAt: LocalDateTime
 ) : Serializable {
 
     companion object {
@@ -24,8 +25,8 @@ data class CommentEntity(
             CommentEntity(
                 id = UUID.randomUUID(),
                 message = comment.message,
-                createdAt = comment.createdAt,
-                guide = guide
+                guide = guide,
+                createdAt = LocalDateTime.now()
             )
     }
 

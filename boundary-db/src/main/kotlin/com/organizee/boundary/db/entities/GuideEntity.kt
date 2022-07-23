@@ -10,6 +10,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
+@Table(name = "tb_guide")
 data class GuideEntity(
     @Id
     val id: UUID,
@@ -34,6 +35,7 @@ data class GuideEntity(
 
     @Column
     val createdAt: LocalDateTime
+
 ) : Serializable {
     companion object {
         fun from(guide: Guide, categories: List<CategoryEntity>): GuideEntity =
@@ -45,7 +47,7 @@ data class GuideEntity(
                 content = guide.content,
                 type = guide.type.name,
                 categories = categories,
-                createdAt = guide.createdAt
+                createdAt = LocalDateTime.now()
             )
     }
 
