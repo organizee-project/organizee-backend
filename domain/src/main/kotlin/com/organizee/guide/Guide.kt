@@ -11,7 +11,7 @@ data class Guide(
     val type: GuideType,
     val categories: List<Category> = emptyList(),
     val comments: List<Comment> = emptyList(),
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime? = null
 ) {
     companion object {
         fun create(title: String, subtitle: String, content: String, isPrivate: Boolean) = Guide(
@@ -22,8 +22,7 @@ data class Guide(
             type = when (isPrivate) {
                 true -> GuideType.PRIVATE
                 else -> GuideType.PUBLIC
-            },
-            createdAt = LocalDateTime.now()
+            }
         )
     }
 }

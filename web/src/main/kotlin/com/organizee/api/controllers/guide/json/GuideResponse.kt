@@ -11,7 +11,7 @@ data class GuideResponse(
     val type: String,
     val categories: List<CategoryResponse> = emptyList(),
     val comments: List<CommentResponse> = emptyList(),
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime?
 ) {
     companion object {
         fun fromEntity(entity: Guide) = GuideResponse(

@@ -2,12 +2,15 @@ package com.organizee.boundary.db.entities
 
 import com.organizee.user.User
 import java.io.Serializable
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
+@Table(name = "tb_user")
 data class UserEntity(
     @Id
     val id: UUID,
@@ -22,7 +25,10 @@ data class UserEntity(
     @Column
     val password: String,
 
-    ) : Serializable, AudityEntity() {
+    @Column
+    val createdAt: LocalDateTime
+
+) : Serializable {
     companion object {
         fun from(user: User): UserEntity =
             UserEntity(
@@ -31,7 +37,8 @@ data class UserEntity(
                 surname = user.surname,
                 email = user.email,
                 username = user.username,
-                password = user.password
+                password = user.password,
+                createdAt = LocalDateTime.now()
             )
     }
 
