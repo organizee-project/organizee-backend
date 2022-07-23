@@ -14,15 +14,15 @@ import javax.persistence.Table
 data class UserEntity(
     @Id
     val id: UUID,
-    @Column
+    @Column(nullable = false)
     val name: String,
-    @Column
+    @Column(nullable = false)
     val surname: String,
-    @Column
+    @Column(unique = true, nullable = false)
     val username: String,
-    @Column
+    @Column(unique = true, nullable = false)
     val email: String,
-    @Column
+    @Column(nullable = false)
     val password: String,
 
     @Column
