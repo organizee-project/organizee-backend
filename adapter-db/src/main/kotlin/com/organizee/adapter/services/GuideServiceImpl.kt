@@ -5,6 +5,8 @@ import com.organizee.boundary.db.repositories.CategoryRepository
 import com.organizee.boundary.db.repositories.GuideRepository
 import com.organizee.boundary.db.services.GuideService
 import com.organizee.guide.Guide
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
@@ -20,6 +22,10 @@ class GuideServiceImpl(
 
         return repository.save(GuideEntity.from(guide, categories)).toEntity()
 
+    }
+
+    override fun findAll(pegeable: Pageable): Page<Guide> {
+        return repository.findAll(pegeable).map { it.toEntity() }
     }
 
     override fun getGuide(slug: String): Guide =
