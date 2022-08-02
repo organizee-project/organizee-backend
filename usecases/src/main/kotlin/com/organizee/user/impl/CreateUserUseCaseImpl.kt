@@ -1,6 +1,8 @@
 package com.organizee.user.impl
 
 import com.organizee.boundary.db.services.UserService
+import com.organizee.exceptions.BussinessException
+import com.organizee.exceptions.ExceptionMessage
 import com.organizee.user.CreateUserUseCase
 import com.organizee.user.User
 import com.organizee.user.commands.NewUserCommand
@@ -10,11 +12,11 @@ class CreateUserUseCaseImpl(private val userService: UserService) : CreateUserUs
 
         val userByEmail = userService.findByEmail(input.email)
         if (userByEmail != null)
-            throw RuntimeException("Email already taken")
+            throw BussinessException(ExceptionMessage.EMAIL_ALREADY_IN_USE)
 
         val userByUsername = userService.findByUsername(input.username)
         if (userByUsername != null)
-            throw RuntimeException("Username already taken")
+            throw BussinessException(ExceptionMessage.USERNAME_ALREADY_IN_USE)
 
 
         val user = User.createNormalUser(
