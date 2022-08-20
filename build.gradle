@@ -69,5 +69,7 @@ subprojects {
 
         //Documentation
         implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+        implementation 'com.vladmihalcea:hibernate-types-4:2.18.0'
     }
 }

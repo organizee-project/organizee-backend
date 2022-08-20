@@ -21,7 +21,7 @@ data class GuideResponse(
             content = entity.content,
             type = entity.type.name,
             categories = entity.categories.map {
-                CategoryResponse(title = it.title, slug = it.slug)
+                CategoryResponse(id = it.id, name = it.name, slug = it.slug)
             },
             comments = entity.comments.map {
                 CommentResponse.fromEntity(it)
@@ -32,6 +32,7 @@ data class GuideResponse(
 }
 
 data class CategoryResponse(
-    val title: String,
+    val id: Long?,
+    val name: String,
     val slug: String
 )
