@@ -4,6 +4,7 @@ import com.organizee.guide.Category
 import com.organizee.guide.Comment
 import com.organizee.guide.Guide
 import com.organizee.guide.GuideType
+import org.hibernate.annotations.Type
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.*
@@ -21,18 +22,16 @@ data class GuideEntity(
     @Column
     val subtitle: String,
     @Column
+    @Type(type = "text")
     val content: String,
     @Column
     val type: String,
-
     @Column
     @ManyToMany
     val categories: List<CategoryEntity> = emptyList(),
-
     @Column
     @OneToMany(mappedBy = "guide")
     val comments: List<CommentEntity> = emptyList(),
-
     @Column
     val createdAt: LocalDateTime
 
@@ -59,7 +58,13 @@ data class GuideEntity(
             slug = slug,
             type = GuideType.valueOf(type),
             comments = comments.map { Comment(message = it.message, createdAt = it.createdAt) },
-            categories = categories.map { Category(title = it.title, slug = it.slug) },
+            categories = categories.map {
+                Category(
+                    name = it.name,
+                    id = it.id,
+                    slug = it.slug
+                )
+            },
             createdAt = createdAt
         )
 }

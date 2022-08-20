@@ -1,3 +1,13 @@
 package com.organizee.guide
 
-data class Category(val title: String, val slug: String)
+import com.organizee.boundary.shared.utils.toSlug
+
+data class Category(
+    val id: Long?,
+    val name: String,
+    val slug: String
+) {
+    companion object {
+        fun create(id: Long?, name: String) = Category(id, name, name.toSlug())
+    }
+}

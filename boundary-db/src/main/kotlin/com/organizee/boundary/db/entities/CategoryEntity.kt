@@ -1,6 +1,5 @@
 package com.organizee.boundary.db.entities
 
-import com.organizee.guide.Category
 import java.io.Serializable
 import javax.persistence.*
 
@@ -9,15 +8,9 @@ import javax.persistence.*
 data class CategoryEntity(
     @Id
     @GeneratedValue
-    val id: Long,
+    val id: Long = 0,
     @Column(nullable = false)
-    val title: String,
+    val name: String,
     @Column(nullable = false)
     val slug: String
-) : Serializable {
-    fun toEntity() =
-        Category(
-            title = title,
-            slug = slug,
-        )
-}
+) : Serializable
