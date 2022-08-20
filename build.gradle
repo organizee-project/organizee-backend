@@ -68,6 +68,7 @@ subprojects {
         implementation 'org.postgresql:postgresql:42.3.6'
 
         //Documentation
+        implementation "io.springfox:springfox-boot-starter:3.0.0"
         implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
         implementation 'com.vladmihalcea:hibernate-types-4:2.18.0'
