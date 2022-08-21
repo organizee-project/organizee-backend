@@ -13,6 +13,7 @@ import com.organizee.guide.commands.GetPublicGuidesCommand
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 
 @RestController
@@ -24,7 +25,7 @@ class GuideController(
     private val createCommentUseCase: CreateCommentUseCase
 ) {
     @PostMapping
-    fun create(@RequestBody input: CreateGuidePayload): GuideResponse =
+    fun create(@Valid @RequestBody input: CreateGuidePayload): GuideResponse =
         GuideResponse.fromEntity(createGuideUseCase.execute(input.toUseCaseInput()))
 
     @GetMapping("{slug}")
