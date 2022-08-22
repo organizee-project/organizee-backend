@@ -10,18 +10,10 @@ buildscript {
 }
 
 plugins {
+    id 'application'
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id "org.jetbrains.kotlin.plugin.noarg" version "1.7.10"
     id("org.springframework.boot") version "2.7.0"
-}
-
-
-jar {
-    manifest {
-        attributes(
-                "Main-Class": "com.organizee.Main"
-        )
-    }
 }
 
 bootJar {
@@ -80,4 +72,8 @@ subprojects {
         implementation "io.springfox:springfox-boot-starter:3.0.0"
         implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     }
+}
+
+application {
+    mainClass.set("com.organizee.Main")
 }
