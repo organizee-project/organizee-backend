@@ -1,1 +1,1 @@
-web: java -cp build/libs/*.jar com.organizee.Main
+web: java -cp target/classes:target/dependency/* com.organizee.Main
