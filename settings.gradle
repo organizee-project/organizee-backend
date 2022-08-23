@@ -1,9 +1,9 @@
 rootProject.name = 'organizee-backend'
-include 'web'
-include 'domain'
-include 'adapter-db'
-include 'boundary-db'
-include 'boundary-shared'
-include 'application'
-include 'usecases'
+include("application")
+include(':domain')
+include(':adapter-db')
+include(':boundary-db')
+include(':usecases')
+include(':boundary-shared')
+include(':web')
 
