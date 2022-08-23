@@ -73,12 +73,4 @@ subprojects {
         implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     }
 }
-
-jar {
-    manifest {
-        attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'com.organizee.Main'
-        )
-    }
-}
+mainClassName = "com.organizee.Main"
