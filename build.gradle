@@ -73,4 +73,3 @@ subprojects {
         implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     }
 }
-mainClassName = "com.organizee.Main"
