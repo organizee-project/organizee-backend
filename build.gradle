@@ -14,6 +14,15 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id "org.jetbrains.kotlin.plugin.noarg" version "1.7.10"
     id("org.springframework.boot") version "2.7.0"
+    id 'java'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.organizee.Boot'
+        )
+    }
 }
 
 bootJar {
@@ -32,9 +41,6 @@ allprojects {
     }
 }
 
-mainClassName = "com.organizee.Boot"
-applicationName = "application"
-
 subprojects {
     group 'com.organizee'
     version '1.0-SNAPSHOT'
@@ -42,7 +48,6 @@ subprojects {
     apply plugin: "kotlin"
     apply plugin: "kotlin-allopen"
     apply plugin: "kotlin-jpa"
-    apply plugin: 'application'
 
     allOpen {
         annotation("org.springframework.stereotype.Component")
