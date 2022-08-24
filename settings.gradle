@@ -1,5 +1,6 @@
 rootProject.name = 'organizee-backend'
-include("application")
+
+include(":application")
 include(':domain')
 include(':adapter-db')
 include(':boundary-db')
