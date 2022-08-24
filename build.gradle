@@ -32,6 +32,9 @@ allprojects {
     }
 }
 
+mainClassName = "com.organizee.Boot"
+applicationName = "application"
+
 subprojects {
     group 'com.organizee'
     version '1.0-SNAPSHOT'
@@ -39,6 +42,7 @@ subprojects {
     apply plugin: "kotlin"
     apply plugin: "kotlin-allopen"
     apply plugin: "kotlin-jpa"
+    apply plugin: 'application'
 
     allOpen {
         annotation("org.springframework.stereotype.Component")
