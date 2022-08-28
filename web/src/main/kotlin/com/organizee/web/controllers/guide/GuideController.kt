@@ -3,9 +3,10 @@ package com.organizee.web.controllers.guide
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.*
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
-import com.organizee.web.controllers.guide.json.CreateGuidePayload
-import com.organizee.web.controllers.guide.json.GuideResponse
-import com.organizee.web.controllers.guide.json.UpdateGuidePayload
+import com.organizee.web.controllers.guide.json.payloads.CreateGuidePayload
+import com.organizee.web.controllers.guide.json.payloads.UpdateGuidePayload
+import com.organizee.web.controllers.guide.json.responses.GuideDetailsResponse
+import com.organizee.web.controllers.guide.json.responses.GuideResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -22,12 +23,12 @@ class GuideController(
     private val updateGuideUseCase: UpdateGuideUseCase
 ) {
     @PostMapping
-    fun create(@Valid @RequestBody input: CreateGuidePayload): GuideResponse =
-        GuideResponse.fromEntity(createGuideUseCase.execute(input.toUseCaseInput()))
+    fun create(@Valid @RequestBody input: CreateGuidePayload) =
+        GuideDetailsResponse.fromEntity(createGuideUseCase.execute(input.toUseCaseInput()))
 
     @GetMapping("{slug}")
     fun getBySlug(@PathVariable("slug") slug: String) =
-        GuideResponse.fromEntity(getGuideUseCase.execute(slug))
+        GuideDetailsResponse.fromEntity(getGuideUseCase.execute(slug))
 
 
     @GetMapping
@@ -68,8 +69,8 @@ class GuideController(
     fun updateGuide(
         @PathVariable("slug") slug: String,
         @RequestBody input: UpdateGuidePayload
-    ): ResponseEntity<GuideResponse> {
+    ): ResponseEntity<GuideDetailsResponse> {
         val response = updateGuideUseCase.execute(input.toUseCaseInput(slug))
-        return ResponseEntity.ok(GuideResponse.fromEntity(response))
+        return ResponseEntity.ok(GuideDetailsResponse.fromEntity(response))
     }
 }

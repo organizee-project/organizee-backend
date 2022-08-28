@@ -1,4 +1,4 @@
-package com.organizee.web.controllers.guide.json
+package com.organizee.web.controllers.guide.json.payloads
 
 import com.organizee.usecases.guide.commands.NewCommentCommand
 
