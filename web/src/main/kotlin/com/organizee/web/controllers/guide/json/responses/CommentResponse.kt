@@ -1,4 +1,4 @@
-package com.organizee.web.controllers.guide.json
+package com.organizee.web.controllers.guide.json.responses
 
 import com.organizee.domain.guide.Comment
 import java.time.LocalDateTime
