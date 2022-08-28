@@ -3,8 +3,8 @@ rootProject.name = 'organizee-backend'
 include(":application")
 include(':domain')
 include(':adapter-db')
-include(':boundary-db')
 include(':usecases')
-include(':boundary-shared')
+include(':shared')
 include(':web')
+include(':boundaries')
 

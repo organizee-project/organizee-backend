@@ -1,5 +1,4 @@
 dependencies {
-    implementation project(":boundary-db")
-    implementation project(':boundary-shared')
     implementation project(":domain")
+    implementation project(":boundaries")
 }
