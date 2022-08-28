@@ -1,9 +1,8 @@
 dependencies {
-    implementation project(':web')
     implementation project(':domain')
+    implementation project(":boundaries")
     implementation project(':adapter-db')
-    implementation project(':boundary-db')
     implementation project(':usecases')
-    implementation project(':boundary-shared')
-
+    implementation project(':shared')
+    implementation project(':web')
 }
