@@ -1,15 +1,11 @@
 package com.organizee.web.controllers.guide
 
 import com.organizee.domain.Page
-import com.organizee.usecases.guide.CreateCommentUseCase
-import com.organizee.usecases.guide.CreateGuideUseCase
-import com.organizee.usecases.guide.GetGuideUseCase
-import com.organizee.usecases.guide.GetPublicGuidesUseCase
+import com.organizee.usecases.guide.*
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
-import com.organizee.web.controllers.guide.json.CommentResponse
-import com.organizee.web.controllers.guide.json.CreateCommentPayload
 import com.organizee.web.controllers.guide.json.CreateGuidePayload
 import com.organizee.web.controllers.guide.json.GuideResponse
+import com.organizee.web.controllers.guide.json.UpdateGuidePayload
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -22,7 +18,8 @@ class GuideController(
     private val createGuideUseCase: CreateGuideUseCase,
     private val getGuideUseCase: GetGuideUseCase,
     private val getPublicGuidesUseCase: GetPublicGuidesUseCase,
-    private val createCommentUseCase: CreateCommentUseCase
+    private val removeGuideUseCase: RemoveGuideUseCase,
+    private val updateGuideUseCase: UpdateGuideUseCase
 ) {
     @PostMapping
     fun create(@Valid @RequestBody input: CreateGuidePayload): GuideResponse =
@@ -58,10 +55,21 @@ class GuideController(
         return ResponseEntity.ok(response)
     }
 
-
-    @PostMapping("/{slug}/comment")
-    fun createComment(
+    @DeleteMapping("/{slug}")
+    fun removeGuide(
         @PathVariable("slug") slug: String,
-        @RequestBody input: CreateCommentPayload
-    ) = CommentResponse.fromEntity(createCommentUseCase.execute(input.toUseCaseInput(slug)))
+    ): ResponseEntity<Unit> {
+        removeGuideUseCase.execute(slug)
+
+        return ResponseEntity.noContent().build()
+    }
+
+    @PatchMapping("/{slug}")
+    fun updateGuide(
+        @PathVariable("slug") slug: String,
+        @RequestBody input: UpdateGuidePayload
+    ): ResponseEntity<GuideResponse> {
+        val response = updateGuideUseCase.execute(input.toUseCaseInput(slug))
+        return ResponseEntity.ok(GuideResponse.fromEntity(response))
+    }
 }
