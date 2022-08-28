@@ -33,8 +33,9 @@ data class GuideEntity(
     @OneToMany(mappedBy = "guide")
     val comments: List<CommentEntity> = emptyList(),
     @Column
-    val createdAt: LocalDateTime
-
+    val createdAt: LocalDateTime,
+    @Column
+    val updatedAt: LocalDateTime? = null
 ) : Serializable {
     companion object {
         fun from(guide: Guide, categories: List<CategoryEntity>): GuideEntity =

@@ -14,6 +14,21 @@ data class Guide(
     val comments: List<Comment> = emptyList(),
     val createdAt: LocalDateTime? = null
 ) {
+    fun update(
+        title: String?,
+        subtitle: String?,
+        content: String?,
+        isPrivate: Boolean?,
+        categories: List<Category>?
+    ) = copy(
+        title = title ?: this.title,
+        slug = title?.let { createGuideSlug(title) } ?: this.slug,
+        subtitle = subtitle ?: this.subtitle,
+        content = content ?: this.content,
+        type = isPrivate?.let { GuideType.from(it) } ?: this.type,
+        categories = categories ?: this.categories
+    )
+
     companion object {
         fun create(
             title: String,
@@ -23,14 +38,14 @@ data class Guide(
             categories: List<Category>
         ) = Guide(
             title = title,
-            slug = "${title.toSlug()}-${Timestamp.valueOf(LocalDateTime.now()).time}",
+            slug = createGuideSlug(title),
             subtitle = subtitle,
             content = content,
             categories = categories,
-            type = when (isPrivate) {
-                true -> GuideType.PRIVATE
-                else -> GuideType.PUBLIC
-            }
+            type = GuideType.from(isPrivate)
         )
+
+        fun createGuideSlug(title: String) =
+            "${title.toSlug()}-${Timestamp.valueOf(LocalDateTime.now()).time}"
     }
 }

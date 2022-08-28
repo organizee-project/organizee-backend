@@ -1,6 +1,6 @@
 package com.organizee.web.controllers.guide.json
 
-import com.organizee.usecases.guide.commands.NewCategoryCommand
+import com.organizee.usecases.guide.commands.CategoryCommand
 import com.organizee.usecases.guide.commands.NewGuideCommand
 import javax.validation.constraints.NotBlank
 
@@ -19,7 +19,7 @@ data class CreateGuidePayload(
         subtitle = subtitle,
         content = content,
         categories = categories.map {
-            NewCategoryCommand(
+            CategoryCommand(
                 id = it.id,
                 name = it.name
             )
@@ -28,7 +28,4 @@ data class CreateGuidePayload(
     )
 }
 
-data class CategoryPayload(
-    val id: Long? = null,
-    val name: String
-)
+

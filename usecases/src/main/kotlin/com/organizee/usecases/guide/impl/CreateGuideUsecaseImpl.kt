@@ -19,7 +19,7 @@ class CreateGuideUsecaseImpl(private val guideService: GuideService) : CreateGui
                 Category.create(it.id, it.name)
             }
         )
-        return guideService.create(guide)
+        return guideService.save(guide)
 
     }
 }
