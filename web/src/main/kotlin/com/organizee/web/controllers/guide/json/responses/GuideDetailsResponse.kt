@@ -1,6 +1,7 @@
 package com.organizee.web.controllers.guide.json.responses
 
 import com.organizee.domain.guide.Guide
+import com.organizee.web.controllers.category.json.response.CategoryResponse
 import java.time.LocalDateTime
 
 data class GuideDetailsResponse(

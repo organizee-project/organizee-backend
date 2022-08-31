@@ -1,4 +1,4 @@
-package com.organizee.web.controllers.guide.json.responses
+package com.organizee.web.controllers.category.json.response
 
 data class CategoryResponse(
     val id: Long?,

@@ -21,5 +21,11 @@ class CategoryServiceImpl(private val repository: CategoryRepository) : Category
         }
     }
 
+    override fun getAll(): List<Category> {
+        return repository.findAll().map {
+            Category(id = it.id, name = it.name, slug = it.slug)
+        }
+    }
+
 
 }
