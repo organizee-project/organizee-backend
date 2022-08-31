@@ -1,3 +1,9 @@
+plugins {
+    id "org.springframework.boot" version "2.7.0"
+}
+
+apply plugin: 'org.springframework.boot'
+
 dependencies {
     implementation project(':domain')
     implementation project(":boundaries")
@@ -5,4 +11,12 @@ dependencies {
     implementation project(':usecases')
     implementation project(':shared')
     implementation project(':web')
+
+    implementation 'org.springframework.boot:spring-boot-starter:2.7.0'
+
+}
+
+bootJar {
+    enabled = true
+    mainClass = "com.organizee.application.Boot"
 }
