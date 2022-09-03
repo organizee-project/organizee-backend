@@ -27,5 +27,11 @@ class CategoryServiceImpl(private val repository: CategoryRepository) : Category
         }
     }
 
+    override fun save(category: Category): Category {
+
+        return repository.save(CategoryEntity(name = category.name, slug = category.slug))
+            .toEntity()
+    }
+
 
 }

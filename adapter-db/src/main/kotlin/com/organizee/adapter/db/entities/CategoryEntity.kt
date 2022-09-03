@@ -1,5 +1,6 @@
 package com.organizee.adapter.db.entities
 
+import com.organizee.domain.guide.Category
 import java.io.Serializable
 import javax.persistence.*
 
@@ -13,4 +14,12 @@ data class CategoryEntity(
     val name: String,
     @Column(nullable = false)
     val slug: String
-) : Serializable
+) : Serializable {
+    fun toEntity(): Category {
+        return Category(
+            id = id,
+            name = name,
+            slug = slug
+        )
+    }
+}
