@@ -5,5 +5,6 @@ data class NewGuideCommand(
     val subtitle: String,
     val content: String,
     val categories: List<Long>,
+    val topics: List<String> = emptyList(),
     val isPrivate: Boolean
 )

@@ -27,6 +27,9 @@ data class GuideEntity(
     @Column
     val type: String,
     @Column
+    @ElementCollection
+    val topics: List<String> = emptyList(),
+    @Column
     @ManyToMany
     val categories: List<CategoryEntity> = emptyList(),
     @Column
@@ -47,6 +50,7 @@ data class GuideEntity(
                 content = guide.content,
                 type = guide.type.name,
                 categories = categories,
+                topics = guide.topics,
                 createdAt = LocalDateTime.now()
             )
     }
