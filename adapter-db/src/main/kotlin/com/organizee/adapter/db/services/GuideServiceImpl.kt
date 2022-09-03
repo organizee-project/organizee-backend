@@ -29,6 +29,7 @@ class GuideServiceImpl(
         repository.delete(entity)
     }
 
+    @Transactional
     override fun update(slug: String, updatedGuide: Guide): Guide {
         val entity = repository.findFirstBySlug(slug)
 
@@ -41,7 +42,8 @@ class GuideServiceImpl(
             content = updatedGuide.content,
             type = updatedGuide.type.toString(),
             categories = categories,
-            updatedAt = LocalDateTime.now()
+            topics = updatedGuide.topics,
+            updatedAt = LocalDateTime.now(),
         )
 
         return repository.save(updatedEntity).toEntity()

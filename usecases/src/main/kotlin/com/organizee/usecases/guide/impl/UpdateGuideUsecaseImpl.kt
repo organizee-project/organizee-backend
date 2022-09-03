@@ -42,7 +42,8 @@ class UpdateGuideUsecaseImpl(
         subtitle = input.subtitle,
         content = input.content,
         isPrivate = input.isPrivate,
-        categories = categories
+        categories = categories,
+        topics = input.topics
     )
 
 }
