@@ -10,7 +10,8 @@ data class GuideResponse(
     val subtitle: String,
     val type: String,
     val categories: List<CategoryResponse> = emptyList(),
-    val createdAt: LocalDateTime?
+    val createdAt: LocalDateTime?,
+    val updatedAt: LocalDateTime?,
 ) {
     companion object {
         fun fromEntity(entity: Guide) = GuideResponse(
@@ -21,7 +22,8 @@ data class GuideResponse(
             categories = entity.categories.map {
                 CategoryResponse(id = it.id, name = it.name, slug = it.slug)
             },
-            createdAt = entity.createdAt
+            createdAt = entity.createdAt,
+            updatedAt = entity.updatedAt
         )
     }
 }

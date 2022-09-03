@@ -17,21 +17,22 @@ class CategoryServiceImpl(private val repository: CategoryRepository) : Category
         }
 
         return repository.saveAll(entities).map {
-            Category(id = it.id, name = it.name, slug = it.slug)
+            it.toEntity()
         }
     }
 
     override fun getAll(): List<Category> {
         return repository.findAll().map {
-            Category(id = it.id, name = it.name, slug = it.slug)
+            it.toEntity()
         }
     }
 
-    override fun save(category: Category): Category {
+    override fun getAllIdsIn(ids: List<Long>): List<Category> {
+        return repository.findByIdIn(ids).map { it.toEntity() }
+    }
 
+    override fun save(category: Category): Category {
         return repository.save(CategoryEntity(name = category.name, slug = category.slug))
             .toEntity()
     }
-
-
 }

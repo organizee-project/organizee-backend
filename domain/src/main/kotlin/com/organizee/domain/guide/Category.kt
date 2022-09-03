@@ -8,8 +8,6 @@ data class Category(
     val slug: String
 ) {
     companion object {
-        fun create(id: Long?, name: String) = Category(id, name, name.toSlug())
-
         fun create(name: String) = Category(null, name, name.toSlug())
     }
 }

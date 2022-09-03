@@ -1,10 +1,8 @@
 package com.organizee.adapter.db.services
 
-import com.organizee.adapter.db.entities.CategoryEntity
 import com.organizee.adapter.db.entities.GuideEntity
 import com.organizee.adapter.db.repositories.CategoryRepository
 import com.organizee.adapter.db.repositories.GuideRepository
-import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.domain.guide.Guide
 import org.springframework.data.domain.Page
@@ -16,15 +14,8 @@ import javax.transaction.Transactional
 @Service
 class GuideServiceImpl(
     private val repository: GuideRepository,
-    private val categoryService: CategoryService,
     private val categoryRepository: CategoryRepository
 ) : GuideService {
-    @Transactional
-    override fun save(guide: Guide): Guide {
-        val categories = getCategoriesEntites(guide)
-
-        return repository.save(GuideEntity.from(guide, categories)).toEntity()
-    }
 
     override fun findAll(pegeable: Pageable): Page<Guide> {
         return repository.findAll(pegeable).map { it.toEntity() }
@@ -41,7 +32,7 @@ class GuideServiceImpl(
     override fun update(slug: String, updatedGuide: Guide): Guide {
         val entity = repository.findFirstBySlug(slug)
 
-        val categories = getCategoriesEntites(updatedGuide)
+        val categories = categoryRepository.findByIdIn(updatedGuide.getCategoriesIds())
 
         val updatedEntity = entity.copy(
             title = updatedGuide.title,
@@ -56,15 +47,12 @@ class GuideServiceImpl(
         return repository.save(updatedEntity).toEntity()
     }
 
-    private fun getCategoriesEntites(guide: Guide): List<CategoryEntity> {
-        val notCreatedCategories = guide.categories.filter { it.id == null }
+    @Transactional
+    override fun save(guide: Guide): Guide {
+        val categories = categoryRepository.findByIdIn(guide.getCategoriesIds())
+        val entity = GuideEntity.from(guide, categories)
 
-        val categories = guide.categories.filter { it.id != null }.toMutableList()
-
-        if (notCreatedCategories.isNotEmpty())
-            categories.addAll(categoryService.saveAll(notCreatedCategories))
-
-        return categoryRepository.findByIdIn(categories.map { it.id!! })
+        return repository.save(entity).toEntity()
     }
 
 }
