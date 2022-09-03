@@ -66,6 +66,7 @@ data class GuideEntity(
                     slug = it.slug
                 )
             },
-            createdAt = createdAt
+            createdAt = createdAt,
+            updatedAt = updatedAt
         )
 }
