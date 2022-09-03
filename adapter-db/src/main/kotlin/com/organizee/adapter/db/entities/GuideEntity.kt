@@ -1,6 +1,5 @@
 package com.organizee.adapter.db.entities
 
-import com.organizee.domain.guide.Category
 import com.organizee.domain.guide.Comment
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.GuideType
@@ -27,6 +26,7 @@ data class GuideEntity(
     @Column
     val type: String,
     @Column
+    @CollectionTable(name = "tb_guide_topics", joinColumns = [JoinColumn(name = "guide_id")])
     @ElementCollection
     val topics: List<String> = emptyList(),
     @Column
@@ -63,13 +63,8 @@ data class GuideEntity(
             slug = slug,
             type = GuideType.valueOf(type),
             comments = comments.map { Comment(message = it.message, createdAt = it.createdAt) },
-            categories = categories.map {
-                Category(
-                    name = it.name,
-                    id = it.id,
-                    slug = it.slug
-                )
-            },
+            categories = categories.map { it.toEntity() },
+            topics = topics,
             createdAt = createdAt,
             updatedAt = updatedAt
         )

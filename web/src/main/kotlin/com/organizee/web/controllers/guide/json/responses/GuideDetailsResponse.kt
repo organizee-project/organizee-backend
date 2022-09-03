@@ -11,6 +11,7 @@ data class GuideDetailsResponse(
     val content: String,
     val type: String,
     val categories: List<CategoryResponse> = emptyList(),
+    val topics: List<String> = emptyList(),
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
 ) {
@@ -24,6 +25,7 @@ data class GuideDetailsResponse(
             categories = entity.categories.map {
                 CategoryResponse(id = it.id, name = it.name, slug = it.slug)
             },
+            topics = entity.topics,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
         )
