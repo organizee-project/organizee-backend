@@ -6,5 +6,6 @@ data class UpdateGuideCommand(
     val subtitle: String? = null,
     val content: String? = null,
     val isPrivate: Boolean? = null,
-    val categories: List<Long>? = null
+    val categories: List<Long>? = null,
+    val topics: List<String>? = null
 )

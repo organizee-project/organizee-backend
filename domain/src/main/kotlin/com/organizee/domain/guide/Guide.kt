@@ -44,13 +44,15 @@ data class Guide(
         content: String?,
         isPrivate: Boolean?,
         categories: List<Category>?,
+        topics: List<String>?,
     ) = copy(
         title = title ?: this.title,
         slug = title?.let { createGuideSlug(title) } ?: this.slug,
         subtitle = subtitle ?: this.subtitle,
         content = content ?: this.content,
         type = isPrivate?.let { GuideType.from(it) } ?: this.type,
-        categories = categories ?: this.categories
+        categories = categories ?: this.categories,
+        topics = topics ?: this.topics
     )
 
     fun getCategoriesIds() = this.categories.mapNotNull { it.id }

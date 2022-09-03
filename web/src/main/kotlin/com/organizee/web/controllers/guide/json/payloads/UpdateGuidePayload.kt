@@ -7,6 +7,7 @@ data class UpdateGuidePayload(
     val subtitle: String? = null,
     val content: String? = null,
     val categories: List<Long>? = null,
+    val topics: List<String>? = null,
     val isPrivate: Boolean? = null
 ) {
     fun toUseCaseInput(slug: String) = UpdateGuideCommand(
@@ -14,6 +15,7 @@ data class UpdateGuidePayload(
         title = if (!title.isNullOrEmpty()) title else null,
         subtitle = if (!subtitle.isNullOrEmpty()) subtitle else null,
         content = if (!content.isNullOrEmpty()) content else null,
+        topics = topics,
         categories = categories,
         isPrivate = isPrivate
     )
