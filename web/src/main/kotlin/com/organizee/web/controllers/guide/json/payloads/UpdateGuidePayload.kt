@@ -1,6 +1,6 @@
 package com.organizee.web.controllers.guide.json.payloads
 
-import com.organizee.usecases.guide.commands.CategoryCommand
+import com.organizee.usecases.category.commands.CategoryCommand
 import com.organizee.usecases.guide.commands.UpdateGuideCommand
 
 data class UpdateGuidePayload(

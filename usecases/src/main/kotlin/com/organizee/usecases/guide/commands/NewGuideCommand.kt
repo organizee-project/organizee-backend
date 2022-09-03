@@ -1,5 +1,7 @@
 package com.organizee.usecases.guide.commands
 
+import com.organizee.usecases.category.commands.CategoryCommand
+
 data class NewGuideCommand(
     val title: String,
     val subtitle: String,
