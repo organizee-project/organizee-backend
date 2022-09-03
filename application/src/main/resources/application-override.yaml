@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
   datasource:
     url: jdbc:postgresql://ec2-34-235-198-25.compute-1.amazonaws.com:5432/d52rtcth5np5lb
     username: ipqbfrdlfthtgu
