@@ -11,6 +11,7 @@ data class Guide(
     val content: String,
     val type: GuideType,
     val categories: List<Category> = emptyList(),
+    val topics: List<String> = emptyList(),
     val comments: List<Comment> = emptyList(),
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
@@ -21,14 +22,16 @@ data class Guide(
             subtitle: String,
             content: String,
             isPrivate: Boolean,
-            categories: List<Category>
+            categories: List<Category>,
+            topics: List<String>
         ) = Guide(
             title = title,
             slug = createGuideSlug(title),
             subtitle = subtitle,
             content = content,
             categories = categories,
-            type = GuideType.from(isPrivate)
+            type = GuideType.from(isPrivate),
+            topics = topics
         )
 
         fun createGuideSlug(title: String) =

@@ -10,6 +10,7 @@ data class CreateGuidePayload(
     @field:NotBlank(message = "Content is mandatory")
     val content: String,
     val categories: List<Long> = emptyList(),
+    val topics: List<String> = emptyList(),
     val isPrivate: Boolean = false
 ) {
     fun toUseCaseInput() = NewGuideCommand(
@@ -17,6 +18,7 @@ data class CreateGuidePayload(
         subtitle = subtitle,
         content = content,
         categories = categories,
+        topics = topics,
         isPrivate = isPrivate
     )
 }
