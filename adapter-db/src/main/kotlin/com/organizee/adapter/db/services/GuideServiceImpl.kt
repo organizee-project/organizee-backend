@@ -2,11 +2,12 @@ package com.organizee.adapter.db.services
 
 import com.organizee.adapter.db.entities.GuideEntity
 import com.organizee.adapter.db.repositories.CategoryRepository
+import com.organizee.adapter.db.repositories.GuideCustomRepository
 import com.organizee.adapter.db.repositories.GuideRepository
 import com.organizee.boundaries.db.services.GuideService
+import com.organizee.boundaries.db.services.entities.FilterGuide
 import com.organizee.domain.guide.Guide
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import javax.transaction.Transactional
@@ -14,11 +15,12 @@ import javax.transaction.Transactional
 @Service
 class GuideServiceImpl(
     private val repository: GuideRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val customRepository: GuideCustomRepository
 ) : GuideService {
 
-    override fun findAll(pegeable: Pageable): Page<Guide> {
-        return repository.findAll(pegeable).map { it.toEntity() }
+    override fun findAllFilteredBy(filter: FilterGuide): Page<Guide> {
+        return customRepository.getFilteredGuides(filter).map { it.toEntity() }
     }
 
     override fun getGuide(slug: String): Guide =
