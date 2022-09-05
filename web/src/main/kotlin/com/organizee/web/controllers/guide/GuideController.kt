@@ -33,15 +33,15 @@ class GuideController(
 
     @GetMapping
     fun list(
+        @RequestParam(defaultValue = "") category: String,
+        @RequestParam(defaultValue = "") sortBy: String,
+        @RequestParam(defaultValue = "asc") sort: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int
     ): ResponseEntity<Page<GuideResponse>> {
-        val guides = getPublicGuidesUseCase.execute(
-            input = GetPublicGuidesCommand(
-                page = page,
-                size = size
-            )
-        )
+        val input = GetPublicGuidesCommand.create(category, sortBy, sort, page, size)
+
+        val guides = getPublicGuidesUseCase.execute(input)
 
         val response = Page(
             itens = guides.itens.map {
