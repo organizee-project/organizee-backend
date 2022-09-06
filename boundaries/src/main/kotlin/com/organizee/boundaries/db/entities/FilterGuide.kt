@@ -1,4 +1,4 @@
-package com.organizee.boundaries.db.services.entities
+package com.organizee.boundaries.db.entities
 
 import org.springframework.data.domain.Sort
 

@@ -1,7 +1,7 @@
 package com.organizee.usecases.guide.impl
 
+import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.boundaries.db.services.GuideService
-import com.organizee.boundaries.db.services.entities.FilterGuide
 import com.organizee.domain.Page
 import com.organizee.domain.guide.Guide
 import com.organizee.usecases.guide.GetPublicGuidesUseCase
