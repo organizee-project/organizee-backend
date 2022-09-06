@@ -2,8 +2,8 @@ package com.organizee.adapter.db.repositories.custom
 
 import com.organizee.adapter.db.entities.GuideEntity
 import com.organizee.adapter.db.repositories.GuideCustomRepository
-import com.organizee.boundaries.db.services.entities.FilterGuide
-import com.organizee.boundaries.db.services.entities.FilterSortBy
+import com.organizee.boundaries.db.entities.FilterGuide
+import com.organizee.boundaries.db.entities.FilterSortBy
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest

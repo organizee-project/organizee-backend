@@ -1,6 +1,6 @@
 package com.organizee.boundaries.db.services
 
-import com.organizee.boundaries.db.services.entities.FilterGuide
+import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.domain.guide.Guide
 import org.springframework.data.domain.Page
 
