@@ -2,6 +2,7 @@ package com.organizee.usecases.guide.impl
 
 import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
+import com.organizee.boundaries.search.SearchService
 import com.organizee.domain.guide.Guide
 import com.organizee.usecases.guide.CreateGuideUseCase
 import com.organizee.usecases.guide.commands.NewGuideCommand
@@ -11,20 +12,20 @@ import org.springframework.stereotype.Service
 @Service
 class CreateGuideUsecaseImpl(
     private val guideService: GuideService,
-    private val categoryService: CategoryService
+    private val categoryService: CategoryService,
+    private val searchService: SearchService
 ) : CreateGuideUseCase {
 
     companion object {
         private val logger = LoggerFactory.getLogger(CreateGuideUseCase::class.java)
     }
 
-
     override fun execute(input: NewGuideCommand): Guide {
-        logger.info("Creating new guide with title: {}", input.title)
+        logger.info("Creating new guide | input=$input")
 
         val categories = categoryService.getAllIdsIn(input.categories)
 
-        val guide = Guide.create(
+        var guide = Guide.create(
             title = input.title,
             subtitle = input.subtitle,
             content = input.content,
@@ -33,6 +34,12 @@ class CreateGuideUsecaseImpl(
             topics = input.topics
         )
 
-        return guideService.save(guide)
+        searchService.persist(guide)
+
+        guide = guideService.save(guide)
+
+        return guide
     }
+
+
 }
