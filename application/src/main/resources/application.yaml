@@ -1,6 +1,25 @@
 spring:
-  config:
-    import: application-override.yaml
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format-sql: true
+  datasource:
+    url: jdbc:postgresql://ec2-34-235-198-25.compute-1.amazonaws.com:5432/d52rtcth5np5lb
+    username: ipqbfrdlfthtgu
+    password: 30be57d12dd7771a27286351ab904b95d508247166129353b1060bab1a64d925
+    driver-class-name: org.postgresql.Driver
+
+aws:
+  cloudsearch:
+    accessKey: AKIATC7RN2RPSKMXPH2V
+    secretKey: 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
+    region: us-east-1
+
+search:
+  suggester: title_suggester

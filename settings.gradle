@@ -16,4 +16,5 @@ include(':usecases')
 include(':shared')
 include(':web')
 include(':boundaries')
+include(':adapter-search')
 
