@@ -37,6 +37,21 @@ class SearchServiceImpl(
         searchClient.uploadDocuments(uploadDocumentsRequest)
     }
 
+    override fun delete(guide: Guide) {
+        val requestJson = JacksonSerializer.serialize(arrayOf(BatchRequest.createDelete(guide)))
+
+        if (requestJson.isNullOrEmpty())
+            return
+
+        val uploadDocumentsRequest = UploadDocumentsRequest()
+        val inputStream = IOUtils.toInputStream(requestJson, "UTF-8")
+        uploadDocumentsRequest.documents = inputStream
+        uploadDocumentsRequest.contentLength = requestJson.toByteArray().size.toLong()
+        uploadDocumentsRequest.setContentType(ContentType.Applicationjson)
+
+        searchClient.uploadDocuments(uploadDocumentsRequest)
+    }
+
     override fun getGuides(filter: String): List<Guide> {
         logger.info("Searching guides | filter: $filter")
 
@@ -69,6 +84,11 @@ class SearchServiceImpl(
             )
             emptyList()
         }
+    }
+
+    override fun update(newGuide: Guide, oldGuide: Guide) {
+        delete(oldGuide)
+        persist(newGuide)
     }
 
     private fun buildGuidesResponse(searchResponse: SearchResult) =
