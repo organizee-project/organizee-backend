@@ -2,6 +2,7 @@ package com.organizee.usecases.guide.impl
 
 import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
+import com.organizee.boundaries.search.SearchService
 import com.organizee.domain.guide.Category
 import com.organizee.domain.guide.Guide
 import com.organizee.usecases.guide.UpdateGuideUseCase
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service
 @Service
 class UpdateGuideUsecaseImpl(
     private val guideService: GuideService,
-    private val categoryService: CategoryService
+    private val categoryService: CategoryService,
+    private val searchService: SearchService
 ) : UpdateGuideUseCase {
 
     companion object {
@@ -25,12 +27,16 @@ class UpdateGuideUsecaseImpl(
 
         val guide = guideService.getGuide(input.slug)
 
-        var categories: List<Category>? = null
+        val categories = input.categories?.let {
+            categoryService.getAllIdsIn(input.categories)
+        } ?: emptyList()
 
-        if (input.categories != null)
-            categories = categoryService.getAllIdsIn(input.categories)
+        val updatedGuide =
+            guideService.update(input.slug, getUpdatedGuide(guide, input, categories))
 
-        return guideService.update(input.slug, getUpdatedGuide(guide, input, categories))
+        searchService.update(updatedGuide, guide)
+
+        return updatedGuide
     }
 
     private fun getUpdatedGuide(
