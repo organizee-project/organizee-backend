@@ -1,6 +1,7 @@
 package com.organizee.web.controllers.guide.json.payloads
 
 import com.organizee.usecases.guide.commands.NewGuideCommand
+import com.organizee.usecases.guide.commands.NewReferenceCommand
 import javax.validation.constraints.NotBlank
 
 data class CreateGuidePayload(
@@ -11,6 +12,7 @@ data class CreateGuidePayload(
     val content: String,
     val categories: List<Long> = emptyList(),
     val topics: List<String> = emptyList(),
+    val references: List<CreateReferencePayload>,
     val isPrivate: Boolean = false
 ) {
     fun toUseCaseInput() = NewGuideCommand(
@@ -18,9 +20,14 @@ data class CreateGuidePayload(
         subtitle = subtitle,
         content = content,
         categories = categories,
+        references = references.map { NewReferenceCommand(it.title, it.url) },
         topics = topics,
         isPrivate = isPrivate
     )
 }
 
 
+data class CreateReferencePayload(
+    val title: String,
+    val url: String
+)

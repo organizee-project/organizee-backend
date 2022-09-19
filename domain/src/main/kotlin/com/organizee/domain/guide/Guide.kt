@@ -13,6 +13,7 @@ data class Guide(
     val categories: List<Category> = emptyList(),
     val topics: List<String> = emptyList(),
     val comments: List<Comment> = emptyList(),
+    val references: List<Reference> = emptyList(),
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 ) {
@@ -23,6 +24,7 @@ data class Guide(
             content: String,
             isPrivate: Boolean,
             categories: List<Category>,
+            references: List<Reference>,
             topics: List<String>
         ) = Guide(
             title = title,
@@ -31,6 +33,7 @@ data class Guide(
             content = content,
             categories = categories,
             type = GuideType.from(isPrivate),
+            references = references,
             topics = topics
         )
 

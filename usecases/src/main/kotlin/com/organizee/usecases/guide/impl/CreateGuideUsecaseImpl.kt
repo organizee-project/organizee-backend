@@ -4,6 +4,7 @@ import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.boundaries.search.SearchService
 import com.organizee.domain.guide.Guide
+import com.organizee.domain.guide.Reference
 import com.organizee.usecases.guide.CreateGuideUseCase
 import com.organizee.usecases.guide.commands.NewGuideCommand
 import org.slf4j.LoggerFactory
@@ -31,6 +32,12 @@ class CreateGuideUsecaseImpl(
             content = input.content,
             isPrivate = input.isPrivate,
             categories = categories,
+            references = input.references.map {
+                Reference.create(
+                    title = it.title,
+                    url = it.url
+                )
+            },
             topics = input.topics
         )
 
