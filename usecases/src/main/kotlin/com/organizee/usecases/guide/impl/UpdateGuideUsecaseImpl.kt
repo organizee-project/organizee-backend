@@ -29,7 +29,7 @@ class UpdateGuideUsecaseImpl(
 
         val categories = input.categories?.let {
             categoryService.getAllIdsIn(input.categories)
-        } ?: emptyList()
+        }
 
         val updatedGuide =
             guideService.update(input.slug, getUpdatedGuide(guide, input, categories))
