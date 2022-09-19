@@ -99,7 +99,7 @@ class SearchServiceImpl(
                 subtitle = it.fields.getValue("subtitle")[0],
                 content = "",
                 type = GuideType.PUBLIC,
-                categories = it.fields.getValue("categories").map { category ->
+                categories = it.fields.getOrDefault("categories", emptyList()).map { category ->
                     Category(name = category, slug = category)
                 },
                 topics = it.fields.getValue("topics"),
