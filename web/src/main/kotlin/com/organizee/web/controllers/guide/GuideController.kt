@@ -2,6 +2,7 @@ package com.organizee.web.controllers.guide
 
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.*
+import com.organizee.usecases.guide.commands.DeleteGuideCommand
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
 import com.organizee.web.controllers.guide.json.payloads.CreateGuidePayload
 import com.organizee.web.controllers.guide.json.payloads.UpdateGuidePayload
@@ -66,8 +67,14 @@ class GuideController(
     @DeleteMapping("/{slug}")
     fun removeGuide(
         @PathVariable("slug") slug: String,
+        principal: Principal
+
     ): ResponseEntity<Unit> {
-        removeGuideUseCase.execute(slug)
+        removeGuideUseCase.execute(
+            DeleteGuideCommand(
+                slug = slug, userId = principal.name
+            )
+        )
 
         return ResponseEntity.noContent().build()
     }
