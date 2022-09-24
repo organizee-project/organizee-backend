@@ -27,6 +27,9 @@ class UpdateGuideUsecaseImpl(
 
         val guide = guideService.getGuide(input.slug)
 
+        if (guide.user?.id != input.userId)
+            throw Exception("Guide is not owned by user")
+
         val categories = input.categories?.let {
             categoryService.getAllIdsIn(input.categories)
         }
