@@ -17,4 +17,5 @@ include(':shared')
 include(':web')
 include(':boundaries')
 include(':adapter-search')
+include(':adapter-firebase')
 

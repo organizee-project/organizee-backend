@@ -49,6 +49,5 @@ data class UserEntity(
             surname = surname,
             username = username,
             password = this.password,
-            type = listOf()
         )
 }

@@ -5,8 +5,7 @@ data class User(
     val name: String,
     val surname: String,
     val username: String,
-    val password: String,
-    val type: List<UserType> = listOf(UserType.NORMAL)
+    val password: String
 ) {
     companion object {
         fun createNormalUser(
@@ -20,14 +19,7 @@ data class User(
             name = name,
             surname = surname,
             username = username,
-            password = password,
-            type = listOf(UserType.NORMAL)
+            password = password
         )
     }
-}
-
-enum class UserType {
-    ADMIN,
-    PROFESSOR,
-    NORMAL
 }

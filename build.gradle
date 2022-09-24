@@ -76,6 +76,9 @@ subprojects {
         //utils
         implementation 'commons-io:commons-io:2.6'
         implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+        implementation 'com.google.firebase:firebase-admin:8.1.0'
+
     }
 }
 

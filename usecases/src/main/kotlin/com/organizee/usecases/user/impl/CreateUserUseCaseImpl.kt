@@ -1,25 +1,18 @@
 package com.organizee.usecases.user.impl
 
 import com.organizee.boundaries.db.services.UserService
-import com.organizee.domain.exceptions.BussinessException
-import com.organizee.domain.exceptions.ExceptionMessage
 import com.organizee.domain.user.User
 import com.organizee.usecases.user.CreateUserUseCase
 import com.organizee.usecases.user.commands.NewUserCommand
 import org.springframework.stereotype.Service
+import com.organizee.boundaries.firebase.UserService as FirebaseUserService
 
 @Service
-class CreateUserUseCaseImpl(private val userService: UserService) : CreateUserUseCase {
+class CreateUserUseCaseImpl(
+    private val userService: UserService,
+    private val firebaseUserService: FirebaseUserService
+) : CreateUserUseCase {
     override fun execute(input: NewUserCommand): User {
-
-        val userByEmail = userService.findByEmail(input.email)
-        if (userByEmail != null)
-            throw BussinessException(ExceptionMessage.EMAIL_ALREADY_IN_USE)
-
-        val userByUsername = userService.findByUsername(input.username)
-        if (userByUsername != null)
-            throw BussinessException(ExceptionMessage.USERNAME_ALREADY_IN_USE)
-
 
         val user = User.createNormalUser(
             email = input.email,
@@ -27,8 +20,13 @@ class CreateUserUseCaseImpl(private val userService: UserService) : CreateUserUs
             surname = input.surname,
             username = input.username,
             password = input.password
+
         )
 
-        return userService.create(user)
+        firebaseUserService.createUser(user)
+
+        // return userService.create(user)
+
+        return user
     }
 }
