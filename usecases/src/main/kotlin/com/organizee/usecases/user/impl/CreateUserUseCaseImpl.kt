@@ -13,20 +13,25 @@ class CreateUserUseCaseImpl(
     private val firebaseUserService: FirebaseUserService
 ) : CreateUserUseCase {
     override fun execute(input: NewUserCommand): User {
-
         val user = User.createNormalUser(
             email = input.email,
             name = input.name,
             surname = input.surname,
             username = input.username,
-            password = input.password
-
         )
 
-        firebaseUserService.createUser(user)
+        val found = userService.userExists(user.email, user.username)
 
-        // return userService.create(user)
+        if (found) {
+            throw Exception("User already exists")
+        }
 
-        return user
+        val createdUser = firebaseUserService.createUser(user, input.password)
+
+        return persistUser(createdUser)
     }
+
+    private fun persistUser(user: User) =
+        userService.create(user)
+
 }

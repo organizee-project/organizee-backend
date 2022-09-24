@@ -14,15 +14,22 @@ class UserFirebaseServiceImpl(private val firebaseAuth: FirebaseAuth) : UserServ
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    override fun createUser(user: User) {
+    override fun createUser(user: User, password: String): User {
         val request = UserRecord.CreateRequest()
             .setEmail(user.email)
-            .setPassword(user.password)
+            .setPassword(password)
             .setDisplayName(user.username)
 
-        val createdUser = firebaseAuth.createUser(request)
+        val createdUser =
+            firebaseAuth.createUser(request) ?: throw Exception("Couldn't create user")
 
-        logger.info("User created | user: $createdUser ")
+        return User(
+            id = createdUser.uid,
+            email = createdUser.email,
+            name = user.name,
+            surname = user.surname,
+            username = createdUser.displayName
+        )
     }
 
 }
