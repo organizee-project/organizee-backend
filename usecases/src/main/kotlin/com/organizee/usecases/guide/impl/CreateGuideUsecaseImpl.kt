@@ -43,7 +43,7 @@ class CreateGuideUsecaseImpl(
 
         searchService.persist(guide)
 
-        guide = guideService.save(guide)
+        guide = guideService.save(guide, input.userId)
 
         return guide
     }

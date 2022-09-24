@@ -1,6 +1,7 @@
 package com.organizee.domain.guide
 
 import com.organizee.domain.formatter.toSlug
+import com.organizee.domain.user.User
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
@@ -10,6 +11,7 @@ data class Guide(
     val subtitle: String,
     val content: String,
     val type: GuideType,
+    val user: User? = null,
     val categories: List<Category> = emptyList(),
     val topics: List<String> = emptyList(),
     val comments: List<Comment> = emptyList(),
@@ -34,7 +36,7 @@ data class Guide(
             categories = categories,
             type = GuideType.from(isPrivate),
             references = references,
-            topics = topics
+            topics = topics,
         )
 
         fun createGuideSlug(title: String) =

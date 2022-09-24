@@ -25,6 +25,11 @@ data class GuideEntity(
     val content: String,
     @Column
     val type: String,
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    val user: UserEntity,
+
     @Column
     @CollectionTable(name = "tb_guide_topics", joinColumns = [JoinColumn(name = "guide_id")])
     @ElementCollection
@@ -32,11 +37,9 @@ data class GuideEntity(
     @Column
     @ManyToMany
     val categories: List<CategoryEntity> = emptyList(),
-
     @Column
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "guide", cascade = [CascadeType.ALL])
     var references: List<ReferenceEntity> = emptyList(),
-
     @Column
     @OneToMany(mappedBy = "guide")
     val comments: List<CommentEntity> = emptyList(),
@@ -46,7 +49,7 @@ data class GuideEntity(
     val updatedAt: LocalDateTime? = null
 ) : Serializable {
     companion object {
-        fun from(guide: Guide, categories: List<CategoryEntity>): GuideEntity {
+        fun from(guide: Guide, user: UserEntity, categories: List<CategoryEntity>): GuideEntity {
             val entity = GuideEntity(
                 id = UUID.randomUUID(),
                 title = guide.title,
@@ -56,6 +59,7 @@ data class GuideEntity(
                 type = guide.type.name,
                 categories = categories,
                 topics = guide.topics,
+                user = user,
                 createdAt = LocalDateTime.now()
             )
 
@@ -82,6 +86,7 @@ data class GuideEntity(
             categories = categories.map { it.toEntity() },
             references = references.map { it.toEntity() },
             topics = topics,
+            user = user.toEntity(),
             createdAt = createdAt,
             updatedAt = updatedAt
         )
