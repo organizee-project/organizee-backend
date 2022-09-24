@@ -10,6 +10,7 @@ import com.organizee.web.controllers.guide.json.responses.GuideResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 import javax.validation.Valid
 
 
@@ -23,8 +24,14 @@ class GuideController(
     private val updateGuideUseCase: UpdateGuideUseCase
 ) {
     @PostMapping
-    fun create(@Valid @RequestBody input: CreateGuidePayload) =
-        GuideDetailsResponse.fromEntity(createGuideUseCase.execute(input.toUseCaseInput()))
+    fun create(
+        @Valid @RequestBody input: CreateGuidePayload,
+        principal: Principal
+    ): GuideDetailsResponse {
+        val guide = createGuideUseCase.execute(input.toUseCaseInput(principal.name))
+
+        return GuideDetailsResponse.fromEntity(guide)
+    }
 
     @GetMapping("{slug}")
     fun getBySlug(@PathVariable("slug") slug: String) =

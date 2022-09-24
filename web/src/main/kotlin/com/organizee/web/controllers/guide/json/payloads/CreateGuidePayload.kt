@@ -12,16 +12,17 @@ data class CreateGuidePayload(
     val content: String,
     val categories: List<Long> = emptyList(),
     val topics: List<String> = emptyList(),
-    val references: List<CreateReferencePayload>,
+    val references: List<CreateReferencePayload> = emptyList(),
     val isPrivate: Boolean = false
 ) {
-    fun toUseCaseInput() = NewGuideCommand(
+    fun toUseCaseInput(userId: String) = NewGuideCommand(
         title = title,
         subtitle = subtitle,
         content = content,
         categories = categories,
         references = references.map { NewReferenceCommand(it.title, it.url) },
         topics = topics,
+        userId = userId,
         isPrivate = isPrivate
     )
 }
