@@ -9,12 +9,14 @@ dependencies {
     implementation project(":boundaries")
     implementation project(':adapter-db')
     implementation project(':adapter-search')
+    implementation project(':adapter-firebase')
     implementation project(':usecases')
     implementation project(':shared')
     implementation project(':web')
 
     implementation 'org.springframework.boot:spring-boot-starter:2.7.0'
-
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 bootJar {
