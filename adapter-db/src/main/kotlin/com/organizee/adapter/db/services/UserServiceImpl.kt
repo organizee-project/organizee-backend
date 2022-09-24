@@ -11,7 +11,7 @@ import javax.transaction.Transactional
 class UserServiceImpl(private val userRepository: UserRepository) : UserService {
     @Transactional
     override fun create(user: User): User {
-        return userRepository.save(UserEntity.from(user)).toEntity()
+        return userRepository.save(UserEntity.create(user)).toEntity()
     }
 
     override fun findByEmail(email: String): User? {
@@ -21,4 +21,12 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
     override fun findByUsername(username: String): User? {
         return userRepository.findByUsername(username)?.toEntity()
     }
+
+    override fun userExists(email: String, username: String): Boolean {
+        return when (userRepository.findByEmailOrUsername(email, username)) {
+            null -> false
+            else -> true
+        }
+    }
+
 }
