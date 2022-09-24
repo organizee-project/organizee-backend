@@ -82,9 +82,10 @@ class GuideController(
     @PatchMapping("/{slug}")
     fun updateGuide(
         @PathVariable("slug") slug: String,
-        @RequestBody input: UpdateGuidePayload
+        @RequestBody input: UpdateGuidePayload,
+        principal: Principal
     ): ResponseEntity<GuideDetailsResponse> {
-        val response = updateGuideUseCase.execute(input.toUseCaseInput(slug))
+        val response = updateGuideUseCase.execute(input.toUseCaseInput(slug, principal.name))
         return ResponseEntity.ok(GuideDetailsResponse.fromEntity(response))
     }
 }
