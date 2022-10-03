@@ -30,6 +30,10 @@ class GuideServiceImpl(
         repository.findFirstBySlug(slug).toEntity()
 
     override fun getAllPublicByUserId(userId: String): List<Guide> {
+        return repository.findAllPublicByUserId(userId).map { it.toEntity() }
+    }
+
+    override fun getAllByUserId(userId: String): List<Guide> {
         return repository.findAllByUserId(userId).map { it.toEntity() }
     }
 

@@ -10,6 +10,9 @@ import java.util.*
 interface GuideRepository : JpaRepository<GuideEntity, UUID> {
     fun findFirstBySlug(slug: String): GuideEntity
 
-    @Query("SELECT g FROM GuideEntity g WHERE g.type = 'PUBLIC' AND g.user.id = :userId")
     fun findAllByUserId(userId: String): List<GuideEntity>
+
+    @Query("SELECT g FROM GuideEntity g WHERE g.type = 'PUBLIC' AND g.user.id = :userId")
+    fun findAllPublicByUserId(userId: String): List<GuideEntity>
+
 }
