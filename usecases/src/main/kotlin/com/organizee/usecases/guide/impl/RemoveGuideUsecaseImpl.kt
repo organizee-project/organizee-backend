@@ -20,7 +20,7 @@ class RemoveGuideUsecaseImpl(
 
     override fun execute(input: DeleteGuideCommand) {
         logger.info("Removing guide | slug=$input")
-        val guide = guideService.getGuide(input.slug)
+        val guide = guideService.getGuideBySlugOrThrow(input.slug)
 
         if (guide.user?.id != input.userId)
             throw Exception("Guide is not owned by user")

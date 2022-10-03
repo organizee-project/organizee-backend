@@ -8,7 +8,7 @@ import java.util.*
 
 @Repository
 interface GuideRepository : JpaRepository<GuideEntity, UUID> {
-    fun findFirstBySlug(slug: String): GuideEntity
+    fun findFirstBySlug(slug: String): GuideEntity?
 
     fun findAllByUserId(userId: String): List<GuideEntity>
 

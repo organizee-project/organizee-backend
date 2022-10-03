@@ -26,8 +26,9 @@ class GuideServiceImpl(
         return customRepository.getFilteredGuides(filter).map { it.toEntity() }
     }
 
-    override fun getGuide(slug: String): Guide =
-        repository.findFirstBySlug(slug).toEntity()
+    override fun getGuideBySlugOrThrow(slug: String): Guide =
+        repository.findFirstBySlug(slug)?.toEntity()
+            ?: throw IllegalStateException("Guide not found: $slug")
 
     override fun getAllPublicByUserId(userId: String): List<Guide> {
         return repository.findAllPublicByUserId(userId).map { it.toEntity() }
@@ -44,7 +45,8 @@ class GuideServiceImpl(
 
     @Transactional
     override fun update(slug: String, updatedGuide: Guide): Guide {
-        val entity = repository.findFirstBySlug(slug)
+        val entity =
+            repository.findFirstBySlug(slug) ?: throw IllegalStateException("Slug not found")
 
         val categories = categoryRepository.findByIdIn(updatedGuide.getCategoriesIds())
 
