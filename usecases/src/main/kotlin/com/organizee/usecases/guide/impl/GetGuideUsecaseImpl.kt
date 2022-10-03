@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class GetGuideUsecaseImpl(private val guideService: GuideService) : GetGuideUseCase {
-    override fun execute(input: String) = guideService.getGuide(input)
+    override fun execute(input: String) = guideService.getGuideBySlugOrThrow(input)
 }

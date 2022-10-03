@@ -25,7 +25,7 @@ class UpdateGuideUsecaseImpl(
     override fun execute(input: UpdateGuideCommand): Guide {
         logger.info("updating guide | slug=${input.slug}")
 
-        val guide = guideService.getGuide(input.slug)
+        val guide = guideService.getGuideBySlugOrThrow(input.slug)
 
         if (guide.user?.id != input.userId)
             throw Exception("Guide is not owned by user")

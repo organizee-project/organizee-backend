@@ -1,6 +1,5 @@
 package com.organizee.adapter.db.entities
 
-import com.organizee.domain.guide.Comment
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.GuideType
 import org.hibernate.annotations.Type
@@ -41,9 +40,6 @@ data class GuideEntity(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "guide", cascade = [CascadeType.ALL])
     var references: List<ReferenceEntity> = emptyList(),
     @Column
-    @OneToMany(mappedBy = "guide")
-    val comments: List<CommentEntity> = emptyList(),
-    @Column
     val createdAt: LocalDateTime,
     @Column
     val updatedAt: LocalDateTime? = null
@@ -82,7 +78,6 @@ data class GuideEntity(
             content = content,
             slug = slug,
             type = GuideType.valueOf(type),
-            comments = comments.map { Comment(message = it.message, createdAt = it.createdAt) },
             categories = categories.map { it.toEntity() },
             references = references.map { it.toEntity() },
             topics = topics,

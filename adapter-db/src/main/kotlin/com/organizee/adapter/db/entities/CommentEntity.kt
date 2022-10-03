@@ -17,22 +17,28 @@ data class CommentEntity(
     @ManyToOne
     val guide: GuideEntity,
     @Column
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    @ManyToOne
+    val user: UserEntity
 ) : Serializable {
 
     companion object {
-        fun from(comment: Comment, guide: GuideEntity) =
+        fun from(comment: Comment, guide: GuideEntity, user: UserEntity) =
             CommentEntity(
-                id = UUID.randomUUID(),
+                id = comment.id,
                 message = comment.message,
                 guide = guide,
-                createdAt = LocalDateTime.now()
+                createdAt = comment.createdAt,
+                user = user
             )
     }
 
     fun toEntity() =
         Comment(
             message = message,
-            createdAt = createdAt
+            createdAt = createdAt,
+            id = id,
+            user = user.toEntity(),
+            guide = guide.toEntity()
         )
 }

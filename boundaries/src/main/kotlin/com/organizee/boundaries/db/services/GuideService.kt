@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page
 
 interface GuideService {
     fun findAllFilteredBy(filter: FilterGuide): Page<Guide>
-    fun getGuide(slug: String): Guide
+    fun getGuideBySlugOrThrow(slug: String): Guide
     fun getAllPublicByUserId(userId: String): List<Guide>
     fun getAllByUserId(userId: String): List<Guide>
     fun removeGuide(slug: String)
