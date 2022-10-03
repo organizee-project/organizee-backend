@@ -8,6 +8,7 @@ interface GuideService {
     fun findAllFilteredBy(filter: FilterGuide): Page<Guide>
     fun getGuide(slug: String): Guide
     fun getAllPublicByUserId(userId: String): List<Guide>
+    fun getAllByUserId(userId: String): List<Guide>
     fun removeGuide(slug: String)
     fun update(slug: String, updatedGuide: Guide): Guide
     fun save(guide: Guide, userId: String): Guide

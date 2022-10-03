@@ -2,13 +2,16 @@ package com.organizee.web.controllers.user
 
 import com.organizee.domain.user.Activity
 import com.organizee.usecases.user.CreateUserUseCase
+import com.organizee.usecases.user.GetPrivatePerfilUsecase
 import com.organizee.usecases.user.GetPublicPerfilUsecase
+import com.organizee.usecases.user.commands.GetPrivatePerfilCommand
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
 import com.organizee.web.controllers.user.json.CreateUserPayload
 import com.organizee.web.controllers.user.json.UserResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 import java.time.LocalDateTime
 import java.util.*
 
@@ -18,6 +21,7 @@ import java.util.*
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val getPublicPerfilUsecase: GetPublicPerfilUsecase,
+    private val getPrivatePerfilUsecase: GetPrivatePerfilUsecase,
 
     ) {
     @PostMapping
@@ -29,6 +33,15 @@ class UserController(
         @PathVariable("username") username: String
     ): PerfilResponse {
         val perfil = getPublicPerfilUsecase.execute(username)
+
+        return PerfilResponse.from(perfil)
+    }
+
+    @GetMapping("/perfil")
+    fun getPrivatePerfil(
+        user: Principal
+    ): PerfilResponse {
+        val perfil = getPrivatePerfilUsecase.execute(GetPrivatePerfilCommand(user.name))
 
         return PerfilResponse.from(perfil)
     }
