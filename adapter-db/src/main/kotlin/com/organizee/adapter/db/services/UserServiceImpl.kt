@@ -14,6 +14,11 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
         return userRepository.save(UserEntity.create(user)).toEntity()
     }
 
+    override fun findByUsernameOrThrow(username: String): User {
+        return userRepository.findByUsername(username)?.toEntity()
+            ?: throw IllegalStateException("User not found")
+    }
+
     override fun findByEmail(email: String): User? {
         return userRepository.findByEmail(email)?.toEntity()
     }

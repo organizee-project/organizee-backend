@@ -20,4 +20,6 @@ data class User(
             username = username,
         )
     }
+
+    fun getFullName() = "$name $surname"
 }

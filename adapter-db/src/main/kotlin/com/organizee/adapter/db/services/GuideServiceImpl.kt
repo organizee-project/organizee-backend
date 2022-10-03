@@ -29,6 +29,10 @@ class GuideServiceImpl(
     override fun getGuide(slug: String): Guide =
         repository.findFirstBySlug(slug).toEntity()
 
+    override fun getAllPublicByUserId(userId: String): List<Guide> {
+        return repository.findAllByUserId(userId).map { it.toEntity() }
+    }
+
     override fun removeGuide(slug: String) {
         val entity = repository.findFirstBySlug(slug)
         repository.delete(entity)
