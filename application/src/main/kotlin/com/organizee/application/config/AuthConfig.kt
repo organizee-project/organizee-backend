@@ -20,6 +20,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .antMatchers("/v1/users/{username}/perfil").permitAll()
             .antMatchers("/v1/search/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/comments/guide/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/likes/guide/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/guides/**").permitAll()
             .anyRequest().authenticated().and().csrf().disable()
 
