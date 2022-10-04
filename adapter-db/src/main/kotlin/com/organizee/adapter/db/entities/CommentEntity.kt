@@ -1,6 +1,8 @@
 package com.organizee.adapter.db.entities
 
 import com.organizee.domain.guide.Comment
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.*
@@ -14,11 +16,12 @@ data class CommentEntity(
     val id: UUID,
     @Column(nullable = false)
     val message: String,
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.REMOVE])
     val guide: GuideEntity,
     @Column
     val createdAt: LocalDateTime,
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     val user: UserEntity
 ) : Serializable {
 
