@@ -37,6 +37,9 @@ data class GuideEntity(
     @ManyToMany
     val categories: List<CategoryEntity> = emptyList(),
     @Column
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "guide")
+    val comments: List<CommentEntity> = emptyList(),
+    @Column
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "guide", cascade = [CascadeType.ALL])
     var references: List<ReferenceEntity> = emptyList(),
     @Column
