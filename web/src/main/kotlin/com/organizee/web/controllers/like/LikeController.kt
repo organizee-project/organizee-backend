@@ -1,13 +1,14 @@
 package com.organizee.web.controllers.like
 
+import com.organizee.domain.Page
 import com.organizee.usecases.guide.AddLikeUseCase
+import com.organizee.usecases.guide.GetLikesUseCase
+import com.organizee.usecases.guide.commands.GetLikesCommand
 import com.organizee.usecases.guide.commands.NewLikeCommand
 import com.organizee.web.controllers.like.json.response.LikeResponse
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 
@@ -15,6 +16,7 @@ import java.security.Principal
 @RequestMapping(value = ["v1/likes"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class LikeController(
     private val addLikeUseCase: AddLikeUseCase,
+    private val getLikesUseCase: GetLikesUseCase
 ) {
     @PostMapping("/guide/{slug}")
     fun create(
@@ -26,27 +28,26 @@ class LikeController(
     }
 
 
-    /* @GetMapping("/guide/{slug}")
-     fun getCommentsByGuide(
-         @PathVariable("slug") slug: String,
-         @RequestParam(defaultValue = "0") page: Int,
-         @RequestParam(defaultValue = "3") size: Int
-     ): ResponseEntity<Page<LikeResponse>> {
-         val input = GetCommentsCommand.create(slug, page, size)
+    @GetMapping("/guide/{slug}")
+    fun getLikesByGuide(
+        @PathVariable("slug") slug: String,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int
+    ): ResponseEntity<Page<LikeResponse>> {
+        val input = GetLikesCommand.create(slug, page, size)
 
-         val likes = getCommentsUseCase.execute(input)
+        val likes = getLikesUseCase.execute(input)
 
-         val response = Page(
-             itens = comments.itens.map {
-                 CommentResponse.fromEntity(it)
-             },
-             totalPages = comments.totalPages,
-             count = comments.count,
-             currentPage = comments.currentPage,
-             nextPage = comments.nextPage
-         )
+        val response = Page(
+            itens = likes.itens.map {
+                LikeResponse.fromEntity(it)
+            },
+            totalPages = likes.totalPages,
+            count = likes.count,
+            currentPage = likes.currentPage,
+            nextPage = likes.nextPage
+        )
 
-         return ResponseEntity.ok(response)
-     }
-  */
+        return ResponseEntity.ok(response)
+    }
 }

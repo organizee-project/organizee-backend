@@ -5,7 +5,9 @@ import com.organizee.adapter.db.repositories.GuideRepository
 import com.organizee.adapter.db.repositories.LikeRepository
 import com.organizee.adapter.db.repositories.UserRepository
 import com.organizee.boundaries.db.services.LikeService
+import com.organizee.domain.Page
 import com.organizee.domain.guide.Like
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,5 +25,15 @@ class LikeServiceImpl(
             ?: throw IllegalStateException("No user found for username ${like.guide.slug}")
 
         return repository.save(LikeEntity.from(like, guide, user)).toEntity()
+    }
+
+    override fun getLikes(slug: String, page: Int, size: Int): Page<Like> {
+        val response = repository.findAllByGuideSlug(slug, PageRequest.of(page, size))
+
+        val page = response.map {
+            it.toEntity()
+        }
+
+        return Page.of(page)
     }
 }
