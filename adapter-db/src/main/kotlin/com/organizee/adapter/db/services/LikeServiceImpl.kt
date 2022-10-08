@@ -16,6 +16,9 @@ class LikeServiceImpl(
     private val guideRepository: GuideRepository,
     private val userRepository: UserRepository
 ) : LikeService {
+    override fun findLikeByUsernameAndSlug(username: String, slug: String): Like? {
+        return repository.findByUserUsernameAndGuideSlug(username, slug)?.toEntity()
+    }
 
 
     override fun add(like: Like): Like {

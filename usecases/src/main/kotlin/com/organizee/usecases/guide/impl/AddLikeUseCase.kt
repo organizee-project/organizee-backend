@@ -14,22 +14,14 @@ class AddLikeUseCase(
     private val guideService: GuideService,
     private val likeService: LikeService
 ) : AddLikeUseCase {
-    /* override fun execute(input: NewCommentCommand): Comment {
-
-
-        val comment = Comment.create(
-            message = input.message,
-            user = user,
-            guide = guide
-        )
-
-        val createdComment = commentService.create(comment)
-
-        return createdComment
-    } */
     override fun execute(input: NewLikeCommand): Like {
         val user = userService.findByUserIdOrThrow(input.userId)
         val guide = guideService.getGuideBySlugOrThrow(input.slug)
+
+        val like = likeService.findLikeByUsernameAndSlug(user.username, guide.slug)
+
+        if (like != null)
+            throw IllegalStateException("Guide already liked")
 
         val newLike = Like(user, guide)
 
