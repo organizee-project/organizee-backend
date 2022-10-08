@@ -15,6 +15,7 @@ data class GuideDetailsResponse(
     val categories: List<CategoryResponse> = emptyList(),
     val topics: List<String> = emptyList(),
     val references: List<ReferenceResponse> = emptyList(),
+    val likesCount: Int = 0,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
 ) {
@@ -32,6 +33,7 @@ data class GuideDetailsResponse(
             references = entity.references.map { ReferenceResponse.fromEntity(it) },
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
+            likesCount = entity.likesCount
         )
     }
 }

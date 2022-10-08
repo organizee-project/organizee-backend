@@ -42,6 +42,11 @@ data class GuideEntity(
     @Column
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "guide", cascade = [CascadeType.ALL])
     var references: List<ReferenceEntity> = emptyList(),
+
+    @Column
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "guide", cascade = [CascadeType.REMOVE])
+    var likes: List<LikeEntity> = emptyList(),
+
     @Column
     val createdAt: LocalDateTime,
     @Column
@@ -85,6 +90,7 @@ data class GuideEntity(
             references = references.map { it.toEntity() },
             topics = topics,
             user = user.toEntity(),
+            likesCount = likes.count(),
             createdAt = createdAt,
             updatedAt = updatedAt
         )
