@@ -3,8 +3,10 @@ package com.organizee.web.controllers.like
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.AddLikeUseCase
 import com.organizee.usecases.guide.GetLikesUseCase
+import com.organizee.usecases.guide.RemoveLikeUseCase
 import com.organizee.usecases.guide.commands.GetLikesCommand
 import com.organizee.usecases.guide.commands.NewLikeCommand
+import com.organizee.usecases.guide.commands.RemoveLikeCommand
 import com.organizee.web.controllers.like.json.response.LikeResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -16,7 +18,8 @@ import java.security.Principal
 @RequestMapping(value = ["v1/likes"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class LikeController(
     private val addLikeUseCase: AddLikeUseCase,
-    private val getLikesUseCase: GetLikesUseCase
+    private val getLikesUseCase: GetLikesUseCase,
+    private val removeLikeUseCase: RemoveLikeUseCase
 ) {
     @PostMapping("/guide/{slug}")
     fun create(
@@ -25,6 +28,15 @@ class LikeController(
     ): LikeResponse {
         val like = addLikeUseCase.execute(NewLikeCommand(principal.name, slug))
         return LikeResponse.fromEntity(like)
+    }
+
+    @DeleteMapping("/guide/{slug}")
+    fun delete(
+        @PathVariable("slug") slug: String,
+        principal: Principal
+    ): ResponseEntity<Any> {
+        removeLikeUseCase.execute(RemoveLikeCommand(principal.name, slug))
+        return ResponseEntity.noContent().build()
     }
 
 
