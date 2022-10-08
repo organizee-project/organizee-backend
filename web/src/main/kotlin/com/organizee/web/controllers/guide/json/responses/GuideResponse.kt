@@ -11,6 +11,7 @@ data class GuideResponse(
     val type: String,
     val categories: List<CategoryResponse> = emptyList(),
     val topics: List<String> = emptyList(),
+    val likesCount: Int = 0,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
 ) {
@@ -24,6 +25,7 @@ data class GuideResponse(
                 CategoryResponse(id = it.id, name = it.name, slug = it.slug)
             },
             topics = entity.topics,
+            likesCount = entity.likesCount,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt
         )

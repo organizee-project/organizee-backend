@@ -16,6 +16,7 @@ data class Guide(
     val topics: List<String> = emptyList(),
     val comments: List<Comment> = emptyList(),
     val references: List<Reference> = emptyList(),
+    val likesCount: Int = 0,
     val createdAt: LocalDateTime? = null,
     val updatedAt: LocalDateTime? = null
 ) {
