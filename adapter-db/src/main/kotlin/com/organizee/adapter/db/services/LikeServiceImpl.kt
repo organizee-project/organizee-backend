@@ -9,6 +9,7 @@ import com.organizee.domain.Page
 import com.organizee.domain.guide.Like
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class LikeServiceImpl(
@@ -38,5 +39,9 @@ class LikeServiceImpl(
         }
 
         return Page.of(page)
+    }
+
+    override fun remove(id: UUID) {
+        repository.deleteById(id)
     }
 }
