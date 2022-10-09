@@ -1,10 +1,8 @@
 package com.organizee.adapter.db.services
 
 import com.organizee.adapter.db.entities.GuideEntity
-import com.organizee.adapter.db.repositories.CategoryRepository
-import com.organizee.adapter.db.repositories.GuideCustomRepository
-import com.organizee.adapter.db.repositories.GuideRepository
-import com.organizee.adapter.db.repositories.UserRepository
+import com.organizee.adapter.db.entities.SavedEntity
+import com.organizee.adapter.db.repositories.*
 import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.domain.guide.Guide
@@ -19,7 +17,8 @@ class GuideServiceImpl(
     private val repository: GuideRepository,
     private val userRepository: UserRepository,
     private val categoryRepository: CategoryRepository,
-    private val customRepository: GuideCustomRepository
+    private val customRepository: GuideCustomRepository,
+    private val savedRepository: SavedRepository
 ) : GuideService {
 
     override fun findAllFilteredBy(filter: FilterGuide): Page<Guide> {
@@ -73,6 +72,16 @@ class GuideServiceImpl(
         val entity = GuideEntity.from(guide, user, categories)
 
         return repository.save(entity).toEntity()
+    }
+
+    @Transactional
+    override fun guideSavedByUser(slug: String, userId: String) {
+        val guideEntity =
+            repository.findFirstBySlug(slug) ?: throw IllegalStateException("Slug not found")
+        val userEntity =
+            userRepository.findByIdOrNull(userId) ?: throw Exception("")
+
+        savedRepository.save(SavedEntity.from(guideEntity, userEntity))
     }
 
 }
