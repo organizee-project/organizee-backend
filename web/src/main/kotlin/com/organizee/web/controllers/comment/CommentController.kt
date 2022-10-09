@@ -3,13 +3,16 @@ package com.organizee.web.controllers.comment
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.AddCommentUseCase
 import com.organizee.usecases.guide.GetCommentsUseCase
+import com.organizee.usecases.guide.RemoveCommentUseCase
 import com.organizee.usecases.guide.commands.GetCommentsCommand
+import com.organizee.usecases.guide.commands.RemoveCommentCommand
 import com.organizee.web.controllers.comment.json.payloads.CreateCommentPayload
 import com.organizee.web.controllers.comment.json.responses.CommentResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
+import java.util.*
 import javax.validation.Valid
 
 
@@ -17,8 +20,20 @@ import javax.validation.Valid
 @RequestMapping(value = ["v1/comments"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class CommentController(
     private val addCommentUseCase: AddCommentUseCase,
-    private val getCommentsUseCase: GetCommentsUseCase
+    private val getCommentsUseCase: GetCommentsUseCase,
+    private val removeCommentUseCase: RemoveCommentUseCase
 ) {
+
+    @DeleteMapping("/{id}")
+    fun create(
+        @PathVariable("id") id: UUID,
+        principal: Principal
+    ): ResponseEntity<Any> {
+        removeCommentUseCase.execute(RemoveCommentCommand(principal.name, id))
+
+        return ResponseEntity.noContent().build()
+    }
+
     @PostMapping("/guide/{slug}")
     fun create(
         @Valid @RequestBody input: CreateCommentPayload,

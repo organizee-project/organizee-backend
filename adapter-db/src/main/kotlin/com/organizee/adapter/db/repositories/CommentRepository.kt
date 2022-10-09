@@ -9,7 +9,5 @@ import java.util.*
 
 @Repository
 interface CommentRepository : PagingAndSortingRepository<CommentEntity, UUID> {
-
     fun findAllByGuideSlug(guideSlug: String, pageable: Pageable): Page<CommentEntity>
-
 }

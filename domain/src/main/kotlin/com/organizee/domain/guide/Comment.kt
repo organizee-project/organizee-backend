@@ -20,4 +20,6 @@ data class Comment(
             createdAt = LocalDateTime.now()
         )
     }
+
+    fun checkUser(userId: String) = userId == user.id
 }

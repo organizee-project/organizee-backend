@@ -16,7 +16,7 @@ data class CommentEntity(
     val id: UUID,
     @Column(nullable = false)
     val message: String,
-    @ManyToOne(cascade = [CascadeType.REMOVE])
+    @ManyToOne
     val guide: GuideEntity,
     @Column
     val createdAt: LocalDateTime,

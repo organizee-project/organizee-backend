@@ -8,7 +8,9 @@ import com.organizee.boundaries.db.services.CommentService
 import com.organizee.domain.Page
 import com.organizee.domain.guide.Comment
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class CommentServiceImpl(
@@ -16,6 +18,11 @@ class CommentServiceImpl(
     private val guideRepository: GuideRepository,
     private val userRepository: UserRepository
 ) : CommentService {
+    override fun getCommentByIdOrThrow(id: UUID): Comment {
+        return repository.findByIdOrNull(id)?.toEntity()
+            ?: throw IllegalStateException("No such comment found")
+    }
+
     override fun create(comment: Comment): Comment {
         val guide = guideRepository.findFirstBySlug(comment.guide.slug)
             ?: throw IllegalStateException("No guide found for slug $comment.guide")
@@ -34,5 +41,9 @@ class CommentServiceImpl(
         }
 
         return Page.of(page)
+    }
+
+    override fun deleteById(id: UUID) {
+        repository.deleteById(id)
     }
 }
