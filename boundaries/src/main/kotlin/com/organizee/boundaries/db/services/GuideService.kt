@@ -12,6 +12,7 @@ interface GuideService {
     fun removeGuide(slug: String)
     fun update(slug: String, updatedGuide: Guide): Guide
     fun save(guide: Guide, userId: String): Guide
+    fun guideSavedByUser(slug: String, userId: String)
 }
 
 

@@ -4,6 +4,7 @@ import com.organizee.domain.Page
 import com.organizee.usecases.guide.*
 import com.organizee.usecases.guide.commands.DeleteGuideCommand
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
+import com.organizee.usecases.guide.commands.SaveGuideCommand
 import com.organizee.web.controllers.guide.json.payloads.CreateGuidePayload
 import com.organizee.web.controllers.guide.json.payloads.UpdateGuidePayload
 import com.organizee.web.controllers.guide.json.responses.GuideDetailsResponse
@@ -22,7 +23,8 @@ class GuideController(
     private val getGuideUseCase: GetGuideUseCase,
     private val getPublicGuidesUseCase: GetPublicGuidesUseCase,
     private val removeGuideUseCase: RemoveGuideUseCase,
-    private val updateGuideUseCase: UpdateGuideUseCase
+    private val updateGuideUseCase: UpdateGuideUseCase,
+    private val saveGuideUseCase: SaveGuideUseCase
 ) {
     @PostMapping
     fun create(
@@ -87,5 +89,14 @@ class GuideController(
     ): ResponseEntity<GuideDetailsResponse> {
         val response = updateGuideUseCase.execute(input.toUseCaseInput(slug, principal.name))
         return ResponseEntity.ok(GuideDetailsResponse.fromEntity(response))
+    }
+
+    @PostMapping("/{slug}/save")
+    fun save(
+        @PathVariable("slug") slug: String,
+        principal: Principal
+    ): ResponseEntity<Any> {
+        saveGuideUseCase.execute(SaveGuideCommand(principal.name, slug))
+        return ResponseEntity.ok().build()
     }
 }

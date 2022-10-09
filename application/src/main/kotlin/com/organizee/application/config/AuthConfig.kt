@@ -28,9 +28,15 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .jwt()
     }
 
+    @Throws(Exception::class)
     override fun configure(web: WebSecurity) {
         web.ignoring().antMatchers(
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
             "/swagger-ui/**",
+            "/webjars/**"
         )
     }
 }
