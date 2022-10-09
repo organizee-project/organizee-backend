@@ -9,7 +9,15 @@ import org.springframework.stereotype.Service
 class SavedServiceImpl(
     private val repository: SavedRepository
 ) : SavedService {
+    override fun findSavedOrThrow(userId: String, slug: String): Saved {
+        return findSaved(userId, slug) ?: throw IllegalStateException("Save not exists")
+    }
+
     override fun findSaved(userId: String, slug: String): Saved? {
         return repository.findFirstByUserIdAndGuideSlug(userId, slug)?.toEntity()
+    }
+
+    override fun remove(saved: Saved) {
+        return repository.deleteById(saved.id)
     }
 }

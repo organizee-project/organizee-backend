@@ -24,7 +24,8 @@ class GuideController(
     private val getPublicGuidesUseCase: GetPublicGuidesUseCase,
     private val removeGuideUseCase: RemoveGuideUseCase,
     private val updateGuideUseCase: UpdateGuideUseCase,
-    private val saveGuideUseCase: SaveGuideUseCase
+    private val saveGuideUseCase: SaveGuideUseCase,
+    private val removeSavedGuideUseCase: RemoveSavedGuideUseCase
 ) {
     @PostMapping
     fun create(
@@ -92,11 +93,20 @@ class GuideController(
     }
 
     @PostMapping("/{slug}/save")
-    fun save(
+    fun saveGuide(
         @PathVariable("slug") slug: String,
         principal: Principal
     ): ResponseEntity<Any> {
         saveGuideUseCase.execute(SaveGuideCommand(principal.name, slug))
+        return ResponseEntity.ok().build()
+    }
+
+    @DeleteMapping("/{slug}/save")
+    fun removeSavedGuide(
+        @PathVariable("slug") slug: String,
+        principal: Principal
+    ): ResponseEntity<Any> {
+        removeSavedGuideUseCase.execute(SaveGuideCommand(principal.name, slug))
         return ResponseEntity.ok().build()
     }
 }
