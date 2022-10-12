@@ -38,7 +38,8 @@ class CommentServiceImpl(
         val response = repository.findAllByGuideSlug(slug, PageRequest.of(page, size))
 
         val page = response.map {
-            it.toEntity()
+            val count = repository.countAllByReferencedComment(it.id)
+            it.toEntity(count)
         }
 
         return Page.of(page)

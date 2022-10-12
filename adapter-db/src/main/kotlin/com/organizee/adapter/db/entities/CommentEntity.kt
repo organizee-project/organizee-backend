@@ -39,13 +39,14 @@ data class CommentEntity(
             )
     }
 
-    fun toEntity() =
+    fun toEntity(count: Int = 0) =
         Comment(
             message = message,
             createdAt = createdAt,
             id = id,
             user = user.toEntity(),
             guide = guide.toEntity(),
-            referencedComment = referencedComment
+            referencedComment = referencedComment,
+            commentsCount = count
         )
 }
