@@ -25,7 +25,7 @@ class CommentController(
 ) {
 
     @DeleteMapping("/{id}")
-    fun create(
+    fun deleteComment(
         @PathVariable("id") id: UUID,
         principal: Principal
     ): ResponseEntity<Any> {
