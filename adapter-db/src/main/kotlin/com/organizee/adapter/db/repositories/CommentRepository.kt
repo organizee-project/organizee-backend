@@ -13,6 +13,8 @@ import java.util.*
 interface CommentRepository : PagingAndSortingRepository<CommentEntity, UUID> {
     fun findAllByGuideSlug(guideSlug: String, pageable: Pageable): Page<CommentEntity>
 
+    fun findAllByReferencedComment(id: UUID, pageable: Pageable): Page<CommentEntity>
+
     @Query("DELETE FROM CommentEntity c WHERE c.id = :id OR c.referencedComment = :id ")
     @Modifying
     fun deleteComments(id: UUID)
