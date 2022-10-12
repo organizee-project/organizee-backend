@@ -3,8 +3,10 @@ package com.organizee.web.controllers.comment
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.AddCommentUseCase
 import com.organizee.usecases.guide.GetCommentsUseCase
+import com.organizee.usecases.guide.GetReferencedCommentsUseCase
 import com.organizee.usecases.guide.RemoveCommentUseCase
 import com.organizee.usecases.guide.commands.GetCommentsCommand
+import com.organizee.usecases.guide.commands.GetReferencedCommentsCommand
 import com.organizee.usecases.guide.commands.RemoveCommentCommand
 import com.organizee.web.controllers.comment.json.payloads.CreateCommentPayload
 import com.organizee.web.controllers.comment.json.responses.CommentResponse
@@ -21,7 +23,8 @@ import javax.validation.Valid
 class CommentController(
     private val addCommentUseCase: AddCommentUseCase,
     private val getCommentsUseCase: GetCommentsUseCase,
-    private val removeCommentUseCase: RemoveCommentUseCase
+    private val removeCommentUseCase: RemoveCommentUseCase,
+    private val getReferencedCommentsUseCase: GetReferencedCommentsUseCase
 ) {
 
     @DeleteMapping("/{id}")
@@ -58,6 +61,29 @@ class CommentController(
         val input = GetCommentsCommand.create(slug, page, size)
 
         val comments = getCommentsUseCase.execute(input)
+
+        val response = Page(
+            itens = comments.itens.map {
+                CommentResponse.fromEntity(it)
+            },
+            totalPages = comments.totalPages,
+            count = comments.count,
+            currentPage = comments.currentPage,
+            nextPage = comments.nextPage
+        )
+
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/{id}/comments")
+    fun getCommentsByComment(
+        @PathVariable("id") id: UUID,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int
+    ): ResponseEntity<Page<CommentResponse>> {
+        val input = GetReferencedCommentsCommand.create(id, page, size)
+
+        val comments = getReferencedCommentsUseCase.execute(input)
 
         val response = Page(
             itens = comments.itens.map {

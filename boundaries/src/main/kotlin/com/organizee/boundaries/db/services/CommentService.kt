@@ -8,5 +8,6 @@ interface CommentService {
     fun getCommentByIdOrThrow(id: UUID): Comment
     fun create(comment: Comment): Comment
     fun getComments(slug: String, page: Int, size: Int): Page<Comment>
+    fun getCommentsByReferencedCommentId(id: UUID, page: Int, size: Int): Page<Comment>
     fun deleteById(id: UUID)
 }

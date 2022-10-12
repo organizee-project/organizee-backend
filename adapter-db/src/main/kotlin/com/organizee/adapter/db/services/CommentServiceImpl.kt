@@ -45,6 +45,14 @@ class CommentServiceImpl(
         return Page.of(page)
     }
 
+    override fun getCommentsByReferencedCommentId(id: UUID, page: Int, size: Int): Page<Comment> {
+        val response = repository.findAllByReferencedComment(id, PageRequest.of(page, size))
+
+        return Page.of(response.map {
+            it.toEntity()
+        })
+    }
+
     @Transactional
     override fun deleteById(id: UUID) {
         repository.deleteComments(id)
