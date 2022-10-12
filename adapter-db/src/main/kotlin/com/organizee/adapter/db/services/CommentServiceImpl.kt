@@ -10,6 +10,7 @@ import com.organizee.domain.guide.Comment
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -43,7 +44,8 @@ class CommentServiceImpl(
         return Page.of(page)
     }
 
+    @Transactional
     override fun deleteById(id: UUID) {
-        repository.deleteById(id)
+        repository.deleteComments(id)
     }
 }
