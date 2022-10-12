@@ -9,17 +9,21 @@ data class Comment(
     val message: String,
     val user: User,
     val guide: Guide,
+    val referencedComment: UUID? = null,
     val createdAt: LocalDateTime
 ) {
     companion object {
-        fun create(message: String, user: User, guide: Guide) = Comment(
+        fun create(message: String, user: User, guide: Guide, referencedComment: UUID?) = Comment(
             id = UUID.randomUUID(),
             message = message,
             user = user,
             guide = guide,
+            referencedComment = referencedComment,
             createdAt = LocalDateTime.now()
         )
     }
+
+    fun hasReferencedComment() = referencedComment != null
 
     fun checkUser(userId: String) = userId == user.id
 }
