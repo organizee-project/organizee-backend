@@ -9,6 +9,7 @@ data class CommentResponse(
     val id: UUID,
     val user: BasicUserResponse,
     val message: String,
+    val commentsCount: Int,
     val createdAt: LocalDateTime?
 ) {
     companion object {
@@ -16,6 +17,7 @@ data class CommentResponse(
             id = entity.id,
             user = BasicUserResponse(username = entity.user.username),
             message = entity.message,
+            commentsCount = entity.commentsCount,
             createdAt = entity.createdAt
         )
     }

@@ -10,7 +10,8 @@ data class Comment(
     val user: User,
     val guide: Guide,
     val referencedComment: UUID? = null,
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    val commentsCount: Int = 0
 ) {
     companion object {
         fun create(message: String, user: User, guide: Guide, referencedComment: UUID?) = Comment(

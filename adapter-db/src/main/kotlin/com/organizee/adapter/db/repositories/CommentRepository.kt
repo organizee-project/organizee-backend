@@ -16,4 +16,6 @@ interface CommentRepository : PagingAndSortingRepository<CommentEntity, UUID> {
     @Query("DELETE FROM CommentEntity c WHERE c.id = :id OR c.referencedComment = :id ")
     @Modifying
     fun deleteComments(id: UUID)
+
+    fun countAllByReferencedComment(id: UUID): Int
 }
