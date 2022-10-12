@@ -22,11 +22,17 @@ class AddCommentUseCase(
         val comment = Comment.create(
             message = input.message,
             user = user,
-            guide = guide
+            guide = guide,
+            referencedComment = input.referencedComment
         )
 
-        val createdComment = commentService.create(comment)
+        comment.referencedComment?.also {
+            val referenced = commentService.getCommentByIdOrThrow(it)
+            if (referenced.hasReferencedComment())
+                throw IllegalStateException("Comment already referenced")
 
-        return createdComment
+        }
+
+        return commentService.create(comment)
     }
 }

@@ -20,6 +20,8 @@ data class CommentEntity(
     val guide: GuideEntity,
     @Column
     val createdAt: LocalDateTime,
+    @Column
+    val referencedComment: UUID?,
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     val user: UserEntity
@@ -32,7 +34,8 @@ data class CommentEntity(
                 message = comment.message,
                 guide = guide,
                 createdAt = comment.createdAt,
-                user = user
+                user = user,
+                referencedComment = comment.referencedComment
             )
     }
 
@@ -42,6 +45,7 @@ data class CommentEntity(
             createdAt = createdAt,
             id = id,
             user = user.toEntity(),
-            guide = guide.toEntity()
+            guide = guide.toEntity(),
+            referencedComment = referencedComment
         )
 }
