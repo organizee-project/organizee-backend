@@ -17,10 +17,10 @@ data class UserEntity(
     val name: String,
     @Column(nullable = false)
     val surname: String,
+    @Column(nullable = false)
+    val description: String,
     @Column(unique = true, nullable = false)
     val username: String,
-    @Column(unique = true, nullable = false)
-    val email: String,
     @Column
     val createdAt: LocalDateTime
 
@@ -28,11 +28,11 @@ data class UserEntity(
     companion object {
         fun create(user: User): UserEntity =
             UserEntity(
-                id = user.id ?: throw IllegalStateException("user id"),
+                id = user.id,
                 name = user.name,
                 surname = user.surname,
-                email = user.email,
                 username = user.username,
+                description = user.description,
                 createdAt = LocalDateTime.now()
             )
     }
@@ -40,9 +40,9 @@ data class UserEntity(
     fun toEntity() =
         User(
             id = id,
-            email = email,
             name = name,
             surname = surname,
-            username = username
+            username = username,
+            description = description
         )
 }

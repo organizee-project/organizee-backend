@@ -1,23 +1,25 @@
 package com.organizee.domain.user
 
 data class User(
-    val id: String? = null,
-    val email: String,
+    val id: String,
     val name: String,
     val surname: String,
     val username: String,
+    val description: String
 ) {
     companion object {
         fun createNormalUser(
-            email: String,
+            id: String,
             name: String,
             surname: String,
-            username: String
+            username: String,
+            description: String
         ) = User(
-            email = email,
+            id = id,
             name = name,
             surname = surname,
             username = username,
+            description = description
         )
     }
 

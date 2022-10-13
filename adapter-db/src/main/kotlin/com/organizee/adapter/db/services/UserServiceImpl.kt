@@ -25,19 +25,18 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
             ?: throw IllegalStateException("User not found")
     }
 
-    override fun findByEmail(email: String): User? {
-        return userRepository.findByEmail(email)?.toEntity()
-    }
-
     override fun findByUsername(username: String): User? {
         return userRepository.findByUsername(username)?.toEntity()
     }
 
-    override fun userExists(email: String, username: String): Boolean {
-        return when (userRepository.findByEmailOrUsername(email, username)) {
+    override fun userExists(username: String): Boolean {
+        return when (userRepository.findByUsername(username)) {
             null -> false
             else -> true
         }
     }
+
+    override fun findById(id: String) =
+        userRepository.findByIdOrNull(id)?.toEntity()
 
 }
