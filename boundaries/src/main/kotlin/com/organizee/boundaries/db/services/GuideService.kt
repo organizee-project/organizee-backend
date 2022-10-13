@@ -5,6 +5,7 @@ import com.organizee.domain.guide.Guide
 import org.springframework.data.domain.Page
 
 interface GuideService {
+    fun findSaved(userId: String, page: Int, size: Int): Page<Guide>
     fun findAllFilteredBy(filter: FilterGuide): Page<Guide>
     fun getGuideBySlugOrThrow(slug: String): Guide
     fun getAllPublicByUserId(userId: String): List<Guide>

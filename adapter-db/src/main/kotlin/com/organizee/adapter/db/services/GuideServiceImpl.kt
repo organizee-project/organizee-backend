@@ -7,6 +7,7 @@ import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.domain.guide.Guide
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -20,6 +21,10 @@ class GuideServiceImpl(
     private val customRepository: GuideCustomRepository,
     private val savedRepository: SavedRepository
 ) : GuideService {
+    override fun findSaved(userId: String, page: Int, size: Int): Page<Guide> {
+        return savedRepository.findAllByUserId(userId, PageRequest.of(page, size))
+            .map { it.guide.toEntity() }
+    }
 
     override fun findAllFilteredBy(filter: FilterGuide): Page<Guide> {
         return customRepository.getFilteredGuides(filter).map { it.toEntity() }
