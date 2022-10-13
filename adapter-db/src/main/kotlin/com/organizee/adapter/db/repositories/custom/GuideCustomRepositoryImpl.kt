@@ -21,14 +21,14 @@ class GuideCustomRepositoryImpl(
 
         var customSql = """ 
             select DISTINCT g from GuideEntity g
-            join g.categories c
+            left join g.categories c
             WHERE 1 = 1
             AND g.type = 'PUBLIC'
         """.trimIndent()
 
         var countSql = """
             select count( DISTINCT g.id ) from GuideEntity g
-            join g.categories c
+            left join g.categories c
             WHERE 1 = 1
             AND g.type = 'PUBLIC'
             """.trimIndent()
