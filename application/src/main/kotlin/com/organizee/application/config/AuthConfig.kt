@@ -16,7 +16,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             .antMatchers("/swagger-ui/**").permitAll()
-            .antMatchers("/v1/users/{username}/perfil").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/users/{username}/**").permitAll()
             .antMatchers("/v1/search/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/comments/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/likes/guide/**").permitAll()

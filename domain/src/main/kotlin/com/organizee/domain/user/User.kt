@@ -5,7 +5,8 @@ data class User(
     val name: String,
     val surname: String,
     val username: String,
-    val description: String
+    val description: String,
+    val imgUrl: String = "",
 ) {
     companion object {
         fun createNormalUser(
