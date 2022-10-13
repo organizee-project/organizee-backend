@@ -6,23 +6,15 @@ data class CreateUserPayload(
     val name: String,
     val surname: String,
     val username: String,
-    val email: String,
-    val password: String,
-    val validatePassword: String
+    val description: String = ""
 ) {
-    fun toUseCaseInput(): NewUserCommand {
-
-        if (!validatePassword())
-            throw RuntimeException("Password does not match")
-
+    fun toUseCaseInput(userId: String): NewUserCommand {
         return NewUserCommand(
-            email = email,
             name = name,
             surname = surname,
             username = username,
-            password = password,
+            description = description,
+            userId = userId
         )
     }
-
-    private fun validatePassword() = password == validatePassword
 }

@@ -6,14 +6,14 @@ data class UserResponse(
     val name: String,
     val surname: String,
     val username: String,
-    val email: String,
+    val description: String
 ) {
     companion object {
         fun fromEntity(user: User) = UserResponse(
             name = user.name,
             surname = user.surname,
             username = user.username,
-            email = user.email
+            description = user.description
         )
     }
 }

@@ -5,33 +5,26 @@ import com.organizee.domain.user.User
 import com.organizee.usecases.user.CreateUserUseCase
 import com.organizee.usecases.user.commands.NewUserCommand
 import org.springframework.stereotype.Service
-import com.organizee.boundaries.firebase.UserService as FirebaseUserService
 
 @Service
 class CreateUserUseCaseImpl(
-    private val userService: UserService,
-    private val firebaseUserService: FirebaseUserService
+    private val userService: UserService
 ) : CreateUserUseCase {
     override fun execute(input: NewUserCommand): User {
         val user = User.createNormalUser(
-            email = input.email,
+            id = input.userId,
             name = input.name,
             surname = input.surname,
             username = input.username,
+            description = input.description
         )
 
-        val found = userService.userExists(user.email, user.username)
+        val found = userService.userExists(user.username) || userService.findById(user.id) != null
 
         if (found) {
             throw Exception("User already exists")
         }
 
-        val createdUser = firebaseUserService.createUser(user, input.password)
-
-        return persistUser(createdUser)
+        return userService.create(user)
     }
-
-    private fun persistUser(user: User) =
-        userService.create(user)
-
 }

@@ -25,8 +25,8 @@ class UserController(
 
     ) {
     @PostMapping
-    fun create(@RequestBody input: CreateUserPayload): UserResponse =
-        UserResponse.fromEntity(createUserUseCase.execute(input.toUseCaseInput()))
+    fun create(@RequestBody input: CreateUserPayload, principal: Principal): UserResponse =
+        UserResponse.fromEntity(createUserUseCase.execute(input.toUseCaseInput(principal.name)))
 
     @GetMapping("{username}/perfil")
     fun getPublicPerfil(
