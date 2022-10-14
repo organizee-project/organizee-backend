@@ -41,6 +41,10 @@ class GuideServiceImpl(
             .map { it.guide.toEntity() }
     }
 
+    override fun isSaved(userId: String, slug: String): Boolean {
+        return savedRepository.findFirstByUserIdAndGuideSlug(userId, slug) != null
+    }
+
     override fun findAllFilteredBy(filter: FilterGuide): Page<Guide> {
         return customRepository.getFilteredGuides(filter).map { it.toEntity() }
     }
@@ -98,6 +102,10 @@ class GuideServiceImpl(
             userRepository.findByIdOrNull(userId) ?: throw Exception("")
 
         savedRepository.save(SavedEntity.from(guideEntity, userEntity))
+    }
+
+    override fun isLiked(userId: String, slug: String): Boolean {
+        return repository.findFirstBySlugAndLikesUserId(slug, userId) != null
     }
 
 }
