@@ -4,6 +4,7 @@ import com.organizee.domain.Page
 import com.organizee.usecases.guide.*
 import com.organizee.usecases.guide.commands.CheckGuideInteractionsCommand
 import com.organizee.usecases.guide.commands.DeleteGuideCommand
+import com.organizee.usecases.guide.commands.GetLikesByUserCommand
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
 import com.organizee.web.controllers.guide.json.payloads.CreateGuidePayload
 import com.organizee.web.controllers.guide.json.payloads.UpdateGuidePayload
@@ -25,7 +26,8 @@ class GuideController(
     private val getPublicGuidesUseCase: GetPublicGuidesUseCase,
     private val removeGuideUseCase: RemoveGuideUseCase,
     private val updateGuideUseCase: UpdateGuideUseCase,
-    private val checkGuideInteractionsUseCase: CheckGuideInteractionsUseCase
+    private val checkGuideInteractionsUseCase: CheckGuideInteractionsUseCase,
+    private val getLikesByUserUseCase: GetLikesByUserUseCase
 ) {
     @PostMapping
     fun create(
@@ -106,5 +108,34 @@ class GuideController(
     ): ResponseEntity<GuideDetailsResponse> {
         val response = updateGuideUseCase.execute(input.toUseCaseInput(slug, principal.name))
         return ResponseEntity.ok(GuideDetailsResponse.fromEntity(response))
+    }
+
+    @GetMapping("user/{username}/likes")
+    fun listLiked(
+        @PathVariable("username") username: String,
+        @RequestParam(defaultValue = "asc") sort: String,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int
+    ): ResponseEntity<Page<GuideResponse>> {
+
+        val guides = getLikesByUserUseCase.execute(
+            input = GetLikesByUserCommand.create(
+                username = username,
+                page = page,
+                size = size
+            )
+        )
+
+        val response = Page(
+            itens = guides.itens.map {
+                GuideResponse.fromEntity(it)
+            },
+            totalPages = guides.totalPages,
+            count = guides.count,
+            currentPage = guides.currentPage,
+            nextPage = guides.nextPage
+        )
+
+        return ResponseEntity.ok(response)
     }
 }

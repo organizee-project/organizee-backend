@@ -11,4 +11,9 @@ import java.util.*
 interface LikeRepository : PagingAndSortingRepository<LikeEntity, UUID> {
     fun findAllByGuideSlug(guideSlug: String, pageable: Pageable): Page<LikeEntity>
     fun findByUserUsernameAndGuideSlug(username: String, slug: String): LikeEntity?
+    fun findAllByUserUsernameAndGuideType(
+        username: String,
+        type: String,
+        pageable: Pageable
+    ): Page<LikeEntity>
 }
