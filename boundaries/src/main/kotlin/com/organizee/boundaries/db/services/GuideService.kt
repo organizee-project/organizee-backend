@@ -15,6 +15,7 @@ interface GuideService {
     fun removeGuide(slug: String)
     fun update(slug: String, updatedGuide: Guide): Guide
     fun save(guide: Guide, userId: String): Guide
+    fun getLikedByUser(username: String, page: Int, size: Int): Page<Guide>
     fun guideSavedByUser(slug: String, userId: String)
     fun isLiked(userId: String, slug: String): Boolean
 }

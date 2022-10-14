@@ -17,6 +17,7 @@ import javax.transaction.Transactional
 @Service
 class GuideServiceImpl(
     private val repository: GuideRepository,
+    private val likeRepository: LikeRepository,
     private val userRepository: UserRepository,
     private val categoryRepository: CategoryRepository,
     private val customRepository: GuideCustomRepository,
@@ -92,6 +93,14 @@ class GuideServiceImpl(
         val entity = GuideEntity.from(guide, user, categories)
 
         return repository.save(entity).toEntity()
+    }
+
+    override fun getLikedByUser(username: String, page: Int, size: Int): Page<Guide> {
+        return likeRepository.findAllByUserUsernameAndGuideType(
+            username,
+            GuideType.PUBLIC.name,
+            PageRequest.of(page, size)
+        ).map { it.guide.toEntity() }
     }
 
     @Transactional
