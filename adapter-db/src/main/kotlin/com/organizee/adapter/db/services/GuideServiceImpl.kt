@@ -6,6 +6,7 @@ import com.organizee.adapter.db.repositories.*
 import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.domain.guide.Guide
+import com.organizee.domain.guide.GuideType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -21,6 +22,20 @@ class GuideServiceImpl(
     private val customRepository: GuideCustomRepository,
     private val savedRepository: SavedRepository
 ) : GuideService {
+    override fun findAllByUser(username: String, page: Int, size: Int): Page<Guide> {
+        return repository.findAllByUserUsername(username, PageRequest.of(page, size))
+            .map { it.toEntity() }
+    }
+
+    override fun findAllPublicByUser(username: String, page: Int, size: Int): Page<Guide> {
+        return repository.findAllByUserUsernameAndType(
+            username,
+            GuideType.PUBLIC.name,
+            PageRequest.of(page, size)
+        )
+            .map { it.toEntity() }
+    }
+
     override fun findSaved(userId: String, page: Int, size: Int): Page<Guide> {
         return savedRepository.findAllByUserId(userId, PageRequest.of(page, size))
             .map { it.guide.toEntity() }
@@ -36,10 +51,6 @@ class GuideServiceImpl(
 
     override fun getAllPublicByUserId(userId: String): List<Guide> {
         return repository.findAllPublicByUserId(userId).map { it.toEntity() }
-    }
-
-    override fun getAllByUserId(userId: String): List<Guide> {
-        return repository.findAllByUserId(userId).map { it.toEntity() }
     }
 
     override fun removeGuide(slug: String) {

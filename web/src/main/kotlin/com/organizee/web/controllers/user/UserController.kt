@@ -1,6 +1,9 @@
 package com.organizee.web.controllers.user
 
+import com.organizee.domain.Page
 import com.organizee.domain.user.Activity
+import com.organizee.usecases.guide.GetUserGuidesUseCase
+import com.organizee.usecases.guide.commands.GetUserGuidesCommand
 import com.organizee.usecases.user.CreateUserUseCase
 import com.organizee.usecases.user.GetPublicPerfilUsecase
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
@@ -19,6 +22,7 @@ import java.util.*
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val getPublicPerfilUsecase: GetPublicPerfilUsecase,
+    private val getUserGuidesUseCase: GetUserGuidesUseCase
 ) {
     @PostMapping
     fun create(@RequestBody input: CreateUserPayload, principal: Principal): UserResponse =
@@ -31,6 +35,34 @@ class UserController(
         val perfil = getPublicPerfilUsecase.execute(username)
 
         return PerfilResponse.from(perfil)
+    }
+
+    @GetMapping("{username}/guides")
+    fun getPerfilGuides(
+        @PathVariable("username") username: String,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int,
+        principal: Principal?
+    ): Page<GuideResponse> {
+
+        val guides = getUserGuidesUseCase.execute(
+            GetUserGuidesCommand.create(
+                principal?.name,
+                username,
+                page,
+                size
+            )
+        )
+
+        return Page(
+            itens = guides.itens.map {
+                GuideResponse.fromEntity(it)
+            },
+            totalPages = guides.totalPages,
+            count = guides.count,
+            currentPage = guides.currentPage,
+            nextPage = guides.nextPage
+        )
     }
 }
 
