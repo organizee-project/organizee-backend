@@ -2,11 +2,13 @@ package com.organizee.web.controllers.guide
 
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.*
+import com.organizee.usecases.guide.commands.CheckGuideInteractionsCommand
 import com.organizee.usecases.guide.commands.DeleteGuideCommand
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
 import com.organizee.web.controllers.guide.json.payloads.CreateGuidePayload
 import com.organizee.web.controllers.guide.json.payloads.UpdateGuidePayload
 import com.organizee.web.controllers.guide.json.responses.GuideDetailsResponse
+import com.organizee.web.controllers.guide.json.responses.GuideInteractionsResponse
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -22,7 +24,8 @@ class GuideController(
     private val getGuideUseCase: GetGuideUseCase,
     private val getPublicGuidesUseCase: GetPublicGuidesUseCase,
     private val removeGuideUseCase: RemoveGuideUseCase,
-    private val updateGuideUseCase: UpdateGuideUseCase
+    private val updateGuideUseCase: UpdateGuideUseCase,
+    private val checkGuideInteractionsUseCase: CheckGuideInteractionsUseCase
 ) {
     @PostMapping
     fun create(
@@ -38,6 +41,22 @@ class GuideController(
     fun getBySlug(@PathVariable("slug") slug: String) =
         GuideDetailsResponse.fromEntity(getGuideUseCase.execute(slug))
 
+    @GetMapping("{slug}/interactions")
+    fun getInteractions(
+        @PathVariable("slug") slug: String,
+        principal: Principal
+    ): GuideInteractionsResponse {
+        val output = checkGuideInteractionsUseCase.execute(
+            CheckGuideInteractionsCommand(
+                principal.name,
+                slug
+            )
+        )
+
+        return GuideInteractionsResponse(
+            output.liked, output.saved
+        )
+    }
 
     @GetMapping
     fun list(

@@ -17,6 +17,8 @@ interface GuideRepository : PagingAndSortingRepository<GuideEntity, UUID> {
         pageable: Pageable
     ): Page<GuideEntity>
 
+    fun findFirstBySlugAndLikesUserId(slug: String, userId: String): GuideEntity?
+
     fun findAllByUserUsernameAndType(
         username: String,
         type: String,

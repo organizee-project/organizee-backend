@@ -20,7 +20,8 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .antMatchers("/v1/search/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/comments/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/likes/guide/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/v1/guides/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/guides").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/guides/{slug}").permitAll()
             .anyRequest().authenticated().and().csrf().disable()
 
         http.oauth2ResourceServer()
