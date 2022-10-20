@@ -5,6 +5,7 @@ import com.organizee.domain.user.Activity
 import com.organizee.usecases.guide.GetUserGuidesUseCase
 import com.organizee.usecases.guide.commands.GetUserGuidesCommand
 import com.organizee.usecases.user.CreateUserUseCase
+import com.organizee.usecases.user.GetLoggedPerfilUsecase
 import com.organizee.usecases.user.GetPublicPerfilUsecase
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
@@ -22,11 +23,21 @@ import java.util.*
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val getPublicPerfilUsecase: GetPublicPerfilUsecase,
+    private val getLoggedUserPerfilUsecase: GetLoggedPerfilUsecase,
     private val getUserGuidesUseCase: GetUserGuidesUseCase
 ) {
     @PostMapping
     fun create(@RequestBody input: CreateUserPayload, principal: Principal): UserResponse =
         UserResponse.fromEntity(createUserUseCase.execute(input.toUseCaseInput(principal.name)))
+
+    @GetMapping("/logged")
+    fun getLoggedPerfil(
+        principal: Principal
+    ): PerfilResponse {
+        val perfil = getLoggedUserPerfilUsecase.execute(principal.name)
+
+        return PerfilResponse.from(perfil)
+    }
 
     @GetMapping("{username}")
     fun getPerfil(
