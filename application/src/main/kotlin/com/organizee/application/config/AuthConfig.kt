@@ -14,6 +14,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
         http.authorizeRequests()
             .antMatchers("/swagger-ui/**").permitAll()
             .antMatchers("/v1/catogories/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/users/logged").authenticated()
             .antMatchers(HttpMethod.GET, "/v1/users/{username}/**").permitAll()
             .antMatchers("/v1/search/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/comments/**").permitAll()
