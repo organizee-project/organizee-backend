@@ -3,6 +3,7 @@ package com.organizee.web.controllers.guide.json.responses
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.Reference
 import com.organizee.web.controllers.category.json.response.CategoryResponse
+import com.organizee.web.controllers.shared.responses.BasicUserResponse
 import java.time.LocalDateTime
 import java.util.*
 
@@ -18,6 +19,7 @@ data class GuideDetailsResponse(
     val likesCount: Int = 0,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
+    val user: BasicUserResponse
 ) {
     companion object {
         fun fromEntity(entity: Guide) = GuideDetailsResponse(
@@ -33,7 +35,8 @@ data class GuideDetailsResponse(
             references = entity.references.map { ReferenceResponse.fromEntity(it) },
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
-            likesCount = entity.likesCount
+            likesCount = entity.likesCount,
+            user = BasicUserResponse.fromEntity(entity.user!!)
         )
     }
 }
