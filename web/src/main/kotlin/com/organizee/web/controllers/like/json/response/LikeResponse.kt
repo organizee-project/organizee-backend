@@ -10,7 +10,7 @@ data class LikeResponse(
 ) {
     companion object {
         fun fromEntity(like: Like) = LikeResponse(
-            user = BasicUserResponse(username = like.user.username, imgUrl = ""),
+            user = BasicUserResponse.fromEntity(like.user),
             createdAt = like.createdAt
         )
     }

@@ -2,6 +2,7 @@ package com.organizee.web.controllers.guide.json.responses
 
 import com.organizee.domain.guide.Guide
 import com.organizee.web.controllers.category.json.response.CategoryResponse
+import com.organizee.web.controllers.shared.responses.BasicUserResponse
 import java.time.LocalDateTime
 
 data class GuideResponse(
@@ -14,6 +15,7 @@ data class GuideResponse(
     val likesCount: Int = 0,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
+    val user: BasicUserResponse?
 ) {
     companion object {
         fun fromEntity(entity: Guide) = GuideResponse(
@@ -27,7 +29,8 @@ data class GuideResponse(
             topics = entity.topics,
             likesCount = entity.likesCount,
             createdAt = entity.createdAt,
-            updatedAt = entity.updatedAt
+            updatedAt = entity.updatedAt,
+            user = entity.user?.let { BasicUserResponse.fromEntity(it) }
         )
     }
 }
