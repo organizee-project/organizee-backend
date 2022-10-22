@@ -10,6 +10,7 @@ dependencies {
     implementation project(':adapter-db')
     implementation project(':adapter-search')
     implementation project(':adapter-firebase')
+    implementation project(':adapter-s3')
     implementation project(':usecases')
     implementation project(':shared')
     implementation project(':web')

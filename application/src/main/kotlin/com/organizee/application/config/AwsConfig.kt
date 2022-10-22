@@ -5,6 +5,8 @@ import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.client.builder.AwsClientBuilder
 import com.amazonaws.services.cloudsearchdomain.AmazonCloudSearchDomain
 import com.amazonaws.services.cloudsearchdomain.AmazonCloudSearchDomainClientBuilder
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -40,4 +42,15 @@ class AwsConfig {
         )
         .withCredentials(AWSStaticCredentialsProvider(basicAWSCredentials()))
         .build()
+
+    @Bean
+    fun amazonS3(): AmazonS3 {
+
+        val client = AmazonS3ClientBuilder.standard()
+            .withCredentials(AWSStaticCredentialsProvider(basicAWSCredentials()))
+
+        client.region = region
+
+        return client.build()
+    }
 }

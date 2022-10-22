@@ -13,6 +13,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             .antMatchers("/swagger-ui/**").permitAll()
+            .antMatchers("/v1/files").permitAll()
             .antMatchers("/v1/catogories/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/users/logged").authenticated()
             .antMatchers(HttpMethod.GET, "/v1/users/{username}/**").permitAll()

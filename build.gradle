@@ -72,6 +72,7 @@ subprojects {
 
         //aws
         implementation 'com.amazonaws:aws-java-sdk-cloudsearch:1.12.296'
+        implementation 'com.amazonaws:aws-java-sdk-s3:1.12.325'
 
         //utils
         implementation 'commons-io:commons-io:2.6'
