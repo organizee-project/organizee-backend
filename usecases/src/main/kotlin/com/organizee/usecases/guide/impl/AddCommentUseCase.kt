@@ -3,6 +3,7 @@ package com.organizee.usecases.guide.impl
 import com.organizee.boundaries.db.services.CommentService
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.boundaries.db.services.UserService
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Comment
 import com.organizee.usecases.guide.AddCommentUseCase
 import com.organizee.usecases.guide.commands.NewCommentCommand
@@ -29,7 +30,7 @@ class AddCommentUseCase(
         comment.referencedComment?.also {
             val referenced = commentService.getCommentByIdOrThrow(it)
             if (referenced.hasReferencedComment())
-                throw IllegalStateException("Comment already referenced")
+                throw ErrorCodes.CANNOT_COMMENT()
 
         }
 

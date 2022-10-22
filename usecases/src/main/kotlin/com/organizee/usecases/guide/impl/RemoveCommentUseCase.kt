@@ -2,6 +2,7 @@ package com.organizee.usecases.guide.impl
 
 import com.organizee.boundaries.db.services.CommentService
 import com.organizee.boundaries.db.services.UserService
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.usecases.guide.RemoveCommentUseCase
 import com.organizee.usecases.guide.commands.RemoveCommentCommand
 import org.springframework.stereotype.Service
@@ -16,8 +17,8 @@ class RemoveCommentUseCase(
 
         val comment = commentService.getCommentByIdOrThrow(input.commentId)
 
-        if (!comment.checkUser(user.id!!))
-            throw IllegalStateException("Not the user")
+        if (!comment.checkUser(user.id))
+            throw ErrorCodes.NOT_USER_OWNER()
 
         commentService.deleteById(comment.id)
     }
