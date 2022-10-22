@@ -1,6 +1,7 @@
 package com.organizee.usecases.user.impl
 
 import com.organizee.boundaries.db.services.UserService
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.user.User
 import com.organizee.usecases.user.CreateUserUseCase
 import com.organizee.usecases.user.commands.NewUserCommand
@@ -19,12 +20,17 @@ class CreateUserUseCaseImpl(
             description = input.description
         )
 
-        val found = userService.userExists(user.username) || userService.findById(user.id) != null
-
-        if (found) {
-            throw Exception("User already exists")
-        }
+        validate(user)
 
         return userService.create(user)
     }
+
+    private fun validate(user: User) {
+        if (userService.userExists(user.username))
+            throw ErrorCodes.USERNAME_ALREADY_EXISTS_EXCEPTION(listOf(user.username))
+
+        if (userService.findById(user.id) != null)
+            throw ErrorCodes.USER_ALREADY_EXISTS_EXCEPTION()
+    }
 }
+
