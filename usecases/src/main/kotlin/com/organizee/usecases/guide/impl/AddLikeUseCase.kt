@@ -3,6 +3,7 @@ package com.organizee.usecases.guide.impl
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.boundaries.db.services.LikeService
 import com.organizee.boundaries.db.services.UserService
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Like
 import com.organizee.usecases.guide.AddLikeUseCase
 import com.organizee.usecases.guide.commands.NewLikeCommand
@@ -21,7 +22,7 @@ class AddLikeUseCase(
         val like = likeService.findLikeByUsernameAndSlug(user.username, guide.slug)
 
         if (like != null)
-            throw IllegalStateException("Guide already liked")
+            throw ErrorCodes.GUIDE_ALREADY_LIKED(listOf(guide.title))
 
         val newLike = Like(user, guide)
 

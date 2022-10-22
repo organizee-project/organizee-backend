@@ -5,6 +5,7 @@ import com.organizee.adapter.db.entities.SavedEntity
 import com.organizee.adapter.db.repositories.*
 import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.boundaries.db.services.GuideService
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.GuideType
 import org.springframework.data.domain.Page
@@ -52,7 +53,7 @@ class GuideServiceImpl(
 
     override fun getGuideBySlugOrThrow(slug: String): Guide =
         repository.findFirstBySlug(slug)?.toEntity()
-            ?: throw IllegalStateException("Guide not found: $slug")
+            ?: throw ErrorCodes.GUIDE_NOT_FOUND(listOf(slug))
 
     override fun getAllPublicByUserId(userId: String): List<Guide> {
         return repository.findAllPublicByUserId(userId).map { it.toEntity() }
@@ -65,8 +66,7 @@ class GuideServiceImpl(
 
     @Transactional
     override fun update(slug: String, updatedGuide: Guide): Guide {
-        val entity =
-            repository.findFirstBySlug(slug) ?: throw IllegalStateException("Slug not found")
+        val entity = getGuideEntityOrThrow(slug)
 
         val categories = categoryRepository.findByIdIn(updatedGuide.getCategoriesIds())
 
@@ -86,9 +86,7 @@ class GuideServiceImpl(
 
     @Transactional
     override fun save(guide: Guide, userId: String): Guide {
-
-
-        val user = userRepository.findByIdOrNull(userId) ?: throw Exception("")
+        val user = getUserEntityOrThrow(userId)
         val categories = categoryRepository.findByIdIn(guide.getCategoriesIds())
         val entity = GuideEntity.from(guide, user, categories)
 
@@ -105,10 +103,8 @@ class GuideServiceImpl(
 
     @Transactional
     override fun guideSavedByUser(slug: String, userId: String) {
-        val guideEntity =
-            repository.findFirstBySlug(slug) ?: throw IllegalStateException("Slug not found")
-        val userEntity =
-            userRepository.findByIdOrNull(userId) ?: throw Exception("")
+        val guideEntity = getGuideEntityOrThrow(slug)
+        val userEntity = getUserEntityOrThrow(userId)
 
         savedRepository.save(SavedEntity.from(guideEntity, userEntity))
     }
@@ -117,4 +113,9 @@ class GuideServiceImpl(
         return repository.findFirstBySlugAndLikesUserId(slug, userId) != null
     }
 
+    private fun getGuideEntityOrThrow(slug: String) =
+        repository.findFirstBySlug(slug) ?: throw ErrorCodes.GUIDE_NOT_FOUND(listOf(slug))
+
+    private fun getUserEntityOrThrow(userId: String) =
+        userRepository.findByIdOrNull(userId) ?: throw ErrorCodes.USER_ID_NOT_FOUND()
 }

@@ -6,6 +6,7 @@ import com.organizee.adapter.db.repositories.GuideRepository
 import com.organizee.adapter.db.repositories.UserRepository
 import com.organizee.boundaries.db.services.CommentService
 import com.organizee.domain.Page
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Comment
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -21,14 +22,14 @@ class CommentServiceImpl(
 ) : CommentService {
     override fun getCommentByIdOrThrow(id: UUID): Comment {
         return repository.findByIdOrNull(id)?.toEntity()
-            ?: throw IllegalStateException("No such comment found")
+            ?: throw ErrorCodes.COMMENT_NOT_FOUND()
     }
 
     override fun create(comment: Comment): Comment {
         val guide = guideRepository.findFirstBySlug(comment.guide.slug)
-            ?: throw IllegalStateException("No guide found for slug $comment.guide")
+            ?: throw ErrorCodes.GUIDE_NOT_FOUND(listOf(comment.guide.slug))
         val user = userRepository.findByUsername(comment.user.username)
-            ?: throw IllegalStateException("No user found for username $comment.")
+            ?: throw ErrorCodes.USER_NOT_FOUND(listOf(comment.user.username))
 
         return repository.save(CommentEntity.from(comment, guide, user)).toEntity()
     }

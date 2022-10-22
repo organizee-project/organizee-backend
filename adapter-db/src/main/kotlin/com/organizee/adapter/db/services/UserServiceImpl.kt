@@ -3,6 +3,7 @@ package com.organizee.adapter.db.services
 import com.organizee.adapter.db.entities.UserEntity
 import com.organizee.adapter.db.repositories.UserRepository
 import com.organizee.boundaries.db.services.UserService
+import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.user.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -17,12 +18,12 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
 
     override fun findByUsernameOrThrow(username: String): User {
         return userRepository.findByUsername(username)?.toEntity()
-            ?: throw IllegalStateException("User not found")
+            ?: throw ErrorCodes.USER_NOT_FOUND(listOf(username))
     }
 
     override fun findByUserIdOrThrow(userId: String): User {
         return userRepository.findByIdOrNull(userId)?.toEntity()
-            ?: throw IllegalStateException("User not found")
+            ?: throw ErrorCodes.USER_ID_NOT_FOUND()
     }
 
     override fun findByUsername(username: String): User? {
