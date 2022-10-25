@@ -19,7 +19,23 @@ class GetPerfilUseCase(
                 imgUrl = user.imgUrl,
                 fullName = user.getFullName(),
                 username = user.username,
-                description = user.description
+                description = user.description,
+                following = user.following.map {
+                    UserPerfilUseCaseResponse(
+                        imgUrl = it.imgUrl,
+                        fullName = it.getFullName(),
+                        username = it.username,
+                        description = it.description
+                    )
+                },
+                followers = user.followers.map {
+                    UserPerfilUseCaseResponse(
+                        imgUrl = it.imgUrl,
+                        fullName = it.getFullName(),
+                        username = it.username,
+                        description = it.description
+                    )
+                }
             )
         )
 

@@ -8,7 +8,9 @@ data class UserPerfilUseCaseResponse(
     val imgUrl: String,
     val fullName: String,
     val username: String,
-    val description: String
+    val description: String,
+    val followers: List<UserPerfilUseCaseResponse> = emptyList(),
+    val following: List<UserPerfilUseCaseResponse> = emptyList()
 )
 
 

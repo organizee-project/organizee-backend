@@ -48,6 +48,7 @@ class UserController(
         return PerfilResponse.from(perfil)
     }
 
+
     @GetMapping("{username}/guides")
     fun getPerfilGuides(
         @PathVariable("username") username: String,
@@ -87,7 +88,23 @@ data class PerfilResponse(
                 imgUrl = perfil.user.imgUrl,
                 fullName = perfil.user.fullName,
                 username = perfil.user.username,
-                description = perfil.user.description
+                description = perfil.user.description,
+                followers = perfil.user.followers.map {
+                    UserPerfilResponse(
+                        imgUrl = it.imgUrl,
+                        fullName = it.fullName,
+                        username = it.username,
+                        description = it.description
+                    )
+                },
+                following = perfil.user.following.map {
+                    UserPerfilResponse(
+                        imgUrl = it.imgUrl,
+                        fullName = it.fullName,
+                        username = it.username,
+                        description = it.description
+                    )
+                },
             )
         )
 
@@ -98,7 +115,9 @@ data class UserPerfilResponse(
     val imgUrl: String,
     val fullName: String,
     val username: String,
-    val description: String
+    val description: String,
+    val followers: List<UserPerfilResponse> = emptyList(),
+    val following: List<UserPerfilResponse> = emptyList()
 )
 
 data class ActivityResponse(
