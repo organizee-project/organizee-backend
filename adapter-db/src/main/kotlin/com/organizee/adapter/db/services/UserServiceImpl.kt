@@ -58,4 +58,14 @@ class UserServiceImpl(
 
     }
 
+    override fun unfollow(user: User, followUser: User) {
+        val follow =
+            followRepository.findByFromUsernameAndToUsername(user.username, followUser.username)
+                ?: throw ErrorCodes.FOLLOW_NOT_FOUND()
+
+
+        followRepository.delete(follow)
+
+    }
+
 }
