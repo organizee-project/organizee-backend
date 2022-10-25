@@ -6,7 +6,8 @@ data class CreateUserPayload(
     val name: String,
     val surname: String,
     val username: String,
-    val description: String = ""
+    val description: String = "",
+    val imgUrl: String = ""
 ) {
     fun toUseCaseInput(userId: String): NewUserCommand {
         return NewUserCommand(
@@ -14,7 +15,8 @@ data class CreateUserPayload(
             surname = surname,
             username = username,
             description = description,
-            userId = userId
+            userId = userId,
+            imgUrl = imgUrl
         )
     }
 }

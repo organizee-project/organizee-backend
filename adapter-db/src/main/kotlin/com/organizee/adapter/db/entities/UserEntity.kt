@@ -17,6 +17,8 @@ class UserEntity(
     val description: String,
     @Column(unique = true, nullable = false)
     val username: String,
+    @Column(unique = false, nullable = false, columnDefinition = "varchar default ''")
+    val imgUrl: String,
     @Column
     val createdAt: LocalDateTime,
     @OneToMany(mappedBy = "to", fetch = FetchType.LAZY)
@@ -34,13 +36,15 @@ class UserEntity(
                 surname = user.surname,
                 username = user.username,
                 description = user.description,
-                createdAt = LocalDateTime.now()
+                createdAt = LocalDateTime.now(),
+                imgUrl = user.imgUrl
             )
     }
 
     fun toEntity() =
         User(
             id = id,
+            imgUrl = imgUrl,
             name = name,
             surname = surname,
             username = username,
