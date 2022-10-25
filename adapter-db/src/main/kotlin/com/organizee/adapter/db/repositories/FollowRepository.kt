@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface FollowRepository : JpaRepository<FollowersEntity, UUID> {}
+interface FollowRepository : JpaRepository<FollowersEntity, UUID> {
+
+    fun findByFromUsernameAndToUsername(username: String, unfollowUser: String): FollowersEntity?
+
+}
