@@ -73,7 +73,7 @@ class GuideController(
         val guides = getPublicGuidesUseCase.execute(input)
 
         val response = Page(
-            itens = guides.itens.map {
+            items = guides.items.map {
                 GuideResponse.fromEntity(it)
             },
             totalPages = guides.totalPages,
@@ -127,7 +127,7 @@ class GuideController(
         )
 
         val response = Page(
-            itens = guides.itens.map {
+            items = guides.items.map {
                 GuideResponse.fromEntity(it)
             },
             totalPages = guides.totalPages,

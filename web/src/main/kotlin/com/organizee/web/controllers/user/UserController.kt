@@ -67,7 +67,7 @@ class UserController(
         )
 
         return Page(
-            itens = guides.itens.map {
+            items = guides.items.map {
                 GuideResponse.fromEntity(it)
             },
             totalPages = guides.totalPages,

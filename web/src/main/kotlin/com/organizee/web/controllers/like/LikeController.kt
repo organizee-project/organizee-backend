@@ -51,7 +51,7 @@ class LikeController(
         val likes = getLikesUseCase.execute(input)
 
         val response = Page(
-            itens = likes.itens.map {
+            items = likes.items.map {
                 LikeResponse.fromEntity(it)
             },
             totalPages = likes.totalPages,

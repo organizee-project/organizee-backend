@@ -1,7 +1,7 @@
 package com.organizee.domain
 
 class Page<T>(
-    val itens: List<T>,
+    val items: List<T>,
     val totalPages: Int,
     val count: Long,
     val currentPage: Int,
@@ -9,7 +9,7 @@ class Page<T>(
 ) {
     companion object {
         fun <I> of(page: org.springframework.data.domain.Page<I>) = Page(
-            itens = page.toList(),
+            items = page.toList(),
             totalPages = page.totalPages,
             count = page.totalElements,
             currentPage = page.number,
