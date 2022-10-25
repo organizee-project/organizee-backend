@@ -1,16 +1,12 @@
 package com.organizee.adapter.db.entities
 
 import com.organizee.domain.user.User
-import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "tb_user")
-data class UserEntity(
+class UserEntity(
     @Id
     val id: String,
     @Column(nullable = false)
@@ -22,9 +18,14 @@ data class UserEntity(
     @Column(unique = true, nullable = false)
     val username: String,
     @Column
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    @OneToMany(mappedBy = "to", fetch = FetchType.LAZY)
+    val followers: List<FollowersEntity> = emptyList(),
+    @OneToMany(mappedBy = "from", fetch = FetchType.LAZY)
+    val following: List<FollowersEntity> = emptyList(),
 
-) : Serializable {
+
+    ) {
     companion object {
         fun create(user: User): UserEntity =
             UserEntity(
@@ -43,6 +44,24 @@ data class UserEntity(
             name = name,
             surname = surname,
             username = username,
-            description = description
+            description = description,
+            following = following.map {
+                User(
+                    id = it.to.id,
+                    name = it.to.name,
+                    surname = it.to.surname,
+                    username = it.to.username,
+                    description = it.to.description
+                )
+            },
+            followers = followers.map {
+                User(
+                    id = it.from.id,
+                    name = it.from.name,
+                    surname = it.from.surname,
+                    username = it.from.username,
+                    description = it.from.description
+                )
+            }
         )
 }

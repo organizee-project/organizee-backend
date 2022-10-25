@@ -9,4 +9,5 @@ interface UserService {
     fun findByUsername(username: String): User?
     fun userExists(username: String): Boolean
     fun findById(id: String): User?
+    fun follow(user: User, followUser: User)
 }

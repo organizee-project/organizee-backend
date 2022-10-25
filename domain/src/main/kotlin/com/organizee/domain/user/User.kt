@@ -7,6 +7,8 @@ data class User(
     val username: String,
     val description: String,
     val imgUrl: String = "",
+    val following: List<User> = emptyList(),
+    val followers: List<User> = emptyList()
 ) {
     companion object {
         fun createNormalUser(

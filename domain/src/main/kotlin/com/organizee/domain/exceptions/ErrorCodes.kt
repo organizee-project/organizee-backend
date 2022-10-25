@@ -35,5 +35,5 @@ object ErrorCodes {
 
     fun NOT_USER_OWNER() = BussinessException("Usuárion não tem permissão para realizar essa ação")
 
-
+    fun CANNOT_FOLLOW() = BussinessException("Usuário não pode ser seguido")
 }
