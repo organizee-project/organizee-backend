@@ -63,7 +63,7 @@ class CommentController(
         val comments = getCommentsUseCase.execute(input)
 
         val response = Page(
-            itens = comments.itens.map {
+            items = comments.items.map {
                 CommentResponse.fromEntity(it)
             },
             totalPages = comments.totalPages,
@@ -86,7 +86,7 @@ class CommentController(
         val comments = getReferencedCommentsUseCase.execute(input)
 
         val response = Page(
-            itens = comments.itens.map {
+            items = comments.items.map {
                 CommentResponse.fromEntity(it)
             },
             totalPages = comments.totalPages,
