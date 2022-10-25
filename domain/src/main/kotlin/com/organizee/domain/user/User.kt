@@ -16,13 +16,15 @@ data class User(
             name: String,
             surname: String,
             username: String,
-            description: String
+            description: String,
+            imgUrl: String
         ) = User(
             id = id,
             name = name,
             surname = surname,
             username = username,
-            description = description
+            description = description,
+            imgUrl = imgUrl
         )
     }
 
