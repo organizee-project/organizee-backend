@@ -3,6 +3,7 @@ package com.organizee.usecases.guide.impl
 import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.boundaries.search.SearchService
+import com.organizee.domain.guide.Category
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.Reference
 import com.organizee.usecases.guide.CreateGuideUseCase
@@ -26,20 +27,7 @@ class CreateGuideUsecaseImpl(
 
         val categories = categoryService.getAllIdsIn(input.categories)
 
-        var guide = Guide.create(
-            title = input.title,
-            subtitle = input.subtitle,
-            content = input.content,
-            isPrivate = input.isPrivate,
-            categories = categories,
-            references = input.references.map {
-                Reference.create(
-                    title = it.title,
-                    url = it.url
-                )
-            },
-            topics = input.topics
-        )
+        var guide = createGuide(input, categories)
 
         searchService.persist(guide)
 
@@ -47,6 +35,25 @@ class CreateGuideUsecaseImpl(
 
         return guide
     }
+
+    private fun createGuide(
+        input: NewGuideCommand,
+        categories: List<Category>
+    ) = Guide.create(
+        title = input.title,
+        subtitle = input.subtitle,
+        content = input.content,
+        isPrivate = input.isPrivate,
+        categories = categories,
+        references = input.references.map {
+            Reference.create(
+                title = it.title,
+                url = it.url
+            )
+        },
+        topics = input.topics,
+        imgUrl = input.imgUrl
+    )
 
 
 }

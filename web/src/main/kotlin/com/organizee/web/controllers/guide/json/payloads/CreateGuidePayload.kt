@@ -10,6 +10,7 @@ data class CreateGuidePayload(
     val subtitle: String,
     @field:NotBlank(message = "Content is mandatory")
     val content: String,
+    val imgUrl: String? = "",
     val categories: List<Long> = emptyList(),
     val topics: List<String> = emptyList(),
     val references: List<CreateReferencePayload> = emptyList(),
@@ -23,7 +24,8 @@ data class CreateGuidePayload(
         references = references.map { NewReferenceCommand(it.title, it.url) },
         topics = topics,
         userId = userId,
-        isPrivate = isPrivate
+        isPrivate = isPrivate,
+        imgUrl = imgUrl ?: "",
     )
 }
 

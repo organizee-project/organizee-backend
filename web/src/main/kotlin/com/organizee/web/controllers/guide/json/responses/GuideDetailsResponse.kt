@@ -10,6 +10,7 @@ import java.util.*
 data class GuideDetailsResponse(
     val title: String,
     val slug: String,
+    val imgUrl: String,
     val subtitle: String,
     val content: String,
     val type: String,
@@ -36,6 +37,7 @@ data class GuideDetailsResponse(
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
             likesCount = entity.likesCount,
+            imgUrl = entity.imgUrl,
             user = BasicUserResponse.fromEntity(entity.user!!)
         )
     }
