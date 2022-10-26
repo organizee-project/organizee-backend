@@ -3,6 +3,7 @@ package com.organizee.web.controllers.guide.json.payloads
 import com.organizee.usecases.guide.commands.UpdateGuideCommand
 
 data class UpdateGuidePayload(
+    val imgUrl: String? = null,
     val title: String? = null,
     val subtitle: String? = null,
     val content: String? = null,
@@ -18,7 +19,8 @@ data class UpdateGuidePayload(
         topics = topics,
         userId = userId,
         categories = categories,
-        isPrivate = isPrivate
+        isPrivate = isPrivate,
+        imgUrl = imgUrl
     )
 }
 
