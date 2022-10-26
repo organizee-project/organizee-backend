@@ -71,6 +71,7 @@ class GuideServiceImpl(
         val categories = categoryRepository.findByIdIn(updatedGuide.getCategoriesIds())
 
         val updatedEntity = entity.copy(
+            imgUrl = updatedGuide.imgUrl,
             title = updatedGuide.title,
             slug = updatedGuide.slug,
             subtitle = updatedGuide.subtitle,
