@@ -24,7 +24,8 @@ data class GuideEntity(
     val content: String,
     @Column
     val type: String,
-
+    @Column(unique = false, nullable = false, columnDefinition = "varchar default ''")
+    val imgUrl: String,
     @ManyToOne
     @JoinColumn(name = "user_id")
     val user: UserEntity,
@@ -64,7 +65,8 @@ data class GuideEntity(
                 categories = categories,
                 topics = guide.topics,
                 user = user,
-                createdAt = LocalDateTime.now()
+                createdAt = LocalDateTime.now(),
+                imgUrl = guide.imgUrl
             )
 
             val referencesEntity = guide.references.map { reference ->
@@ -82,6 +84,7 @@ data class GuideEntity(
     fun toEntity() =
         Guide(
             title = title,
+            imgUrl = imgUrl,
             subtitle = subtitle,
             content = content,
             slug = slug,

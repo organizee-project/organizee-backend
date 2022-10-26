@@ -10,6 +10,7 @@ data class GuideResponse(
     val slug: String,
     val subtitle: String,
     val type: String,
+    val imgUrl: String,
     val categories: List<CategoryResponse> = emptyList(),
     val topics: List<String> = emptyList(),
     val likesCount: Int = 0,
@@ -30,7 +31,8 @@ data class GuideResponse(
             likesCount = entity.likesCount,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
-            user = entity.user?.let { BasicUserResponse.fromEntity(it) }
+            user = entity.user?.let { BasicUserResponse.fromEntity(it) },
+            imgUrl = entity.imgUrl
         )
     }
 }

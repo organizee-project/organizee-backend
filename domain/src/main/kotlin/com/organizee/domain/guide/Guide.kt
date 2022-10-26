@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 
 data class Guide(
     val title: String,
+    val imgUrl: String = "",
     val slug: String,
     val subtitle: String,
     val content: String,
@@ -23,6 +24,7 @@ data class Guide(
     companion object {
         fun create(
             title: String,
+            imgUrl: String,
             subtitle: String,
             content: String,
             isPrivate: Boolean,
@@ -38,6 +40,7 @@ data class Guide(
             type = GuideType.from(isPrivate),
             references = references,
             topics = topics,
+            imgUrl = imgUrl
         )
 
         fun createGuideSlug(title: String) =
