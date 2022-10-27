@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
+import javax.persistence.Tuple
 import javax.persistence.TypedQuery
 
 @Repository
@@ -20,17 +21,21 @@ class GuideCustomRepositoryImpl(
     override fun getFilteredGuides(filter: FilterGuide): Page<GuideEntity> {
 
         var customSql = """ 
-            select DISTINCT g from GuideEntity g
+            select DISTINCT g, count(l) from GuideEntity g
             left join g.categories c
+            left join g.likes l
             WHERE 1 = 1
             AND g.type = 'PUBLIC'
+            GROUP BY g.id
         """.trimIndent()
 
         var countSql = """
             select count( DISTINCT g.id ) from GuideEntity g
             left join g.categories c
+            left join g.likes l
             WHERE 1 = 1
             AND g.type = 'PUBLIC'
+            GROUP BY g.id
             """.trimIndent()
 
         var sqlFilter = ""
@@ -42,7 +47,7 @@ class GuideCustomRepositoryImpl(
 
         sqlOrder += when (filter.sortBy) {
             FilterSortBy.DATE -> " ORDER BY g.createdAt"
-            else -> " ORDER BY g.createdAt"
+            else -> " ORDER BY count(l)  "
         }
 
         sqlOrder += when (filter.sort) {
@@ -55,7 +60,7 @@ class GuideCustomRepositoryImpl(
 
         val count: TypedQuery<Long> = em.createQuery(countSql) as TypedQuery<Long>
 
-        val query = em.createQuery(customSql, GuideEntity::class.java)
+        val query = em.createQuery(customSql, Tuple::class.java)
             .setFirstResult(filter.size * filter.page)
             .setMaxResults(filter.size)
 
@@ -65,11 +70,18 @@ class GuideCustomRepositoryImpl(
         }
 
 
+
         return PageImpl(
-            query.resultList,
+            query.resultList.map { it.get(0) as GuideEntity },
             PageRequest.of(filter.page, filter.size),
             count.singleResult
         )
     }
 
 }
+
+
+data class Teste(
+    val guide: GuideEntity,
+    val count: Long
+)

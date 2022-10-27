@@ -47,6 +47,7 @@ class GuideServiceImpl(
         return savedRepository.findFirstByUserIdAndGuideSlug(userId, slug) != null
     }
 
+    @Transactional
     override fun findAllFilteredBy(filter: FilterGuide): Page<Guide> {
         return customRepository.getFilteredGuides(filter).map { it.toEntity() }
     }
