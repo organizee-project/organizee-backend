@@ -7,9 +7,11 @@ import com.organizee.usecases.guide.commands.GetUserGuidesCommand
 import com.organizee.usecases.user.CreateUserUseCase
 import com.organizee.usecases.user.GetLoggedPerfilUsecase
 import com.organizee.usecases.user.GetPublicPerfilUsecase
+import com.organizee.usecases.user.UpdateUserUseCase
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
 import com.organizee.web.controllers.user.json.CreateUserPayload
+import com.organizee.web.controllers.user.json.UpdateUserPayload
 import com.organizee.web.controllers.user.json.UserResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -22,6 +24,7 @@ import java.util.*
 @RequestMapping(value = ["v1/users"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
+    private val updateUserUseCase: UpdateUserUseCase,
     private val getPublicPerfilUsecase: GetPublicPerfilUsecase,
     private val getLoggedUserPerfilUsecase: GetLoggedPerfilUsecase,
     private val getUserGuidesUseCase: GetUserGuidesUseCase
@@ -29,6 +32,14 @@ class UserController(
     @PostMapping
     fun create(@RequestBody input: CreateUserPayload, principal: Principal): UserResponse =
         UserResponse.fromEntity(createUserUseCase.execute(input.toUseCaseInput(principal.name)))
+
+
+    @PatchMapping
+    fun update(@RequestBody input: UpdateUserPayload, principal: Principal): UserResponse {
+        val user = updateUserUseCase.execute(input.toUseCaseInput(principal.name))
+        return UserResponse.fromEntity(user)
+    }
+
 
     @GetMapping("/logged")
     fun getLoggedPerfil(

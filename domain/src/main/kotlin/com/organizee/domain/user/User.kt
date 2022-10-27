@@ -29,4 +29,11 @@ data class User(
     }
 
     fun getFullName() = "$name $surname"
+    fun update(name: String?, surname: String?, description: String?, imgUrl: String?): User =
+        copy(
+            name = name ?: this.name,
+            surname = surname ?: this.surname,
+            description = description ?: this.description,
+            imgUrl = imgUrl ?: this.imgUrl
+        )
 }
