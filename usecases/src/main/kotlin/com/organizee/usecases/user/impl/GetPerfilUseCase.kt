@@ -2,17 +2,31 @@ package com.organizee.usecases.user.impl
 
 import com.organizee.boundaries.db.services.UserService
 import com.organizee.usecases.user.GetPublicPerfilUsecase
+import com.organizee.usecases.user.commands.GetPerfilCommand
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
 import com.organizee.usecases.user.responses.UserPerfilUseCaseResponse
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class GetPerfilUseCase(
+class
+GetPerfilUseCase(
     private val userService: UserService,
 ) : GetPublicPerfilUsecase {
-    override fun execute(username: String): PerfilUseCaseResponse {
 
-        val user = userService.findByUsernameOrThrow(username)
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
+
+
+    override fun execute(input: GetPerfilCommand): PerfilUseCaseResponse {
+        logger.info("Getting user perfil | input=$input")
+
+        val user = userService.findByUsernameOrThrow(input.userName)
+
+        val isFollowed = input.userId?.let {
+            userService.userFollows(it, user.username)
+        } ?: false
 
         return PerfilUseCaseResponse(
             user = UserPerfilUseCaseResponse(
@@ -35,7 +49,8 @@ class GetPerfilUseCase(
                         username = it.username,
                         description = it.description
                     )
-                }
+                },
+                isFollowed = isFollowed
             )
         )
 

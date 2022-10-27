@@ -10,7 +10,8 @@ data class UserPerfilUseCaseResponse(
     val username: String,
     val description: String,
     val followers: List<UserPerfilUseCaseResponse> = emptyList(),
-    val following: List<UserPerfilUseCaseResponse> = emptyList()
+    val following: List<UserPerfilUseCaseResponse> = emptyList(),
+    val isFollowed: Boolean = false
 )
 
 
