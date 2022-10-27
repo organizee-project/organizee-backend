@@ -5,9 +5,9 @@ enum class Sort {
     DESC;
 
     companion object {
-        fun from(sortDirection: String) = when (sortDirection) {
-            "asc" -> ASC
-            "desc" -> DESC
+        fun from(sortDirection: String) = when (sortDirection.uppercase()) {
+            "ASC" -> ASC
+            "DESC" -> DESC
             else -> ASC
         }
     }
