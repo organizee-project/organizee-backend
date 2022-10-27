@@ -3,6 +3,7 @@ package com.organizee.boundaries.db.services
 import com.organizee.domain.user.User
 
 interface UserService {
+    fun update(user: User): User
     fun create(user: User): User
     fun findByUsernameOrThrow(username: String): User
     fun findByUserIdOrThrow(userId: String): User

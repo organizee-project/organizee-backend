@@ -17,6 +17,14 @@ class UserServiceImpl(
     private val userRepository: UserRepository,
     private val followRepository: FollowRepository
 ) : UserService {
+    override fun update(user: User): User {
+        val entity = findEntityByIdOrThrow(user.id)
+
+        entity.update(user)
+
+        return userRepository.save(entity).toEntity()
+    }
+
     @Transactional
     override fun create(user: User): User {
         return userRepository.save(UserEntity.create(user)).toEntity()
@@ -28,8 +36,7 @@ class UserServiceImpl(
     }
 
     override fun findByUserIdOrThrow(userId: String): User {
-        return userRepository.findByIdOrNull(userId)?.toEntity()
-            ?: throw ErrorCodes.USER_ID_NOT_FOUND()
+        return findEntityByIdOrThrow(userId).toEntity()
     }
 
     override fun findByUsername(username: String): User? {
@@ -67,5 +74,8 @@ class UserServiceImpl(
         followRepository.delete(follow)
 
     }
+
+    private fun findEntityByIdOrThrow(userId: String) =
+        userRepository.findByIdOrNull(userId) ?: throw ErrorCodes.USER_ID_NOT_FOUND()
 
 }
