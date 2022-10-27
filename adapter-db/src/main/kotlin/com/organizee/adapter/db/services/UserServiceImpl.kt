@@ -75,6 +75,10 @@ class UserServiceImpl(
 
     }
 
+    override fun userFollows(userId: String, followUserName: String): Boolean {
+        return followRepository.findFirstByFromIdAndToUsername(userId, followUserName) != null
+    }
+
     private fun findEntityByIdOrThrow(userId: String) =
         userRepository.findByIdOrNull(userId) ?: throw ErrorCodes.USER_ID_NOT_FOUND()
 

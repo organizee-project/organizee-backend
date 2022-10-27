@@ -8,6 +8,7 @@ import com.organizee.usecases.user.CreateUserUseCase
 import com.organizee.usecases.user.GetLoggedPerfilUsecase
 import com.organizee.usecases.user.GetPublicPerfilUsecase
 import com.organizee.usecases.user.UpdateUserUseCase
+import com.organizee.usecases.user.commands.GetPerfilCommand
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
 import com.organizee.web.controllers.user.json.CreateUserPayload
@@ -52,9 +53,10 @@ class UserController(
 
     @GetMapping("{username}")
     fun getPerfil(
-        @PathVariable("username") username: String
+        @PathVariable("username") username: String,
+        principal: Principal?
     ): PerfilResponse {
-        val perfil = getPublicPerfilUsecase.execute(username)
+        val perfil = getPublicPerfilUsecase.execute(GetPerfilCommand(principal?.name, username))
 
         return PerfilResponse.from(perfil)
     }
@@ -100,6 +102,7 @@ data class PerfilResponse(
                 fullName = perfil.user.fullName,
                 username = perfil.user.username,
                 description = perfil.user.description,
+                isFollowed = perfil.user.isFollowed,
                 followers = perfil.user.followers.map {
                     UserPerfilResponse(
                         imgUrl = it.imgUrl,
@@ -122,13 +125,15 @@ data class PerfilResponse(
     }
 }
 
+
 data class UserPerfilResponse(
     val imgUrl: String,
     val fullName: String,
     val username: String,
     val description: String,
     val followers: List<UserPerfilResponse> = emptyList(),
-    val following: List<UserPerfilResponse> = emptyList()
+    val following: List<UserPerfilResponse> = emptyList(),
+    val isFollowed: Boolean? = null
 )
 
 data class ActivityResponse(

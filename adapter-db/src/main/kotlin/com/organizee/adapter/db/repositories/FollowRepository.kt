@@ -9,5 +9,5 @@ import java.util.*
 interface FollowRepository : JpaRepository<FollowersEntity, UUID> {
 
     fun findByFromUsernameAndToUsername(username: String, unfollowUser: String): FollowersEntity?
-
+    fun findFirstByFromIdAndToUsername(id: String, follow: String): FollowersEntity?
 }
