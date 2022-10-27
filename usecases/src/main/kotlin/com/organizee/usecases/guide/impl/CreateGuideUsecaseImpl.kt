@@ -47,7 +47,6 @@ class CreateGuideUsecaseImpl(
         categories = categories,
         references = input.references.map {
             Reference.create(
-                title = it.title,
                 url = it.url
             )
         },

@@ -45,11 +45,10 @@ data class GuideDetailsResponse(
 
 data class ReferenceResponse(
     val id: UUID,
-    val title: String,
     val url: String
 ) {
     companion object {
         fun fromEntity(entity: Reference) =
-            ReferenceResponse(id = entity.id, title = entity.title, url = entity.url)
+            ReferenceResponse(id = entity.id, url = entity.url)
     }
 }

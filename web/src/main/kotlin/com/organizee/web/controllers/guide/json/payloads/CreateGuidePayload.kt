@@ -21,7 +21,7 @@ data class CreateGuidePayload(
         subtitle = subtitle,
         content = content,
         categories = categories,
-        references = references.map { NewReferenceCommand(it.title, it.url) },
+        references = references.map { NewReferenceCommand(it.url) },
         topics = topics,
         userId = userId,
         isPrivate = isPrivate,
@@ -31,6 +31,5 @@ data class CreateGuidePayload(
 
 
 data class CreateReferencePayload(
-    val title: String,
     val url: String
 )

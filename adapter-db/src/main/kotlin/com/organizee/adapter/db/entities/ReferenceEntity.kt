@@ -12,8 +12,6 @@ data class ReferenceEntity(
     @Id
     val id: UUID,
     @Column(nullable = false)
-    val title: String,
-    @Column(nullable = false)
     val url: String,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "guide_id", nullable = false)
@@ -26,7 +24,6 @@ data class ReferenceEntity(
         fun from(reference: Reference, guide: GuideEntity) =
             ReferenceEntity(
                 id = reference.id,
-                title = reference.title,
                 url = reference.url,
                 guide,
                 createdAt = LocalDateTime.now()
@@ -35,7 +32,6 @@ data class ReferenceEntity(
 
     fun toEntity() =
         Reference(
-            id = id, title = title, url = url
-
+            id = id, url = url
         )
 }
