@@ -26,7 +26,6 @@ class GuideCustomRepositoryImpl(
             left join g.likes l
             WHERE 1 = 1
             AND g.type = 'PUBLIC'
-            GROUP BY g.id
         """.trimIndent()
 
         var countSql = """
@@ -35,7 +34,6 @@ class GuideCustomRepositoryImpl(
             left join g.likes l
             WHERE 1 = 1
             AND g.type = 'PUBLIC'
-            GROUP BY g.id
             """.trimIndent()
 
         var sqlFilter = ""
@@ -55,8 +53,8 @@ class GuideCustomRepositoryImpl(
             Sort.Direction.DESC -> " DESC"
         }
 
-        countSql += sqlFilter
-        customSql += sqlFilter + sqlOrder
+        countSql += "$sqlFilter GROUP BY g.id "
+        customSql += "$sqlFilter GROUP BY g.id $sqlOrder"
 
         val count: TypedQuery<Long> = em.createQuery(countSql) as TypedQuery<Long>
 
@@ -69,8 +67,6 @@ class GuideCustomRepositoryImpl(
             count.setParameter("category", filter.category)
         }
 
-
-
         return PageImpl(
             query.resultList.map { it.get(0) as GuideEntity },
             PageRequest.of(filter.page, filter.size),
@@ -79,9 +75,3 @@ class GuideCustomRepositoryImpl(
     }
 
 }
-
-
-data class Teste(
-    val guide: GuideEntity,
-    val count: Long
-)
