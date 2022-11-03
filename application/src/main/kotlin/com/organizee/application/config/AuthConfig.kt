@@ -25,12 +25,18 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .anyRequest().authenticated().and().csrf().disable()
 
         http.cors()
-            .configurationSource { request -> CorsConfiguration().applyPermitDefaultValues() }
+            .configurationSource {
+                val corsConfiguration = CorsConfiguration().applyPermitDefaultValues()
+                corsConfiguration.addAllowedMethod(HttpMethod.DELETE)
+                corsConfiguration.addAllowedMethod(HttpMethod.PUT)
+                corsConfiguration.addAllowedMethod(HttpMethod.PATCH)
+
+                corsConfiguration
+            }
 
         http.oauth2ResourceServer()
             .jwt()
     }
-
 
     @Throws(Exception::class)
     override fun configure(web: WebSecurity) {
