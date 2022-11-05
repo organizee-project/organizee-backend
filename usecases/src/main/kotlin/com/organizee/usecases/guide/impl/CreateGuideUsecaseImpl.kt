@@ -2,10 +2,12 @@ package com.organizee.usecases.guide.impl
 
 import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
+import com.organizee.boundaries.db.services.UserService
 import com.organizee.boundaries.search.SearchService
 import com.organizee.domain.guide.Category
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.Reference
+import com.organizee.domain.user.User
 import com.organizee.usecases.guide.CreateGuideUseCase
 import com.organizee.usecases.guide.commands.NewGuideCommand
 import org.slf4j.LoggerFactory
@@ -14,12 +16,13 @@ import org.springframework.stereotype.Service
 @Service
 class CreateGuideUsecaseImpl(
     private val guideService: GuideService,
+    private val userService: UserService,
     private val categoryService: CategoryService,
     private val searchService: SearchService
 ) : CreateGuideUseCase {
 
     companion object {
-        private val logger = LoggerFactory.getLogger(CreateGuideUseCase::class.java)
+        private val logger = LoggerFactory.getLogger(this::class.java)
     }
 
     override fun execute(input: NewGuideCommand): Guide {
@@ -27,9 +30,11 @@ class CreateGuideUsecaseImpl(
 
         val categories = categoryService.getAllIdsIn(input.categories)
 
-        var guide = createGuide(input, categories)
+        val user = userService.findByUserIdOrThrow(input.userId)
+        var guide = createGuide(input, categories, user)
 
-        searchService.persist(guide)
+        if (!guide.isPrivate())
+            searchService.persist(guide)
 
         guide = guideService.save(guide, input.userId)
 
@@ -38,7 +43,8 @@ class CreateGuideUsecaseImpl(
 
     private fun createGuide(
         input: NewGuideCommand,
-        categories: List<Category>
+        categories: List<Category>,
+        user: User
     ) = Guide.create(
         title = input.title,
         subtitle = input.subtitle,
@@ -51,7 +57,8 @@ class CreateGuideUsecaseImpl(
             )
         },
         topics = input.topics,
-        imgUrl = input.imgUrl
+        imgUrl = input.imgUrl,
+        user = user
     )
 
 

@@ -6,13 +6,20 @@ import com.organizee.domain.Page
 import com.organizee.domain.guide.Guide
 import com.organizee.usecases.guide.GetPublicGuidesUseCase
 import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class GetPublicGuidesUsecaseImpl(
     private val guideService: GuideService
 ) : GetPublicGuidesUseCase {
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
+
     override fun execute(input: GetPublicGuidesCommand): Page<Guide> {
+        logger.info("Searching for public guides | input: $input")
 
         val filter = FilterGuide.create(
             category = input.category,
@@ -22,9 +29,7 @@ class GetPublicGuidesUsecaseImpl(
             sortBy = input.sortBy
         )
 
-        val guides = guideService.findAllFilteredBy(
-            filter
-        )
+        val guides = guideService.findAllFilteredBy(filter)
 
         return Page.of(guides)
     }

@@ -12,13 +12,13 @@ data class Guide(
     val subtitle: String,
     val content: String,
     val type: GuideType,
-    val user: User? = null,
+    val user: User,
     val categories: List<Category> = emptyList(),
     val topics: List<String> = emptyList(),
     val comments: List<Comment> = emptyList(),
     val references: List<Reference> = emptyList(),
     val likesCount: Int = 0,
-    val createdAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime? = null
 ) {
     companion object {
@@ -30,7 +30,8 @@ data class Guide(
             isPrivate: Boolean,
             categories: List<Category>,
             references: List<Reference>,
-            topics: List<String>
+            topics: List<String>,
+            user: User
         ) = Guide(
             title = title,
             slug = createGuideSlug(title),
@@ -40,7 +41,9 @@ data class Guide(
             type = GuideType.from(isPrivate),
             references = references,
             topics = topics,
-            imgUrl = imgUrl
+            imgUrl = imgUrl,
+            createdAt = LocalDateTime.now(),
+            user = user
         )
 
         fun createGuideSlug(title: String) =
@@ -67,4 +70,6 @@ data class Guide(
     )
 
     fun getCategoriesIds() = this.categories.mapNotNull { it.id }
+
+    fun isPrivate() = type == GuideType.PRIVATE
 }

@@ -65,7 +65,7 @@ data class GuideEntity(
                 categories = categories,
                 topics = guide.topics,
                 user = user,
-                createdAt = LocalDateTime.now(),
+                createdAt = guide.createdAt,
                 imgUrl = guide.imgUrl
             )
 

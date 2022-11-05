@@ -1,5 +1,7 @@
 package com.organizee.web.controllers.search
 
+import com.organizee.domain.Page
+import com.organizee.usecases.guide.commands.SearchGetPublicGuidesCommand
 import com.organizee.usecases.search.SearchGetGuidesUseCase
 import com.organizee.usecases.search.SearchSuggestionsUseCase
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
@@ -19,8 +21,22 @@ class SearchController(
     @GetMapping
     fun getList(
         @RequestParam(defaultValue = "") q: String,
-    ): List<GuideResponse> {
-        return searchGetGuidesUseCase.execute(q).map { GuideResponse.fromEntity(it) }
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int
+    ): Page<GuideResponse> {
+        val response =
+            searchGetGuidesUseCase.execute(SearchGetPublicGuidesCommand.create(q, page, size))
+
+
+        return Page(
+            items = response.items.map {
+                GuideResponse.fromEntity(it)
+            },
+            totalPages = response.totalPages,
+            count = response.count,
+            currentPage = response.currentPage,
+            nextPage = response.nextPage
+        )
     }
 
     @GetMapping("suggestions")
