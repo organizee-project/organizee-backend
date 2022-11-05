@@ -1,8 +1,10 @@
 package com.organizee.usecases.search.impl
 
 import com.organizee.boundaries.search.SearchService
+import com.organizee.domain.Page
 import com.organizee.domain.guide.Guide
 import com.organizee.usecases.guide.GetGuideUseCase
+import com.organizee.usecases.guide.commands.SearchGetPublicGuidesCommand
 import com.organizee.usecases.search.SearchGetGuidesUseCase
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -15,8 +17,9 @@ class SearchGetGuidesUsecaseImpl(private val searchService: SearchService) :
         private val logger = LoggerFactory.getLogger(GetGuideUseCase::class.java)
     }
 
-    override fun execute(input: String): List<Guide> {
+    override fun execute(input: SearchGetPublicGuidesCommand): Page<Guide> {
         logger.info("Searching guides | filter=$input")
-        return searchService.getGuides(input)
+
+        return searchService.getGuides(input.filter, input.page, input.size)
     }
 }

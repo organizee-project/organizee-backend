@@ -1,4 +1,10 @@
 spring:
+  elasticsearch:
+    uris: https://organizee-tcc.es.us-central1.gcp.cloud.es.io
+    connection-timeout: 1s
+    read-timeout: 1m
+    password: nK9u2reJpCcQGfdDkjTWrNpO
+    username: elastic
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -18,7 +24,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken%40system.gserviceaccount.com
-
+          issuer-uri: https://securetoken.google.com/organizee-b7ef9
 aws:
   cloudsearch:
     accessKey: AKIATC7RN2RPSKMXPH2V
@@ -28,5 +34,3 @@ aws:
 search:
   endpoint: search-guide-organizee-domain-rgfor5r6pcnyl2ubppcwphenau.us-east-1.cloudsearch.amazonaws.com
   suggester: title_suggester
-
-
