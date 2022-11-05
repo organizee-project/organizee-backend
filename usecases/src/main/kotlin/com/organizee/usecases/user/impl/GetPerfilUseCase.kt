@@ -13,11 +13,9 @@ class
 GetPerfilUseCase(
     private val userService: UserService,
 ) : GetPublicPerfilUsecase {
-
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
-
 
     override fun execute(input: GetPerfilCommand): PerfilUseCaseResponse {
         logger.info("Getting user perfil | input=$input")
@@ -55,6 +53,4 @@ GetPerfilUseCase(
         )
 
     }
-
-
 }

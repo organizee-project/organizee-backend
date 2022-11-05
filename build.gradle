@@ -73,6 +73,7 @@ subprojects {
         //aws
         implementation 'com.amazonaws:aws-java-sdk-cloudsearch:1.12.296'
         implementation 'com.amazonaws:aws-java-sdk-s3:1.12.325'
+        implementation 'org.springframework.data:spring-data-elasticsearch:4.4.5'
 
         //utils
         implementation 'commons-io:commons-io:2.6'

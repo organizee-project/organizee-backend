@@ -8,6 +8,7 @@ dependencies {
     implementation project(':domain')
     implementation project(":boundaries")
     implementation project(':adapter-db')
+    implementation project(':adapter-elasticsearch')
     implementation project(':adapter-search')
     implementation project(':adapter-firebase')
     implementation project(':adapter-s3')
