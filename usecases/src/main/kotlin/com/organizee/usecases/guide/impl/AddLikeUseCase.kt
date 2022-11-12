@@ -3,8 +3,10 @@ package com.organizee.usecases.guide.impl
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.boundaries.db.services.LikeService
 import com.organizee.boundaries.db.services.UserService
+import com.organizee.domain.events.LikeEvent
 import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Like
+import com.organizee.shared.events.DomainEventPublisherService
 import com.organizee.usecases.guide.AddLikeUseCase
 import com.organizee.usecases.guide.commands.NewLikeCommand
 import org.springframework.stereotype.Service
@@ -13,7 +15,8 @@ import org.springframework.stereotype.Service
 class AddLikeUseCase(
     private val userService: UserService,
     private val guideService: GuideService,
-    private val likeService: LikeService
+    private val likeService: LikeService,
+    private val eventPublisherService: DomainEventPublisherService<Like>
 ) : AddLikeUseCase {
     override fun execute(input: NewLikeCommand): Like {
         val user = userService.findByUserIdOrThrow(input.userId)
@@ -25,6 +28,8 @@ class AddLikeUseCase(
             throw ErrorCodes.GUIDE_ALREADY_LIKED(listOf(guide.title))
 
         val newLike = Like(user, guide)
+
+        eventPublisherService.publish(LikeEvent(newLike))
 
         return likeService.add(newLike)
     }

@@ -2,6 +2,7 @@ package com.organizee.boundaries.db.services
 
 import com.organizee.boundaries.db.entities.FilterGuide
 import com.organizee.domain.guide.Guide
+import com.organizee.domain.guide.Saved
 import org.springframework.data.domain.Page
 
 interface GuideService {
@@ -16,7 +17,7 @@ interface GuideService {
     fun update(slug: String, updatedGuide: Guide): Guide
     fun save(guide: Guide, userId: String): Guide
     fun getLikedByUser(username: String, page: Int, size: Int): Page<Guide>
-    fun guideSavedByUser(slug: String, userId: String)
+    fun guideSavedByUser(slug: String, userId: String): Saved
     fun isLiked(userId: String, slug: String): Boolean
 }
 

@@ -8,6 +8,7 @@ import com.organizee.boundaries.db.services.GuideService
 import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.GuideType
+import com.organizee.domain.guide.Saved
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -104,11 +105,11 @@ class GuideServiceImpl(
     }
 
     @Transactional
-    override fun guideSavedByUser(slug: String, userId: String) {
+    override fun guideSavedByUser(slug: String, userId: String): Saved {
         val guideEntity = getGuideEntityOrThrow(slug)
         val userEntity = getUserEntityOrThrow(userId)
 
-        savedRepository.save(SavedEntity.from(guideEntity, userEntity))
+        return savedRepository.save(SavedEntity.from(guideEntity, userEntity)).toEntity()
     }
 
     override fun isLiked(userId: String, slug: String): Boolean {
