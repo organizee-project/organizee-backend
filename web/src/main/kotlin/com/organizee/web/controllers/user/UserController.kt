@@ -1,7 +1,6 @@
 package com.organizee.web.controllers.user
 
 import com.organizee.domain.Page
-import com.organizee.domain.user.Activity
 import com.organizee.usecases.guide.GetUserGuidesUseCase
 import com.organizee.usecases.guide.commands.GetUserGuidesCommand
 import com.organizee.usecases.user.CreateUserUseCase
@@ -17,8 +16,6 @@ import com.organizee.web.controllers.user.json.UserResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
-import java.time.LocalDateTime
-import java.util.*
 
 
 @RestController
@@ -135,22 +132,5 @@ data class UserPerfilResponse(
     val following: List<UserPerfilResponse> = emptyList(),
     val isFollowed: Boolean? = null
 )
-
-data class ActivityResponse(
-    val id: UUID,
-    val date: LocalDateTime,
-    val type: String,
-    val guideReference: GuideResponse?
-) {
-    companion object {
-        fun fromEntity(activity: Activity) =
-            ActivityResponse(
-                activity.id,
-                activity.date,
-                activity.type,
-                GuideResponse.fromEntity(activity.guideReference)
-            )
-    }
-}
 
 
