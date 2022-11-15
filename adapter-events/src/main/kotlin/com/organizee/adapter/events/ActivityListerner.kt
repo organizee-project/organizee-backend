@@ -1,7 +1,6 @@
 package com.organizee.adapter.events
 
-import com.organizee.domain.events.LikeEvent
-import com.organizee.domain.events.SaveEvent
+import com.organizee.domain.events.*
 import com.organizee.usecases.activity.AddActivityUseCase
 import com.organizee.usecases.activity.commands.NewActivityCommand
 import org.slf4j.LoggerFactory
@@ -41,6 +40,50 @@ class ActivityListerner(
                 date = event.date,
                 userId = event.entity.user.id,
                 referenceId = event.entity.guide.slug
+            )
+        )
+    }
+
+
+    @EventListener
+    fun commentEventListener(event: CommentEvent) {
+        logger.info("comment event received: $event")
+
+        addActivityUseCase.execute(
+            NewActivityCommand(
+                type = "COMMENT",
+                date = event.date,
+                userId = event.entity.user.id,
+                referenceId = event.entity.guide.slug
+            )
+        )
+    }
+
+
+    @EventListener
+    fun addGuideEventLister(event: AddGuideEvent) {
+        logger.info("add guide event received: $event")
+
+        addActivityUseCase.execute(
+            NewActivityCommand(
+                type = "ADD_GUIDE",
+                date = event.date,
+                userId = event.entity.user.id,
+                referenceId = event.entity.slug
+            )
+        )
+    }
+
+    @EventListener
+    fun followEventListener(event: FollowEvent) {
+        logger.info("comment event received: $event")
+
+        addActivityUseCase.execute(
+            NewActivityCommand(
+                type = "FOLLOW",
+                date = event.date,
+                userId = event.user.id,
+                referenceId = event.entity.username
             )
         )
     }

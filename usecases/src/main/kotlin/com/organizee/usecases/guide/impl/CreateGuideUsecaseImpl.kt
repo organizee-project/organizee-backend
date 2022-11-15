@@ -4,10 +4,12 @@ import com.organizee.boundaries.db.services.CategoryService
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.boundaries.db.services.UserService
 import com.organizee.boundaries.search.SearchService
+import com.organizee.domain.events.AddGuideEvent
 import com.organizee.domain.guide.Category
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.Reference
 import com.organizee.domain.user.User
+import com.organizee.shared.events.DomainEventPublisherService
 import com.organizee.usecases.guide.CreateGuideUseCase
 import com.organizee.usecases.guide.commands.NewGuideCommand
 import org.slf4j.LoggerFactory
@@ -18,7 +20,8 @@ class CreateGuideUsecaseImpl(
     private val guideService: GuideService,
     private val userService: UserService,
     private val categoryService: CategoryService,
-    private val searchService: SearchService
+    private val searchService: SearchService,
+    private val eventPublisherService: DomainEventPublisherService<Guide>
 ) : CreateGuideUseCase {
 
     companion object {
@@ -33,10 +36,14 @@ class CreateGuideUsecaseImpl(
         val user = userService.findByUserIdOrThrow(input.userId)
         var guide = createGuide(input, categories, user)
 
-        if (!guide.isPrivate())
-            searchService.persist(guide)
+
 
         guide = guideService.save(guide, input.userId)
+
+        if (!guide.isPrivate()) {
+            searchService.persist(guide)
+            eventPublisherService.publish(AddGuideEvent(guide))
+        }
 
         return guide
     }
