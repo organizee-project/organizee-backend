@@ -2,17 +2,21 @@ package com.organizee.usecases.search.impl
 
 import com.organizee.boundaries.search.SearchService
 import com.organizee.usecases.search.SearchSuggestionsUseCase
-import org.springframework.beans.factory.annotation.Value
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class SearchSuggestionsUsecaseImpl(
     private val searchService: SearchService,
-    @Value("\${search.suggester}")
-    private val suggester: String
-
 ) : SearchSuggestionsUseCase {
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
+
     override fun execute(input: String): List<String> {
-        return searchService.suggest(input, suggester)
+        logger.info("Getting search suggestions | input: $input")
+        
+        return searchService.suggest(input)
     }
 }

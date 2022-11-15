@@ -68,7 +68,7 @@ class ElasticSearchServiceImpl(
 
     }
 
-    override fun suggest(filter: String, suggester: String): List<String> {
+    override fun suggest(filter: String): List<String> {
 
         val queryBuilder: QueryBuilder = QueryBuilders
             .wildcardQuery("title", "$filter*")

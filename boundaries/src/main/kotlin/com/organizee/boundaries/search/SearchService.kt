@@ -7,6 +7,6 @@ interface SearchService {
     fun persist(guide: Guide)
     fun delete(guide: Guide)
     fun getGuides(filter: String, page: Int, size: Int): Page<Guide>
-    fun suggest(filter: String, suggester: String): List<String>
+    fun suggest(filter: String): List<String>
     fun update(newGuide: Guide, oldGuide: Guide)
 }

@@ -2,9 +2,6 @@ package com.organizee.application.config
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.client.builder.AwsClientBuilder
-import com.amazonaws.services.cloudsearchdomain.AmazonCloudSearchDomain
-import com.amazonaws.services.cloudsearchdomain.AmazonCloudSearchDomainClientBuilder
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import org.springframework.beans.factory.annotation.Value
@@ -24,24 +21,10 @@ class AwsConfig {
     @Value("\${aws.cloudsearch.region}")
     private val region: String? = null
 
-    @Value("\${search.endpoint}")
-    private val serviceEndpoint: String? = null
-
     @Bean
     fun basicAWSCredentials(): BasicAWSCredentials? {
         return BasicAWSCredentials(awsId, awsKey)
     }
-
-    @Bean
-    fun amazonSearch(): AmazonCloudSearchDomain = AmazonCloudSearchDomainClientBuilder.standard()
-        .withEndpointConfiguration(
-            AwsClientBuilder.EndpointConfiguration(
-                serviceEndpoint,
-                region
-            )
-        )
-        .withCredentials(AWSStaticCredentialsProvider(basicAWSCredentials()))
-        .build()
 
     @Bean
     fun amazonS3(): AmazonS3 {
