@@ -1,6 +1,8 @@
 package com.organizee.web.controllers.user
 
 import com.organizee.domain.Page
+import com.organizee.usecases.activity.GetUserActivitiesUseCase
+import com.organizee.usecases.activity.commands.GetUserActivitiesCommand
 import com.organizee.usecases.guide.GetUserGuidesUseCase
 import com.organizee.usecases.guide.commands.GetUserGuidesCommand
 import com.organizee.usecases.user.CreateUserUseCase
@@ -10,6 +12,7 @@ import com.organizee.usecases.user.UpdateUserUseCase
 import com.organizee.usecases.user.commands.GetPerfilCommand
 import com.organizee.usecases.user.responses.PerfilUseCaseResponse
 import com.organizee.web.controllers.guide.json.responses.GuideResponse
+import com.organizee.web.controllers.user.json.ActivitiesResponse
 import com.organizee.web.controllers.user.json.CreateUserPayload
 import com.organizee.web.controllers.user.json.UpdateUserPayload
 import com.organizee.web.controllers.user.json.UserResponse
@@ -25,7 +28,8 @@ class UserController(
     private val updateUserUseCase: UpdateUserUseCase,
     private val getPublicPerfilUsecase: GetPublicPerfilUsecase,
     private val getLoggedUserPerfilUsecase: GetLoggedPerfilUsecase,
-    private val getUserGuidesUseCase: GetUserGuidesUseCase
+    private val getUserGuidesUseCase: GetUserGuidesUseCase,
+    private val getUserActivitiesUseCase: GetUserActivitiesUseCase
 ) {
     @PostMapping
     fun create(@RequestBody input: CreateUserPayload, principal: Principal): UserResponse =
@@ -84,6 +88,32 @@ class UserController(
             count = guides.count,
             currentPage = guides.currentPage,
             nextPage = guides.nextPage
+        )
+    }
+
+    @GetMapping("{username}/activities")
+    fun getPerfilActivities(
+        @PathVariable("username") username: String,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int
+    ): Page<ActivitiesResponse> {
+
+        val activities = getUserActivitiesUseCase.execute(
+            GetUserActivitiesCommand(
+                username,
+                page,
+                size
+            )
+        )
+
+        return Page(
+            items = activities.items.map {
+                ActivitiesResponse.fromEntity(it)
+            },
+            totalPages = activities.totalPages,
+            count = activities.count,
+            currentPage = activities.currentPage,
+            nextPage = activities.nextPage
         )
     }
 }
