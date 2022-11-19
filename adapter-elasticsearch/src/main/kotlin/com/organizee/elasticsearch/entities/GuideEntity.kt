@@ -57,7 +57,7 @@ data class GuideEntity(
             id = "",
             name = user.name,
             surname = user.surname,
-            username = user.imgUrl,
+            username = user.username,
             description = "",
             imgUrl = user.imgUrl,
         ),

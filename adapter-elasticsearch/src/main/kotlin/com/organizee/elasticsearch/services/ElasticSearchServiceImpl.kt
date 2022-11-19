@@ -75,7 +75,7 @@ class ElasticSearchServiceImpl(
 
         val searchQuery = NativeSearchQueryBuilder()
             .withFilter(queryBuilder)
-            .withPageable(PageRequest.of(0, 5))
+            .withPageable(PageRequest.of(0, 10))
             .build()
 
         val searchSuggestions: SearchHits<GuideEntity> = elasticsearchOperations.search(
@@ -84,9 +84,11 @@ class ElasticSearchServiceImpl(
             IndexCoordinates.of("search")
         )
 
-        return searchSuggestions.searchHits.map {
+        val suggestions = searchSuggestions.searchHits.map {
             it.content.title
         }
+
+        return suggestions.toSet().toList()
     }
 
     override fun update(newGuide: Guide, oldGuide: Guide) {
