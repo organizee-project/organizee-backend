@@ -27,7 +27,7 @@ class FollowUserUseCaseImpl(
         val user = userService.findByUserIdOrThrow(input.userId)
         val userToFollow = userService.findByUsernameOrThrow(input.username)
 
-        if (user.username == userToFollow.username)
+        if (user.username == userToFollow.username || user.following.firstOrNull { it.username == userToFollow.username } != null)
             throw ErrorCodes.CANNOT_FOLLOW()
 
         userService.follow(user, userToFollow)
