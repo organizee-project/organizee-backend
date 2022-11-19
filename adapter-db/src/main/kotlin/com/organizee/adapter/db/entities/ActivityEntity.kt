@@ -19,6 +19,9 @@ data class ActivityEntity(
     @Column
     val referenceId: String,
 
+    @Column
+    val description: String,
+
     @ManyToOne
     val user: UserEntity,
     @Column
@@ -32,6 +35,7 @@ data class ActivityEntity(
                 type = activity.type.name,
                 referenceId = activity.referenceId,
                 user = user,
+                description = activity.description,
                 createdAt = activity.date
             )
     }
@@ -42,6 +46,7 @@ data class ActivityEntity(
             date = createdAt,
             type = ActivityType.valueOf(type),
             referenceId = referenceId,
-            user = user.toEntity()
+            user = user.toEntity(),
+            description = description
         )
 }

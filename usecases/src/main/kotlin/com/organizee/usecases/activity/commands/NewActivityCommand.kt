@@ -6,5 +6,6 @@ data class NewActivityCommand(
     val type: String,
     val date: LocalDateTime,
     val userId: String,
+    val description: String,
     val referenceId: String
 )

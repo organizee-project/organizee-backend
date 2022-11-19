@@ -8,6 +8,7 @@ data class ActivitiesResponse(
     val id: UUID,
     val date: LocalDateTime,
     val type: String,
+    val description: String,
     val referenceId: String
 ) {
     companion object {
@@ -15,6 +16,7 @@ data class ActivitiesResponse(
             id = entity.id,
             date = entity.date,
             type = entity.type.name,
+            description = entity.description,
             referenceId = entity.referenceId
         )
     }

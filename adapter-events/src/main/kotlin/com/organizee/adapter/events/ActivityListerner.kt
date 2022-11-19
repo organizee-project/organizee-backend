@@ -24,7 +24,8 @@ class ActivityListerner(
                 type = "LIKE",
                 date = event.date,
                 userId = event.entity.user.id,
-                referenceId = event.entity.guide.slug
+                referenceId = event.entity.guide.slug,
+                description = event.entity.guide.title
             )
         )
 
@@ -39,7 +40,8 @@ class ActivityListerner(
                 type = "SAVE",
                 date = event.date,
                 userId = event.entity.user.id,
-                referenceId = event.entity.guide.slug
+                referenceId = event.entity.guide.slug,
+                description = event.entity.guide.title
             )
         )
     }
@@ -54,7 +56,8 @@ class ActivityListerner(
                 type = "COMMENT",
                 date = event.date,
                 userId = event.entity.user.id,
-                referenceId = event.entity.guide.slug
+                referenceId = event.entity.guide.slug,
+                description = event.entity.guide.title
             )
         )
     }
@@ -69,7 +72,8 @@ class ActivityListerner(
                 type = "ADD_GUIDE",
                 date = event.date,
                 userId = event.entity.user.id,
-                referenceId = event.entity.slug
+                referenceId = event.entity.slug,
+                description = event.entity.title
             )
         )
     }
@@ -83,7 +87,8 @@ class ActivityListerner(
                 type = "FOLLOW",
                 date = event.date,
                 userId = event.user.id,
-                referenceId = event.entity.username
+                referenceId = event.entity.username,
+                description = event.entity.getFullName()
             )
         )
     }

@@ -28,7 +28,8 @@ class AddAcitivityUseCaseImpl(
             date = input.date,
             type = ActivityType.valueOf(input.type),
             referenceId = input.referenceId,
-            user = user
+            user = user,
+            description = input.description
         )
 
         activityService.save(activity)

@@ -9,5 +9,6 @@ data class Activity(
     val date: LocalDateTime,
     val type: ActivityType,
     val referenceId: String,
+    val description: String,
     val user: User
 )
