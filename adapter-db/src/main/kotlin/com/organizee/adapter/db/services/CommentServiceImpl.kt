@@ -36,7 +36,10 @@ class CommentServiceImpl(
 
     override fun getComments(slug: String, page: Int, size: Int): Page<Comment> {
 
-        val response = repository.findAllByGuideSlug(slug, PageRequest.of(page, size))
+        val response = repository.findAllByGuideSlugAndReferencedCommentIsNull(
+            slug,
+            PageRequest.of(page, size)
+        )
 
         val page = response.map {
             val count = repository.countAllByReferencedComment(it.id)
