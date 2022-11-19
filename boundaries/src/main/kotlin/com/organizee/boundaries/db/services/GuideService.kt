@@ -1,6 +1,7 @@
 package com.organizee.boundaries.db.services
 
 import com.organizee.boundaries.db.entities.FilterGuide
+import com.organizee.boundaries.db.entities.FilterGuideFollowing
 import com.organizee.domain.guide.Guide
 import com.organizee.domain.guide.Saved
 import org.springframework.data.domain.Page
@@ -19,6 +20,8 @@ interface GuideService {
     fun getLikedByUser(username: String, page: Int, size: Int): Page<Guide>
     fun guideSavedByUser(slug: String, userId: String): Saved
     fun isLiked(userId: String, slug: String): Boolean
+    fun findAllFromFollwingFilteredBy(filter: FilterGuideFollowing): Page<Guide>
+
 }
 
 

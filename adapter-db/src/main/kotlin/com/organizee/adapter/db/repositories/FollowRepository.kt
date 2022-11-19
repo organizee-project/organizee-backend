@@ -10,4 +10,5 @@ interface FollowRepository : JpaRepository<FollowersEntity, UUID> {
 
     fun findByFromUsernameAndToUsername(username: String, unfollowUser: String): FollowersEntity?
     fun findFirstByFromIdAndToUsername(id: String, follow: String): FollowersEntity?
+    fun findAllByFromId(id: String): List<FollowersEntity>
 }

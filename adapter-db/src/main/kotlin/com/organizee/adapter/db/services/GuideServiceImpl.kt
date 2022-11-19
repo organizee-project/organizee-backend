@@ -4,6 +4,7 @@ import com.organizee.adapter.db.entities.GuideEntity
 import com.organizee.adapter.db.entities.SavedEntity
 import com.organizee.adapter.db.repositories.*
 import com.organizee.boundaries.db.entities.FilterGuide
+import com.organizee.boundaries.db.entities.FilterGuideFollowing
 import com.organizee.boundaries.db.services.GuideService
 import com.organizee.domain.exceptions.ErrorCodes
 import com.organizee.domain.guide.Guide
@@ -114,6 +115,10 @@ class GuideServiceImpl(
 
     override fun isLiked(userId: String, slug: String): Boolean {
         return repository.findFirstBySlugAndLikesUserId(slug, userId) != null
+    }
+
+    override fun findAllFromFollwingFilteredBy(filter: FilterGuideFollowing): Page<Guide> {
+        return customRepository.getFollowingFilteredGuides(filter).map { it.toEntity() }
     }
 
     private fun getGuideEntityOrThrow(slug: String) =

@@ -2,10 +2,7 @@ package com.organizee.web.controllers.guide
 
 import com.organizee.domain.Page
 import com.organizee.usecases.guide.*
-import com.organizee.usecases.guide.commands.CheckGuideInteractionsCommand
-import com.organizee.usecases.guide.commands.DeleteGuideCommand
-import com.organizee.usecases.guide.commands.GetLikesByUserCommand
-import com.organizee.usecases.guide.commands.GetPublicGuidesCommand
+import com.organizee.usecases.guide.commands.*
 import com.organizee.web.controllers.guide.json.payloads.CreateGuidePayload
 import com.organizee.web.controllers.guide.json.payloads.UpdateGuidePayload
 import com.organizee.web.controllers.guide.json.responses.GuideDetailsResponse
@@ -24,6 +21,7 @@ class GuideController(
     private val createGuideUseCase: CreateGuideUseCase,
     private val getGuideUseCase: GetGuideUseCase,
     private val getPublicGuidesUseCase: GetPublicGuidesUseCase,
+    private val getFollowingGuidesUseCase: GetFollowingGuidesUseCase,
     private val removeGuideUseCase: RemoveGuideUseCase,
     private val updateGuideUseCase: UpdateGuideUseCase,
     private val checkGuideInteractionsUseCase: CheckGuideInteractionsUseCase,
@@ -71,6 +69,32 @@ class GuideController(
         val input = GetPublicGuidesCommand.create(category, sortBy, sort, page, size)
 
         val guides = getPublicGuidesUseCase.execute(input)
+
+        val response = Page(
+            items = guides.items.map {
+                GuideResponse.fromEntity(it)
+            },
+            totalPages = guides.totalPages,
+            count = guides.count,
+            currentPage = guides.currentPage,
+            nextPage = guides.nextPage
+        )
+
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/feed/following")
+    fun listFollowing(
+        @RequestParam(defaultValue = "") sortBy: String,
+        @RequestParam(defaultValue = "asc") sort: String,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "3") size: Int,
+        principal: Principal
+
+    ): ResponseEntity<Page<GuideResponse>> {
+        val input = GetFollowingGuidesCommand.create(principal.name, sortBy, sort, page, size)
+
+        val guides = getFollowingGuidesUseCase.execute(input)
 
         val response = Page(
             items = guides.items.map {
