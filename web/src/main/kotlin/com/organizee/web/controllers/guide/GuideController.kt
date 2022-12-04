@@ -62,7 +62,7 @@ class GuideController(
     fun list(
         @RequestParam(defaultValue = "") category: String,
         @RequestParam(defaultValue = "") sortBy: String,
-        @RequestParam(defaultValue = "asc") sort: String,
+        @RequestParam(defaultValue = "desc") sort: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int
     ): ResponseEntity<Page<GuideResponse>> {
@@ -86,7 +86,7 @@ class GuideController(
     @GetMapping("/feed/following")
     fun listFollowing(
         @RequestParam(defaultValue = "") sortBy: String,
-        @RequestParam(defaultValue = "asc") sort: String,
+        @RequestParam(defaultValue = "desc") sort: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int,
         principal: Principal
@@ -137,7 +137,7 @@ class GuideController(
     @GetMapping("user/{username}/likes")
     fun listLiked(
         @PathVariable("username") username: String,
-        @RequestParam(defaultValue = "asc") sort: String,
+        @RequestParam(defaultValue = "desc") sort: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int
     ): ResponseEntity<Page<GuideResponse>> {

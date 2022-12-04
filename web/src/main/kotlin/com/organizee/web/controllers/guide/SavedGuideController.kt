@@ -44,7 +44,7 @@ class SavedGuideController(
         principal: Principal,
         @RequestParam(defaultValue = "") category: String,
         @RequestParam(defaultValue = "") sortBy: String,
-        @RequestParam(defaultValue = "asc") sort: String,
+        @RequestParam(defaultValue = "desc") sort: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int
     ): Page<GuideResponse> {
