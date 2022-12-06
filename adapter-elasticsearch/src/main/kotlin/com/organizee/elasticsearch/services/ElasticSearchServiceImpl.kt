@@ -36,7 +36,7 @@ class ElasticSearchServiceImpl(
 
     override fun getGuides(filter: String, page: Int, size: Int): Page<Guide> {
         val queryBuilder = QueryBuilders
-            .multiMatchQuery(filter, "title", "content", "topics", "categories")
+            .multiMatchQuery(filter, "title", "topics", "categories")
             .fuzziness(Fuzziness.AUTO)
 
         val searchQuery = NativeSearchQueryBuilder()
