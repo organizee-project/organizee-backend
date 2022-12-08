@@ -1,14 +1,14 @@
 package com.organizee.usecases.guide.commands
 
 data class GetSavedGuidesCommand private constructor(
-    val userId: String,
+    val username: String,
     val page: Int,
     val size: Int
 ) {
     companion object {
-        fun create(userId: String, page: Int, size: Int) =
+        fun create(username: String, page: Int, size: Int) =
             GetSavedGuidesCommand(
-                userId = userId,
+                username = username,
                 page = page,
                 size = size
             )

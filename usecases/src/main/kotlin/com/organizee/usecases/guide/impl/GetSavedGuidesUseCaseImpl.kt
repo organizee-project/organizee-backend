@@ -14,7 +14,7 @@ class GetSavedGuidesUseCaseImpl(
 
     override fun execute(input: GetSavedGuidesCommand): Page<Guide> {
         val guides = guideService.findSaved(
-            input.userId, input.page, input.size
+            input.username, input.page, input.size
         )
 
         return Page.of(guides)

@@ -29,8 +29,11 @@ class GetPublicGuidesUsecaseImpl(
             sortBy = input.sortBy
         )
 
-        val guides = guideService.findAllFilteredBy(filter)
-
-        return Page.of(guides)
+        return try {
+            val guides = guideService.findAllFilteredBy(filter)
+            Page.of(guides)
+        } catch (e: Exception) {
+            Page.empty()
+        }
     }
 }

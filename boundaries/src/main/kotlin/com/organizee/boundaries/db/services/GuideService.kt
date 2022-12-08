@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page
 interface GuideService {
     fun findAllByUser(username: String, page: Int, size: Int): Page<Guide>
     fun findAllPublicByUser(username: String, page: Int, size: Int): Page<Guide>
-    fun findSaved(userId: String, page: Int, size: Int): Page<Guide>
+    fun findSaved(username: String, page: Int, size: Int): Page<Guide>
     fun isSaved(userId: String, slug: String): Boolean
     fun findAllFilteredBy(filter: FilterGuide): Page<Guide>
     fun getGuideBySlugOrThrow(slug: String): Guide

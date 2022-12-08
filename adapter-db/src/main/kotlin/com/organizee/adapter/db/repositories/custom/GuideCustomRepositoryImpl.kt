@@ -70,10 +70,13 @@ class GuideCustomRepositoryImpl(
             count.setParameter("category", filter.category)
         }
 
+        val total = count.resultList.size.toLong()
+
+
         return PageImpl(
             query.resultList.map { it.get(0) as GuideEntity },
             PageRequest.of(filter.page, filter.size),
-            count.singleResult
+            total
         )
     }
 
@@ -125,18 +128,20 @@ class GuideCustomRepositoryImpl(
         query.setParameter("following", following)
         count.setParameter("following", following)
 
+        val total = count.resultList.size.toLong()
+
         val response = try {
             PageImpl(
                 query.resultList.map { it.get(0) as GuideEntity },
                 PageRequest.of(filter.page, filter.size),
-                count.singleResult
+                total
             )
 
         } catch (e: Exception) {
             PageImpl(
                 emptyList<GuideEntity>(),
                 PageRequest.of(filter.page, filter.size),
-                0
+                0L
             )
         }
 

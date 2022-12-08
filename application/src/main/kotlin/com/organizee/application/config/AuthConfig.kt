@@ -22,6 +22,8 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.GET, "/v1/likes/guide/**").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/guides").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/guides/{slug}").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/guides/user/{username}/likes").permitAll()
+            .antMatchers(HttpMethod.GET, "/v1/saved/guides/{username}").permitAll()
             .antMatchers(HttpMethod.GET, "/v1/guides/feed/following").authenticated()
             .anyRequest().authenticated().and().csrf().disable()
 

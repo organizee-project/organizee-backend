@@ -9,7 +9,7 @@ import java.util.*
 
 @Repository
 interface SavedRepository : PagingAndSortingRepository<SavedEntity, UUID> {
-    fun findAllByUserId(userId: String, pageable: Pageable): Page<SavedEntity>
+    fun findAllByUserUsername(username: String, pageable: Pageable): Page<SavedEntity>
 
     fun findFirstByUserIdAndGuideSlug(userId: String, guideSlug: String): SavedEntity?
 

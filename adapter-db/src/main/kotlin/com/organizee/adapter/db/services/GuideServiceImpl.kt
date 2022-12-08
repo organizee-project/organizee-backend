@@ -40,8 +40,8 @@ class GuideServiceImpl(
             .map { it.toEntity() }
     }
 
-    override fun findSaved(userId: String, page: Int, size: Int): Page<Guide> {
-        return savedRepository.findAllByUserId(userId, PageRequest.of(page, size))
+    override fun findSaved(username: String, page: Int, size: Int): Page<Guide> {
+        return savedRepository.findAllByUserUsername(username, PageRequest.of(page, size))
             .map { it.guide.toEntity() }
     }
 

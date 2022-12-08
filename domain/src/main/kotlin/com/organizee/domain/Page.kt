@@ -15,6 +15,14 @@ class Page<T>(
             currentPage = page.number,
             nextPage = if (page.totalPages > page.number + 1) page.number + 1 else page.number
         )
+
+        fun <I> empty() = Page<I>(
+            items = emptyList(),
+            totalPages = 0,
+            count = 0,
+            currentPage = 0,
+            nextPage = 0
+        )
     }
 }
 

@@ -39,9 +39,9 @@ class SavedGuideController(
         return ResponseEntity.ok().build()
     }
 
-    @GetMapping
+    @GetMapping("/{username}")
     fun getSavedGuides(
-        principal: Principal,
+        @PathVariable("username") username: String,
         @RequestParam(defaultValue = "") category: String,
         @RequestParam(defaultValue = "") sortBy: String,
         @RequestParam(defaultValue = "desc") sort: String,
@@ -51,7 +51,7 @@ class SavedGuideController(
 
         val guides = getSavedGuidesUseCase.execute(
             GetSavedGuidesCommand.create(
-                userId = principal.name,
+                username = username,
                 page = page,
                 size = size
             )
